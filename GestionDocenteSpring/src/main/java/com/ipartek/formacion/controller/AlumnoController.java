@@ -32,6 +32,6 @@ public class AlumnoController {
 		//Engancharla  al modelandview
 		mav.addObject("listadoAlumnos",alumnos);
 		logger.trace("pasa por getAll()");
-		return mav;
+		return mav; 
 	}	
 }
