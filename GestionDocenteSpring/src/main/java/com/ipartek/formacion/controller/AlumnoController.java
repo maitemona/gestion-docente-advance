@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ipartek.formacion.dbms.persistence.Alumno;
 import com.ipartek.formacion.service.interfaces.AlumnoService;
 
 @Controller
@@ -28,7 +29,7 @@ public class AlumnoController {
 
 		mav = new ModelAndView("/alumnos/alumnos");
 		//Cargar a cargar lista de alumnos
-		List alumnos = null;
+		List<Alumno> alumnos = aS.getAll();
 		//Engancharla  al modelandview
 		mav.addObject("listadoAlumnos",alumnos);
 		logger.trace("pasa por getAll()");

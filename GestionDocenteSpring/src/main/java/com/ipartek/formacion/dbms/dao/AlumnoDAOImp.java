@@ -1,13 +1,18 @@
 package com.ipartek.formacion.dbms.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.ipartek.formacion.controller.AlumnoController;
 import com.ipartek.formacion.dbms.dao.interfaces.AlumnoDAO;
 import com.ipartek.formacion.dbms.mappers.AlumnoMapper;
 import com.ipartek.formacion.dbms.persistence.Alumno;
@@ -19,6 +24,7 @@ public class AlumnoDAOImp  implements AlumnoDAO{
 	@Inject 
 	private DataSource dataSource;
 	private JdbcTemplate template;
+	private static final Logger logger = LoggerFactory.getLogger(AlumnoDAOImp.class);
 
 	/**
 	 * queremos obligarle a exista, estamos creadio la conexion a al BBDD ,
@@ -42,9 +48,14 @@ public class AlumnoDAOImp  implements AlumnoDAO{
 
 	@Override
 	public List<Alumno> getAll() {
-		final String SQL="Select * FROM alumno";
+		final String SQL="SELECT codigo as codigo, nombre as nombre, apellido as apellido FROM `alumno`";
 		List<Alumno> alumnos =null;	
-		alumnos = (List<Alumno>)template.queryForObject(SQL, new AlumnoMapper());
+		try{
+			alumnos = template.query(SQL, new AlumnoMapper());
+		}catch (EmptyResultDataAccessException e){
+			logger.trace(e.getMessage());
+			alumnos = new ArrayList<Alumno>(); 
+		}
 		return alumnos;
 	}
 
@@ -61,9 +72,9 @@ public class AlumnoDAOImp  implements AlumnoDAO{
 	}
 
 	@Override
-	public Alumno delete(int codigo) {
+	public void delete(int codigo) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 	
 

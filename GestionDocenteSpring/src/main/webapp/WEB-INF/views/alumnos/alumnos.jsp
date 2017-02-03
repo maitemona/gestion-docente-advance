@@ -7,7 +7,7 @@
 <title>Gestion Docente - Listado Alumnos</title>
 </head>
 <body>
-a<header>
+<header>
 	<h1>Gestion Docente -Listado alumnos</h1>
 </header>
 <main></main>

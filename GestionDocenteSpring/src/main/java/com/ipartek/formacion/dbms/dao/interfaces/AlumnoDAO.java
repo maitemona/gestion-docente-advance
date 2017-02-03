@@ -27,5 +27,5 @@ public interface AlumnoDAO extends DAOSetter{
 	
 	public Alumno update(Alumno alumno);
 
-	public Alumno delete(int codigo);
+	public void delete(int codigo);
 }
