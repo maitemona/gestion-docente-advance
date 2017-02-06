@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
@@ -25,11 +24,11 @@
 	<c:choose>
 		<c:when test="${not empty listadoAlumnos}"><!-- Cuando la lista tiene datos -->
 			<c:forEach var="alumno" items="${listadoAlumnos}">
-			<tr>
-				<td>${alumno.nombre}</td>
-				<td>${alumno.apellidos}</td> 
-				<td><a href="">Editar</a></td>
-			</tr>
+				<tr>
+					<td>${alumno.nombre}</td>
+					<td>${alumno.apellidos}</td> 
+					<td><a href="">Editar</a></td>
+				</tr>
 			</c:forEach>
 		</c:when>
 		<c:otherwise><!-- Cuando la lista NO tiene datos -->
