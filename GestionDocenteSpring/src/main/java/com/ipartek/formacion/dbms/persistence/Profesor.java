@@ -12,7 +12,6 @@ public class Profesor{
 	public static final int CODIGO_NULO = -1;
 	private long nSS;
 	private int codigo;
-
 	private String dni;
 	private String nombre;
 	private String apellidos;
