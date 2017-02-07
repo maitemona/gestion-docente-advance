@@ -25,6 +25,12 @@ public class Alumno  implements Comparable<Alumno>, Serializable {
 	private Date fNacimiento;
 	private String email;
 	private String direccion;
+	private int telefono;
+	private String poblacion;
+	private int codigopostal;
+	
+	
+
 
 	public Alumno() {
 		super();// constructor de la clase padre
@@ -36,12 +42,46 @@ public class Alumno  implements Comparable<Alumno>, Serializable {
 		this.apellidos="";
 		this.nombre="";
 		this.dni="";
+		this.telefono=94;
+		this.poblacion="";
+		this.codigopostal=48;
+		
 		this.fNacimiento = new Date();
 		
 
 	}
 	
 
+	public int getTelefono() {
+		return telefono;
+	}
+
+
+	public void setTelefono(int telefono) {
+		this.telefono = telefono;
+	}
+
+
+	public String getPoblacion() {
+		return poblacion;
+	}
+
+
+	public void setPoblacion(String poblacion) {
+		this.poblacion = poblacion;
+	}
+
+
+	public int getCodigopostal() {
+		return codigopostal;
+	}
+
+
+	public void setCodigopostal(int codigopostal) {
+		this.codigopostal = codigopostal;
+	}
+
+	
 	public String getDni() {
 		return dni;
 	}
