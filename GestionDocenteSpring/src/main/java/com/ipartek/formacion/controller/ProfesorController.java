@@ -3,10 +3,16 @@ package com.ipartek.formacion.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,5 +45,63 @@ public class ProfesorController {
 		return mav; 
 	}	
 	
+	/*Cambiamos @validated por @valid q es estandar java y spring ya sabe como usar
+	  sabe que esta en persitencia y no hay que inyectar nada como (initbinder)*/
+	@RequestMapping(value="/save",method =  RequestMethod.POST)
+	public String saveProfesor(@ModelAttribute("profesor") @Valid Profesor profesor, Model model, BindingResult bindingResult ){
+		String destino ="";
+		/*si las cosas estan mal nos mande de vuelta*/
+		if(bindingResult.hasErrors()){
+			logger.info("profesor tiene errores");
+			destino = "/profesores/profesor";
+		}else{ 
+			destino ="redirect :/profesores";
+			if(profesor.getCodigo() > Profesor.CODIGO_NULO){
+				pS.update(profesor);
+			}else{
+				pS.create(profesor);
+			}
+		}
+		return destino;
+	}
+	/**
+	 * Metodo para add un profesor
+	 * la url es unica.
+	 */
+	@RequestMapping(value = "/addProfesor")
+	public String addProfesor(Model model){
+		model.addAttribute("profesor",new Profesor());
+		logger.trace("pasa por addProfesor()");
+		return "/profesores/profesor";
+	}
+	/*getbyid*/
+	@RequestMapping(value = "/{id}")
+	public ModelAndView getByid(@PathVariable("id") int id){
+		
+		mav = new ModelAndView("/profesores/profesor");
+		mav.addObject("profesor", pS.getById(id));
+		return mav;
+	}
+	
+	
+	
+	/*Metod de Borrar*/
+	@RequestMapping(value = "/deleteProfesor/{id}")
+	public String deleteProfesor(@PathVariable("id") int id){
+		pS.delete(id);
+		return "redirect:/profesores";
+		
+	}
+
+
+
+
+
+
 
 }
+
+
+
+
+

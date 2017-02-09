@@ -25,7 +25,7 @@ public class Alumno  implements Comparable<Alumno>, Serializable {
 	private Date fNacimiento;
 	private String email;
 	private String direccion;
-	private int telefono;
+	private String telefono;
 	private String poblacion;
 	private int codigopostal;
 	
@@ -42,7 +42,7 @@ public class Alumno  implements Comparable<Alumno>, Serializable {
 		this.apellidos="";
 		this.nombre="";
 		this.dni="";
-		this.telefono=94;
+		this.telefono="94";
 		this.poblacion="";
 		this.codigopostal=48;
 		
@@ -52,16 +52,13 @@ public class Alumno  implements Comparable<Alumno>, Serializable {
 	}
 	
 
-	public int getTelefono() {
+	public String getTelefono() {
 		return telefono;
 	}
 
-
-	public void setTelefono(int telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-
-
 	public String getPoblacion() {
 		return poblacion;
 	}
