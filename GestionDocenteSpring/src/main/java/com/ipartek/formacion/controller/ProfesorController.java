@@ -57,8 +57,10 @@ public class ProfesorController {
 		}else{ 
 			destino ="redirect :/profesores";
 			if(profesor.getCodigo() > Profesor.CODIGO_NULO){
+				logger.info(profesor.toString());
 				pS.update(profesor);
 			}else{
+				logger.info(profesor.toString());
 				pS.create(profesor);
 			}
 		}

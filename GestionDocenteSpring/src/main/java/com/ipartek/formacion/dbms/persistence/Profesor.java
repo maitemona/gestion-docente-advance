@@ -14,11 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.ipartek.formacion.dbms.persistence.validator.Phone;
 
 public class Profesor{
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return this.codigo+" " + this.getEmail();
-	}
+	
 
 	public static final int CODIGO_NULO = -1;
 	private long nSS;
@@ -132,5 +128,10 @@ public class Profesor{
 		this.telefono = telefono;
 	}
 	
-
+	@Override
+	public String toString() {
+		return "Profesor [nSS=" + nSS + ", codigo=" + codigo + ", dni=" + dni + ", nombre=" + nombre + ", apellidos="
+				+ apellidos + ", fNacimiento=" + fNacimiento + ", email=" + email + ", direccion=" + direccion
+				+ ", telefono=" + telefono + "]";
+	}
 }
