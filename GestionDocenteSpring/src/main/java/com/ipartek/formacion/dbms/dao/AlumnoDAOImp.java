@@ -48,7 +48,7 @@ public class AlumnoDAOImp  implements AlumnoDAO{
 
 	@Override
 	public List<Alumno> getAll() {
-		final String SQL="SELECT codigo as codigo, nombre as nombre, apellido as apellido FROM `alumno`";
+		final String SQL="SELECT codigo as codigo, nombre as nombre, apellidos as apellido FROM `alumno`";
 		List<Alumno> alumnos =null;	
 		try{
 			alumnos = template.query(SQL, new AlumnoMapper());
