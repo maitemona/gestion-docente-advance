@@ -34,7 +34,14 @@
         <td><form:label path="telefono">Teléfono</form:label></td>
         <td><form:input path="telefono" /></td>
     </tr>
-    
+    <tr>
+	    <td>
+		    <form:select  path="nameOfInstitution">
+		   		 <form:option value="NONE"> --SELECT--</form:option>
+		   		 <form:options items="${listOfInstitutionsNames}"></form:options>
+		 	 </form:select>
+	 	</td>
+ 	<tr>
     
      
   
