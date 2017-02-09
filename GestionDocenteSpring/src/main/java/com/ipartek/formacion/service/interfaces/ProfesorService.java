@@ -6,9 +6,9 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import com.ipartek.formacion.dbms.dao.interfaces.AlumnoDAO;
+
 import com.ipartek.formacion.dbms.dao.interfaces.ProfesorDAO;
-import com.ipartek.formacion.dbms.persistence.Alumno;
+
 import com.ipartek.formacion.dbms.persistence.Profesor;
 
 

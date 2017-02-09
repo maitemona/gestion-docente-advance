@@ -2,7 +2,7 @@ package com.ipartek.formacion.dbms.dao.interfaces;
 
 import java.util.List;
 
-import com.ipartek.formacion.dbms.persistence.Alumno;
+
 import com.ipartek.formacion.dbms.persistence.Profesor;
 /**
  * ESta interfaz define los metodos de consulta a una BBDD de la entidad Profesor

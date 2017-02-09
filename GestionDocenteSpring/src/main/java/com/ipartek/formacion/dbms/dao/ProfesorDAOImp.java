@@ -50,7 +50,7 @@ public class ProfesorDAOImp implements ProfesorDAO {
 	@Override
 	public List<Profesor> getAll() {
 		final String SQL="SELECT codigo as codigo, nombre as nombre, apellidos as apellidos FROM profesor";
-		//logger.info(SQL);
+		logger.info(SQL);
 		List<Profesor> profesores =null;	
 		try{
 			profesores = template.query(SQL, new ProfesorMapper());
