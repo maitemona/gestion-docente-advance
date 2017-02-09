@@ -11,7 +11,7 @@
 	<h1>Gestion Docente - Listado Clientes</h1>
 </header>
 <main>
-
+<a href="clientes/addCliente">Crear Cliente</a>
 	<table>
 		<thead>
 			<tr>
@@ -27,6 +27,8 @@
 				<tr>
 					<td>${cliente.nombre}</td>
 					<td>${cliente.email}</td>
+					<td><a href="clientes/${cliente.codigo}">Editar</a></td>
+					<td><a href="clientes/deleteCliente/${cliente.codigo}">Borrar</a></td>
 				</tr>
 			</c:forEach>
 		</c:when>
