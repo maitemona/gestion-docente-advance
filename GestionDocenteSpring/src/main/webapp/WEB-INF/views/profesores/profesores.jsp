@@ -4,14 +4,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Listado Profesores</title>
 </head>
 <body>
 <header>
 	<h1>Gestion Docente - Listado Profesores</h1>
 </header>
 <main>
-<a href="profesores/addProfesor">Crear Alumno</a>
+<a href="profesores/addProfesor">Crear Profesor</a>
 	<table>
 		<thead>
 			<tr>

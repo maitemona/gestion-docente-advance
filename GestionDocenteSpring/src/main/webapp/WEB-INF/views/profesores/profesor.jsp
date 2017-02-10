@@ -18,13 +18,32 @@
     <tr>
         <td><form:label path="nombre">Nombre</form:label></td>
         <td><form:input path="nombre" />
-        	<form:errors path="nombre"  /></td> 
+        <form:errors path="nombre"  /></td> 
+    </tr>
+    <tr>
+        <td><form:label path="apellidos">Apellidos</form:label></td>
+        <td><form:input path="apellidos" /><form:errors path="apellidos"  /></td>
+    </tr>
+    <tr>
+        <td><form:label path="dni">DNI</form:label></td>
+        <td><form:input path="dni" /><form:errors path="dni"  /></td>
+    </tr>
+    <tr>
+        <td><form:label path="fNacimiento">Fecha Nacimiento</form:label></td>
+        <td><form:input path="fNacimiento" /><form:errors path="fNacimiento"  /></td>
     </tr>
    <tr>
         <td><form:label path="direccion">Dirección</form:label></td>
         <td><form:input path="direccion" /></td>
     </tr>
-    
+    <tr>
+        <td><form:label path="poblacion">Población</form:label></td>
+        <td><form:input path="poblacion" /></td>
+    </tr>
+       <tr>
+        <td><form:label path="codigopostal">Código Postal</form:label></td>
+        <td><form:input path="codigopostal" /></td>
+    </tr>
     <tr>
        <td><form:label path="email">Email</form:label></td>
        <td><form:input path="email" /><form:errors path="email"  /></td>
@@ -34,7 +53,10 @@
         <td><form:label path="telefono">Teléfono</form:label></td>
         <td><form:input path="telefono" /></td>
     </tr>
-    
+      <tr>
+        <td><form:label path="nSS">Nº Seguridad Social</form:label></td>
+        <td><form:input path="nSS" /></td>
+    </tr>
     
      
   

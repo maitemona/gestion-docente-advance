@@ -5,6 +5,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.ipartek.formacion.dbms.persistence.Alumno;
+import com.ipartek.formacion.service.Util;
 
 public class AlumnoValidator implements Validator{
 /*
@@ -37,7 +38,9 @@ public class AlumnoValidator implements Validator{
 		if(alum.getCodigo()< Alumno.CODIGO_NULO){
 			errors.rejectValue("codigo","valorNegativo",new Object[]{ "'codigo'" },"no se puede "+ Alumno.CODIGO_NULO);
 		}
-		if(false){
+		
+		//Util.validarDni(alum.getDni());
+		if(Util.validarDni(alum.getDni())==false){
 			errors.rejectValue("dni","letraDniIncorrecto",new Object[]{ "'dni'" },"no es valido el DNI");
 		}
 	}

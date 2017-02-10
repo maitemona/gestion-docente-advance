@@ -18,11 +18,9 @@ public class Profesor{
 
 	public static final int CODIGO_NULO = -1;
 	private long nSS;
-	@NotNull
-	@NotBlank
 	private int codigo;
 	/*validacion standar de java, las anotaciones son de java las implementacion es de hibernate*/
-    @Pattern(regexp = "[0-9]{9}[a-z-A-A]", message = "DNi incorrecto")
+    @Pattern(regexp = "[0-9]{8}[a-z-A-Z]", message = "DNi incorrecto")
     private String dni;
     @Size(min=3,max=50)
 	private String nombre;
@@ -35,6 +33,8 @@ public class Profesor{
 	private Date fNacimiento;
 	private String email;
 	private String direccion;
+	private String poblacion;
+	private int codigopostal;
 	/*creamos una anotacion dentro de la estructura java:@Phone
 	 * hay q crear un interfaz, dentro de persistencia->validator, alli una clase
 	 *  ConstraintValidator<Phone, String>
@@ -53,6 +53,9 @@ public class Profesor{
 		this.apellidos="";
 		this.nombre="";
 		this.dni="";
+		this.direccion="";
+		this.poblacion="";
+		this.codigopostal=48;
 		this.fNacimiento = new Date();
 	}
 
@@ -128,6 +131,22 @@ public class Profesor{
 		this.telefono = telefono;
 	}
 	
+	public String getPoblacion() {
+		return poblacion;
+	}
+
+	public void setPoblacion(String poblacion) {
+		this.poblacion = poblacion;
+	}
+
+	public int getCodigopostal() {
+		return codigopostal;
+	}
+
+	public void setCodigopostal(int codigopostal) {
+		this.codigopostal = codigopostal;
+	}
+
 	@Override
 	public String toString() {
 		return "Profesor [nSS=" + nSS + ", codigo=" + codigo + ", dni=" + dni + ", nombre=" + nombre + ", apellidos="

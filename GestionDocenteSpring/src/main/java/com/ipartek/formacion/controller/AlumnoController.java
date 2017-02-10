@@ -87,14 +87,14 @@ public class AlumnoController {
 	 * @return
 	 */
 	@RequestMapping(value="/save",method =  RequestMethod.POST)
-	public String saveAlumno ( @ModelAttribute("alumno") @Validated Alumno alumno,Model model , BindingResult bindingResult ){
+	public String saveAlumno (Model model , @ModelAttribute("alumno") @Validated Alumno alumno, BindingResult bindingResult ){
 		String destino ="";
 		/*si las cosas estan mal nos mande de vuelta*/
 		if(bindingResult.hasErrors()){
 			logger.info("alumno tiene errores");
 			destino = "/alumnos/alumno";
 		}else{ 
-			destino ="redirect :/alumnos";
+			destino ="redirect:/alumnos";
 			if(alumno.getCodigo() > Alumno.CODIGO_NULO){
 				logger.info(alumno.toString());
 				aS.update(alumno);

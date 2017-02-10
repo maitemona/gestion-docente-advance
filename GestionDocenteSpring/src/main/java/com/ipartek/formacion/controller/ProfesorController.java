@@ -47,15 +47,18 @@ public class ProfesorController {
 	
 	/*Cambiamos @validated por @valid q es estandar java y spring ya sabe como usar
 	  sabe que esta en persitencia y no hay que inyectar nada como (initbinder)*/
+	
 	@RequestMapping(value="/save",method =  RequestMethod.POST)
-	public String saveProfesor(@ModelAttribute("profesor") @Valid Profesor profesor, Model model, BindingResult bindingResult ){
+	public String saveProfesor(Model model,@ModelAttribute("profesor") @Valid Profesor profesor, 
+			 BindingResult bindingResult ){
 		String destino ="";
+		logger.info("Estoy en metdodo Save");
 		/*si las cosas estan mal nos mande de vuelta*/
 		if(bindingResult.hasErrors()){
 			logger.info("profesor tiene errores");
 			destino = "/profesores/profesor";
 		}else{ 
-			destino ="redirect :/profesores";
+			destino ="redirect:/profesores";
 			if(profesor.getCodigo() > Profesor.CODIGO_NULO){
 				logger.info(profesor.toString());
 				pS.update(profesor);

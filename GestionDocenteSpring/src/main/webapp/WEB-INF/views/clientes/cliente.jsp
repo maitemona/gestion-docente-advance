@@ -16,39 +16,50 @@
    
      <table>
     <tr>
-        <td><form:label path="nombre">Nombre</form:label></td>
-        <td><form:input path="nombre" />
-        	<form:errors path="nombre"  /></td> 
+        <td>
+			<form:label path="nombre">Nombre</form:label>
+			<form:input path="nombre" />
+			<form:errors path="nombre"  />
+        </td> 
     </tr>
-   <tr>
-        <td><form:label path="direccion">Dirección</form:label></td>
-        <td><form:input path="direccion" /></td>
-    </tr>
+   
     
     <tr>
-       <td><form:label path="email">Email</form:label></td>
-       <td><form:input path="email" /><form:errors path="email"  /></td>
+       <td>
+	       <form:label path="email">Email</form:label>
+	       <form:input path="email" />
+	       <form:errors path="email"  />
+       </td>
     </tr>
    
     <tr>
-        <td><form:label path="telefono">Teléfono</form:label></td>
-        <td><form:input path="telefono" /></td>
+        <td>
+	        <form:label path="telefono">Teléfono</form:label>
+	        <form:input path="telefono" />
+	        <form:errors path="telefono"  />
+        </td>
+    </tr>
+    <tr>
+        <td>
+	        <form:label path="direccion">Dirección</form:label>
+	        <form:input path="direccion" />
+        </td>
     </tr>
     <tr>
 	    <td>
-		    <form:select  path="nameOfInstitution">
-		   		 <form:option value="NONE"> --SELECT--</form:option>
-		   		 <form:options items="${listOfInstitutionsNames}"></form:options>
-		 	 </form:select>
+			<select name="selector">
+			<option selectd value= 1>DNI</option>
+			<option value= 2>CIF</option>
+			</select>
+			
+			<form:label path="identificador">Identificador</form:label>
+      		<form:input path="identificador" /><form:errors path="identificador"  />
 	 	</td>
  	<tr>
-    
-     
-  
     <tr>
         <td colspan="2">
             <c:set var="men" value="Crear"/>
-            <c:if test="${profesor.codigo > 0}">
+            <c:if test="${cliente.codigo > 0}">
             	 <c:set var="men" value="Editar"/>
             </c:if>
             <input type="submit" value = "${men}" />
