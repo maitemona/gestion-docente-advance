@@ -1,6 +1,7 @@
 package com.ipartek.formacion.dbms.persistence;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
