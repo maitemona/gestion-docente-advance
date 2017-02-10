@@ -6,7 +6,6 @@ import org.springframework.validation.Validator;
 
 import com.ipartek.formacion.dbms.persistence.Alumno;
 import com.ipartek.formacion.dbms.persistence.Cliente;
-import com.ipartek.formacion.service.Util;
 
 public class ClienteValidator implements Validator{
 
@@ -29,9 +28,7 @@ public class ClienteValidator implements Validator{
 			errors.rejectValue("codigo","valorNegativo",new Object[]{ "'codigo'" },"no se puede "+ Cliente.CODIGO_NULO);
 		}
 		
-		if(Util.validarDni(clien.getIdentificador())==false){
-			errors.rejectValue("dni","letraDniIncorrecto",new Object[]{ "'dni'" },"no es valido el DNI");
-		}
+		
 	}
 
 }
