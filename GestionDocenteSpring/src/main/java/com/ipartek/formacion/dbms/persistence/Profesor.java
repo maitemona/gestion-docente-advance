@@ -22,18 +22,21 @@ public class Profesor implements Comparable<Profesor>, Serializable{
 	private long nSS;
 	private int codigo;
 	/*validacion standar de java, las anotaciones son de java las implementacion es de hibernate*/
-    @Pattern(regexp = "[0-9]{8}[a-z-A-Z]", message = "DNi incorrecto,esta en blanco")
+    @Pattern(regexp = "[0-9]{8}[a-z-A-Z]",  message = "Pattern.dni")
     private String dni;
-    @Size(min=3,max=50,message="Debe valer entre 3 y 50 caracteres")
+    @Size(min=3,max=50, message = "Size.nombre")
 	private String nombre;
-    @Size(min=7,max=150,message="Debe valer entre 7 y 150 caracteres")
+    @Size(min=7,max=150,message = "Size.apellidos")
 	private String apellidos;
     
     /*le pasamos el pattern de fecha y le decimo q se*/
     @NotNull(message="No debe ser nulo")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @Past
+    @Past(message = "Past.fNacimiento")
 	private Date fNacimiento;
+    @NotNull(message = "NotEmpty.email")
+	@NotBlank(message = "NotBlank.email")
+	//@Email(message = "Email.email")
 	private String email;
 	private String direccion;
 	private String poblacion;
