@@ -15,6 +15,7 @@ public class AlumnoMapper implements RowMapper<Alumno> {
 	@Override
 	public Alumno mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Alumno alumno = new Alumno();
+		//es el nombre del aleas del atributo de la select de BBDD
 		alumno.setCodigo(rs.getInt("codigo"));
 		alumno.setNombre(rs.getString("nombre"));
 		alumno.setApellidos(rs.getString("apellido"));

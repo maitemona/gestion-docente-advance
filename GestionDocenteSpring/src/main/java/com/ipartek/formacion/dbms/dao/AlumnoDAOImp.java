@@ -48,7 +48,9 @@ public class AlumnoDAOImp  implements AlumnoDAO{
 
 	@Override
 	public List<Alumno> getAll() {
-		final String SQL="SELECT codigo as codigo, nombre as nombre, apellidos as apellido FROM `alumno`";
+//hjemos hecho un proceso de almacenimiento en BBDD,que se llama alumnogetAll
+		final String SQL = "CALL alumnogetAll();";
+	//	final String SQL="SELECT codigo as codigo, nombre as nombre, apellidos as apellido FROM `alumno`";
 		List<Alumno> alumnos =null;	
 		try{
 			alumnos = template.query(SQL, new AlumnoMapper());
