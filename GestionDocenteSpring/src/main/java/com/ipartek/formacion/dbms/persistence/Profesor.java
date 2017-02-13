@@ -45,7 +45,9 @@ public class Profesor implements Comparable<Profesor>, Serializable{
 	 * hay q crear un interfaz, dentro de persistencia->validator, alli una clase
 	 *  ConstraintValidator<Phone, String>
 	 * */
-	@Phone
+	@NotNull(message = "NotEmpty.telefono")
+	@NotBlank(message = "NotBlank.telefono")
+	@Phone(message = "Phone.telefono")
 	private String telefono;
 
 	

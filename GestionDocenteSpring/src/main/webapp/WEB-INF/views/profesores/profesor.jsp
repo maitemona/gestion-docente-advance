@@ -51,7 +51,7 @@
    
     <tr>
         <td><form:label path="telefono">Teléfono</form:label></td>
-        <td><form:input path="telefono" /></td>
+        <td><form:input path="telefono" /><form:errors path="telefono"  /></td>
     </tr>
       <tr>
         <td><form:label path="nSS">Nº Seguridad Social</form:label></td>
