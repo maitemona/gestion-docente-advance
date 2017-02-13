@@ -34,11 +34,12 @@
 		</beans:bean>
 	</interceptors>
 	
-	
 	<context:component-scan base-package="com.ipartek.formacion" />
+	
 	<!--Solo para capa vista(.jsp) y controladores (por tener package web)  -->
 	<beans:bean class="com.ipartek.formacion.controller.validator.AlumnoValidator" id="alumnoValidator">
 	</beans:bean>
 	<beans:bean class="com.ipartek.formacion.controller.validator.ClienteValidator" id="clienteValidator">
 	</beans:bean>
+	
 </beans:beans>

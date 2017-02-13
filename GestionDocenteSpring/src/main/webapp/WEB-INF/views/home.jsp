@@ -6,7 +6,7 @@
 	<title>Inicio</title>
 </head>
 <body>
-<h2>
+<h3>
 	<a href="?locale=es">				
 		<spring:message code="idioma.castellano" text="castellano"/>
 	</a>
@@ -16,11 +16,11 @@
 	<a href="?locale=eu">
 		<spring:message code="idioma.euskera" text="euskera"/>
 	</a>
-</h2>
+</h3>
 <ul>
-	<li><a href="alumnos">Ir a alumnos</a></li>
-	<li><a href="profesores">Ir a Profesores</a></li>
-	<li><a href="clientes">Ir a Clientes</a></li>
+	<li><a href="<c:url value='/alumnos'/>">Ir a alumnos</a></li>
+	<li><a href="<c:url value='/profesores'/>">Ir a Profesores</a></li>
+	<li><a href="<c:url value='/clientes'/>">Ir a Clientes</a></li>
 </ul>
 </body>
 </html>
