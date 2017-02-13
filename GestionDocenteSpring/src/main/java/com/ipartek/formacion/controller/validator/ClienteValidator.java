@@ -17,10 +17,13 @@ public class ClienteValidator implements Validator{
 	@Override
 	public void validate(Object obj, Errors errors) {
 		
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nombre","505","Error, Nombre no puede estar vacio");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nombre","form.nombreRequerido","Tiene que introducirse un nombre");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "identificador","505","Error, Identificador no puede estar vacio");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email","505","Error, Email no puede estar vacio");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "telefono","505","Error, Telefono no puede estar vacio");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "form.emailRequerido","tiene que introducirse un email");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "telefono", "form.telefonoRequerido","tiene que introducirse un telefono");
+		
+		
+		
 		
 		Cliente clien = (Cliente) obj;
 		
