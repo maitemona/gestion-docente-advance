@@ -34,7 +34,7 @@ public class AlumnoValidator implements Validator{
 		//ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nHermanos","505","Error, nº de hermanos no puede estar vacio");
 	//castin del abjeto alumno
 		Alumno alum = (Alumno) obj;
-		
+
 		if(alum.getCodigo()< Alumno.CODIGO_NULO){
 			errors.rejectValue("codigo","valorNegativo",new Object[]{ "'codigo'" },"no se puede "+ Alumno.CODIGO_NULO);
 		}

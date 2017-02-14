@@ -1,7 +1,6 @@
 package com.ipartek.formacion.dbms.persistence;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -46,7 +45,6 @@ public class Alumno  implements Comparable<Alumno>, Serializable {
 		this.telefono="94";
 		this.poblacion="";
 		this.codigopostal=48;
-		
 		this.fNacimiento = new Date();
 		
 

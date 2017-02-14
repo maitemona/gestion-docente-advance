@@ -10,12 +10,30 @@ public class Util {
 	private static final Logger logger = LoggerFactory.getLogger(Util.class);
 	private Util() {
 	}
+	
+	/*Telefono valiodar*/
+	/*
+	public static boolean validarTelefono(final String telefono) {
+		boolean valido = false;
+		final String REGEX = "[0-9]{9}";
+
+		if (checkRegex(REGEX, telefono)) {
+			valido = true;
+		}
+		return valido;
+	}
+	
+	*/
+	
+	
 	/**
 	 * Validar si es Dni.
 	 * @param le pasamos un strin dni.
 	 * @return
 	 * 			boolean true.
 	 */
+	
+	
 	public static boolean validarDni(String dni) {
 		String letraMayuscula = ""; //Guardaremos la letra introducida en formato mayúscula	
 	// Aquí excluimos cadenas distintas a 9 caracteres que debe tener un dni y también si el último caracter no es una letra	

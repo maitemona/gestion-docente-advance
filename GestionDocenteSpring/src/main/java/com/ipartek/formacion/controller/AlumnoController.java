@@ -94,7 +94,7 @@ public class AlumnoController {
 			logger.info("alumno tiene errores");
 			destino = "/alumnos/alumno";
 		}else{ 
-			destino ="redirect:/alumnos";
+			destino = "redirect:/alumnos";
 			if(alumno.getCodigo() > Alumno.CODIGO_NULO){
 				logger.info(alumno.toString());
 				aS.update(alumno);
