@@ -9,6 +9,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -36,7 +37,7 @@ public class Profesor implements Comparable<Profesor>, Serializable{
 	private Date fNacimiento;
     @NotNull(message = "NotEmpty.email")
 	@NotBlank(message = "NotBlank.email")
-	//@Email(message = "Email.email")
+	@Email(message = "Email.email")
 	private String email;
 	private String direccion;
 	private String poblacion;

@@ -1,5 +1,6 @@
 package com.ipartek.formacion.controller.validator;
 
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -8,6 +9,8 @@ import com.ipartek.formacion.dbms.persistence.Alumno;
 import com.ipartek.formacion.service.Util;
 
 public class AlumnoValidator implements Validator{
+
+
 /*
  *que clases deberia procesar este validador
  */
@@ -43,6 +46,36 @@ public class AlumnoValidator implements Validator{
 		if(Util.validarDni(alum.getDni())==false){
 			errors.rejectValue("dni","Pattern.dni",new Object[]{ "'dni'" },"no es valido el DNI");
 		}
+		
+		if (alum.getNombre().length() < 3 || alum.getNombre().length() > 50) {
+			errors.rejectValue("nombre", "form.longitudNombreIncorrecta", new Object[] { 3, 50 },
+					"Nombre tiene que ocupar entre " + 3 + " y " + 50 + " caracteres.");
+		}
+		if (alum.getApellidos().length() < 3 || alum.getApellidos().length() >250 ) {
+			errors.rejectValue("apellidos", "form.longitudApellidosIncorrecta", new Object[] { "apellidos" },
+					"Apellidos tiene que ocupar entre " + 3 + " y " + 250 + " caracteres.");
+		}
+		if (alum.getDireccion().length() >250 ) {
+			errors.rejectValue("direccion", "form.longitudDireccionIncorrecta", new Object[] { "direccion" },
+					"Direccion no puede ser mas de 250 caracteres ");
+		}
+		if (alum.getEmail().length() >150 ) {
+			errors.rejectValue("email", "form.longitudEmailIncorrecta", new Object[] { "email" },
+					"Email no puede ser mas de 150 caracteres ");
+		}
+		if (alum.getPoblacion().length() >150 ) {
+			errors.rejectValue("direccion", "form.longitudPoblacionIncorrecta", new Object[] { "poblacion" },
+					"Poblacion no puede ser mas de 150 caracteres ");
+		}
+		if (alum.getCodigo() >5 ) {
+			errors.rejectValue("codigopostal", "form.longitudCodigoPostalIncorrecta", new Object[] { "codigopostal" },
+					"Codigo Postal  no puede ser mas de 5 numeros ");
+		}
+		if (alum.getTelefono().length() >9 ) {
+			errors.rejectValue("telefono", "form.longitudTelefonoIncorrecta", new Object[] { "telefono" },
+					"Telefono no puede ser mas de 9 numeros");
+		}
+		
 	}
 
 }

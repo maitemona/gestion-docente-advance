@@ -30,6 +30,27 @@ public class ClienteValidator implements Validator{
 		if(clien.getCodigo()< Cliente.CODIGO_NULO){
 			errors.rejectValue("codigo","valorNegativo",new Object[]{ "'codigo'" },"no se puede "+ Cliente.CODIGO_NULO);
 		}
+		if (clien.getNombre().length() < 3 || clien.getNombre().length() > 50) {
+			errors.rejectValue("nombre", "form.longitudNombreIncorrecta", new Object[] { 3, 50 },
+					"Nombre tiene que ocupar entre " + 3 + " y " + 50 + " caracteres.");
+		}
+		if (clien.getDireccion().length() >250 ) {
+			errors.rejectValue("direccion", "form.longitudDireccionIncorrecta", new Object[] { "direccion" },
+					"Direccion no puede ser mas de 250 caracteres ");
+		}
+		if (clien.getTelefono().length() >9 ) {
+			errors.rejectValue("telefono", "form.longitudTelefonoIncorrecta", new Object[] { "telefono" },
+					"Telefono no puede ser mas de 9 numeros");
+		}
+		if (clien.getEmail().length() >250) {
+			errors.rejectValue("email", "form.longitudEmailIncorrecta", new Object[] { "email" },
+					"Identificador no puede ser mas de 250 caracteres");
+		}
+		if (clien.getIdentificador().length() >200) {
+			errors.rejectValue("Identificador", "form.longitudIdentificdorIncorrecta", new Object[] { "identificador" },
+					"Identificador no puede ser mas de 200 caracteres");
+		}
+		
 		
 		
 	}
