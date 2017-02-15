@@ -20,5 +20,7 @@ public interface AlumnoService {
 
 	public void delete(int codigo);
 	
+	public Alumno getByDni(String dni);
+	
 	public void setAlumnoDAO(AlumnoDAO alumnoDao);
 }

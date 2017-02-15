@@ -154,6 +154,30 @@ public class AlumnoDAOImp  implements AlumnoDAO{
 		jdbcCall.execute(in);
 		
 	}
+
+	@Override
+	public Alumno getByDni(String dni) {
+		Alumno alumno = null;
+		final String SQL = "CALL alumnogetByDni(?)";
+		this.jdbcCall = new SimpleJdbcCall(dataSource);
+		try{
+			/*queryforobject es cuando vamos a tener 1 objeto*/
+			alumno= template.queryForObject(SQL , new AlumnoMapper(), new Object[]{dni});
+			logger.info("select sql"+ SQL);
+			logger.info(alumno.toString());
+			logger.info("Dni alumno "+alumno.getDni());
+		}catch (EmptyResultDataAccessException e){
+			//instanciamos nuevo objeto de alumno para que no casque
+			alumno  = null;
+			logger.info("no se ha encontrado el el " + dni + " "+ e.getMessage());
+		}
+		return alumno;
+	}
+
 	
 
+	
+	
+	
+	
 }

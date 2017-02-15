@@ -28,4 +28,6 @@ public interface AlumnoDAO extends DAOSetter{
 	public Alumno update(Alumno alumno);
 
 	public void delete(int codigo);
+
+	public Alumno getByDni(String dni);
 }

@@ -100,6 +100,7 @@ public class AlumnoController {
 				aS.update(alumno);
 			}else{
 				logger.info(alumno.toString());
+				
 				aS.create(alumno);
 			}
 		}

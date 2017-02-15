@@ -1,15 +1,21 @@
 package com.ipartek.formacion.controller.validator;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.ipartek.formacion.dbms.persistence.Alumno;
 import com.ipartek.formacion.service.Util;
+import com.ipartek.formacion.service.interfaces.AlumnoService;
 
 public class AlumnoValidator implements Validator{
-
+	/**
+	 * Iyectamos el AlumnoService, para poder usar las nuevas funcionalidades en el validator 
+	 */
+	@Autowired
+	AlumnoService aS;
 
 /*
  *que clases deberia procesar este validador
@@ -74,6 +80,10 @@ public class AlumnoValidator implements Validator{
 		if (alum.getTelefono().length() >9 ) {
 			errors.rejectValue("telefono", "form.longitudTelefonoIncorrecta", new Object[] { "telefono" },
 					"Telefono no puede ser mas de 9 numeros");
+		}
+		if(aS.getByDni(alum.getDni())!=null){
+			errors.rejectValue("dni","form.longitudTelefonoIncorrecta", new Object[] { "dni" },
+					"DNI no valido, ya exite en BBDD");
 		}
 		
 	}
