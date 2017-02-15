@@ -2,6 +2,7 @@ package com.ipartek.formacion.dbms.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;
@@ -10,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import com.ipartek.formacion.dbms.dao.AlumnoDAOImp;
@@ -25,6 +29,8 @@ public class ProfesorDAOImp implements ProfesorDAO {
 	@Inject 
 	private DataSource dataSource;
 	private JdbcTemplate template;
+	/*para pasar parametros al resto de metodos del mysql(al CAll no hace falta) */
+	private SimpleJdbcCall jdbcCall;
 	private static final Logger logger = LoggerFactory.getLogger(ProfesorDAOImp.class);
 	/**
 	 * queremos obligarle a exista, estamos creadio la conexion a al BBDD ,
@@ -37,19 +43,46 @@ public class ProfesorDAOImp implements ProfesorDAO {
 		
 		this.dataSource = dataSource;
 		this.template= new JdbcTemplate(dataSource);
-		
+		this.jdbcCall= new SimpleJdbcCall(dataSource);
 	}
 
 
 	@Override
 	public Profesor create(Profesor profesor) {
 		
-		return null;
+		final String SQL = "profesorCreate";
+		this.jdbcCall = new SimpleJdbcCall(dataSource);
+		
+		//llamamos al prodecimiento de create de la bbddd
+		jdbcCall.withProcedureName(SQL);
+		//crear un mapa con los prarametroos de procedimiento
+		SqlParameterSource in =new MapSqlParameterSource()
+				.addValue("pnombre",profesor.getNombre())
+				.addValue("papellidos",profesor.getApellidos())
+				.addValue("ppostal", profesor.getCodigopostal())
+				.addValue("pdni", profesor.getDni())
+				.addValue("pemail", profesor.getEmail())
+				.addValue("pfnacimiento", profesor.getfNacimiento())
+				.addValue("pnss", profesor.getnSS())
+				.addValue("ppoblacion", profesor.getPoblacion())
+				.addValue("ptelefono", profesor.getTelefono())
+				.addValue("pdireccion", profesor.getDireccion());
+		
+		logger.info(profesor.toString());
+		/*ejecutamos sentencia*/	
+		//en out se han recogido los parametros out de la consulta BBDD
+		Map<String, Object> out = jdbcCall.execute(in);
+		//hacemos un casting pq es un int
+		profesor.setCodigo((Integer)out.get("pcodigo"));
+		return profesor;
 	}
 
 	@Override
-	public List<Profesor> getAll() {
-		final String SQL="SELECT codigo as codigo, nombre as nombre, apellidos as apellidos FROM profesor";
+	public List<Profesor> getAll() {	
+		//hemos hecho un proceso de almacenimiento en BBDD,que se llama alumnogetAll
+		final String SQL = "CALL profesorgetAll();";
+		this.jdbcCall = new SimpleJdbcCall(dataSource);
+		
 		logger.info(SQL);
 		List<Profesor> profesores =null;	
 		try{
@@ -64,14 +97,48 @@ public class ProfesorDAOImp implements ProfesorDAO {
 
 	@Override
 	public Profesor getById(int codigo) {
-		// TODO Auto-generated method stub
-		return null;
+		Profesor profesor = null;
+		final String SQL = "CALL profesorgetById(?)";
+		this.jdbcCall = new SimpleJdbcCall(dataSource);
+		try{
+			/*queryforobject es cuando vamos a tener 1 objeto*/
+			profesor= template.queryForObject(SQL , new ProfesorMapper(), new Object[]{codigo});
+			logger.info("select sql"+ SQL);
+			logger.info(profesor.toString());
+			logger.info("Codigo profesor "+profesor.getCodigo());
+		}catch (EmptyResultDataAccessException e){
+			//instanciamos nuevo objeto de alumno para que no casque
+			profesor  = new Profesor();
+			logger.info("No encontrado el codigo de profesor" + codigo + " "+ e.getMessage());
+		}
+		return profesor;
+		
 	}
 
 	@Override
 	public Profesor update(Profesor profesor) {
-		// TODO Auto-generated method stub
-		return null;
+		final String SQL = "profesorUpdate";
+		this.jdbcCall = new SimpleJdbcCall(dataSource);
+		//llamamos al prodecimiento de update de la bbddd
+		jdbcCall.withProcedureName(SQL);
+		//crear un mapa con los prarametroos de procedimiento
+		SqlParameterSource in =new MapSqlParameterSource()
+				.addValue("pnombre",profesor.getNombre())
+				.addValue("papellidos",profesor.getApellidos())
+				.addValue("ppostal", profesor.getCodigopostal())
+				.addValue("pdni", profesor.getDni())
+				.addValue("pemail", profesor.getEmail())
+				.addValue("pfnacimiento", profesor.getfNacimiento())
+				.addValue("pnss", profesor.getnSS())
+				.addValue("ppoblacion", profesor.getPoblacion())
+				.addValue("ptelefono", profesor.getTelefono())
+				.addValue("pdireccion", profesor.getDireccion())
+				.addValue("pcodigo", profesor.getCodigo());
+		logger.info(profesor.toString());
+		/*ejecutamos sentencia*/	
+		jdbcCall.execute(in);
+		
+		return profesor;
 	}
 
 	@Override

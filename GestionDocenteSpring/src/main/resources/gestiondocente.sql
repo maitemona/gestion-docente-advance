@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-02-2017 a las 13:17:56
+-- Tiempo de generación: 15-02-2017 a las 11:03:23
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 5.6.30
 
@@ -63,6 +63,81 @@ nombre = LOWER(pnombre), apellidos= LOWER(papellidos), dni = LOWER(pdni),codigop
 WHERE codigo = pcodigo;
 END$$
 
+DROP PROCEDURE IF EXISTS `clienteCreate`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteCreate` (IN `pnombre` VARCHAR(50), IN `pdireccion` VARCHAR(250), IN `ptelefono` INT(9), IN `pemail` VARCHAR(150), IN `pidentificador` VARCHAR(200), OUT `pcodigo` INT)  NO SQL
+BEGIN
+INSERT INTO cliente (nombre,telefono,identificador,email,direccion)
+VALUES
+(LOWER(pnombre),ptelefono,LOWER(pidentificador),LOWER(pemail),LOWER(pdireccion));
+SET pcodigo = LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE IF EXISTS `clienteDelete`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteDelete` (IN `pcodigo` INT)  NO SQL
+BEGIN
+DELETE FROM cliente where codigo = pcodigo;
+END$$
+
+DROP PROCEDURE IF EXISTS `clientegetAll`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clientegetAll` ()  NO SQL
+BEGIN 
+	SELECT c.codigo as codigo, c.nombre as nombre, c.activo as activo,c.direccion as direccion, c.identificador as identificador, c.email as email,c.telefono as telefono
+    FROM cliente as c;
+END$$
+
+DROP PROCEDURE IF EXISTS `clientegetById`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clientegetById` (IN `pcodigo` INT)  NO SQL
+BEGIN
+SELECT c.codigo as codigo, c.nombre as nombre,c.activo as activo,c.direccion as direccion, c.email as email , c.telefono as telefono, c.identificador as identificador
+FROM cliente as c WHERE c.codigo = pcodigo;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `clienteUpdate`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteUpdate` (IN `pnombre` VARCHAR(50), IN `pdireccion` VARCHAR(250), IN `ptelefono` INT(9), IN `pidentificador` VARCHAR(200), IN `pemail` VARCHAR(250), IN `pcodigo` INT)  NO SQL
+BEGIN
+UPDATE cliente SET 
+nombre = LOWER(pnombre), identificador = LOWER(pidentificador),  direccion=LOWER(pdireccion), email=LOWER(pemail), telefono = ptelefono
+WHERE codigo = pcodigo;
+END$$
+
+DROP PROCEDURE IF EXISTS `profesorCreate`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorCreate` (IN `pnombre` VARCHAR(50), IN `papellidos` VARCHAR(150), IN `pnss` BIGINT(12), IN `pfnacimiento` DATE, IN `pdni` VARCHAR(9), IN `pdireccion` VARCHAR(250), IN `ppoblacion` VARCHAR(150), IN `ppostal` INT(5), IN `ptelefono` INT(9), IN `pemail` VARCHAR(150), OUT `pcodigo` INT)  NO SQL
+BEGIN
+INSERT INTO profesor (nombre,apellidos,dni,email,direccion,codigopostal,poblacion,fNacimiento,telefono,nSS) 
+VALUES
+(LOWER(pnombre),LOWER(papellidos),LOWER(pdni),LOWER(pemail),LOWER(pdireccion),ppostal,LOWER(ppoblacion),pfnacimiento,ptelefono,pnss);
+SET pcodigo = LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE IF EXISTS `profesorDelete`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorDelete` (IN `pcodigo` INT)  NO SQL
+BEGIN
+DELETE FROM profesor where codigo = pcodigo;
+END$$
+
+DROP PROCEDURE IF EXISTS `profesorgetAll`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorgetAll` ()  NO SQL
+BEGIN 
+	SELECT p.codigo as codigo, p.nombre as nombre, p.apellidos as 					apellidos, p.activo as activo, p.codigopostal as codigopostal,p.direccion as direccion, p.dni as dni, p.email as email, p.fNacimiento as fnacimiento,p.nSS as nss, p.poblacion as poblacion, p.telefono as telefono
+  FROM profesor as p;
+END$$
+
+DROP PROCEDURE IF EXISTS `profesorgetById`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorgetById` (IN `pcodigo` INT)  NO SQL
+BEGIN 
+		SELECT p.codigo as codigo, p.nombre as nombre, p.apellidos as 					apellidos, p.activo as activo, p.codigopostal as codigopostal,p.direccion as direccion, p.dni as dni, p.email as email, p.fNacimiento as fnacimiento,p.nSS as nss, p.poblacion as poblacion, p.telefono as telefono
+FROM profesor as p WHERE p.codigo = pcodigo;
+END$$
+
+DROP PROCEDURE IF EXISTS `profesorUpdate`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorUpdate` (IN `pnombre` VARCHAR(50), IN `papellidos` VARCHAR(150), IN `pnss` BIGINT(12), IN `pfnacimiento` DATE, IN `pdni` VARCHAR(9), IN `pdireccion` VARCHAR(250), IN `ppostal` INT(5), IN `ptelefono` INT(9), IN `pemail` VARCHAR(150), IN `pcodigo` INT, IN `ppoblacion` VARCHAR(150))  NO SQL
+BEGIN
+UPDATE profesor SET 
+nombre = LOWER(pnombre), apellidos= LOWER(papellidos), dni = LOWER(pdni),codigopostal= ppostal,  direccion=LOWER(pdireccion), email=LOWER(pemail), fNacimiento= pfnacimiento, nSS = pnss, poblacion = LOWER(ppoblacion), telefono = ptelefono
+WHERE codigo = pcodigo;
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -86,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `alumno` (
   `nHermanos` int(2) NOT NULL,
   `activo` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `alumno`
@@ -112,15 +187,18 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `telefono` int(9) NOT NULL,
   `email` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `identificador` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `activo` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `cliente`
 --
 
-INSERT INTO `cliente` (`codigo`, `nombre`, `direccion`, `telefono`, `email`, `identificador`) VALUES
-(1, 'Ipartek', 'palado 12', 654789213, 'maitemonasterioo@gmail.com', '16047889X');
+INSERT INTO `cliente` (`codigo`, `nombre`, `direccion`, `telefono`, `email`, `identificador`, `activo`) VALUES
+(1, 'ipartek-css', 'bilbao', 944661303, 'maitemonasterio@gmail.com', '16047889x', 1),
+(2, 'maria', 'bilbao', 944661303, 'm@gmail.com', '4852613', 1),
+(3, 'castaño', 'bilbao', 944641306, 'ccc@gmail.com', '123456', 1);
 
 -- --------------------------------------------------------
 
@@ -141,15 +219,17 @@ CREATE TABLE IF NOT EXISTS `profesor` (
   `codigopostal` int(5) DEFAULT NULL,
   `telefono` int(9) NOT NULL,
   `email` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `activo` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `profesor`
 --
 
-INSERT INTO `profesor` (`codigo`, `nSS`, `nombre`, `apellidos`, `fNacimiento`, `dni`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`) VALUES
-(1, 481245678, 'Urko', 'Villanueva Romero', '1975-05-10', '16047889X', 'Palado nº 12', 'Munguia', 48100, 94456213, 'urkovillanueva@ipartek.com');
+INSERT INTO `profesor` (`codigo`, `nSS`, `nombre`, `apellidos`, `fNacimiento`, `dni`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`, `activo`) VALUES
+(1, 481245678, 'Urko', 'Villanueva Romero', '1975-05-10', '16047889X', 'Palado nº 12', 'Munguia', 48100, 94456213, 'urkovillanueva@ipartek.com', 1),
+(2, 48012547, 'rosa blab', 'perez lopez', '1978-12-20', '16071558z', 'gran via', 'bilbao', 48991, 94466130, 'rosa-lopez@gmail.com', 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

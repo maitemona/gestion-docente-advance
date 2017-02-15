@@ -30,7 +30,7 @@
     </tr>
     <tr>
         <td><form:label path="fNacimiento">Fecha Nacimiento</form:label></td>
-        <td><form:input path="fNacimiento" /><form:errors path="fNacimiento"  /></td>
+        <td><form:input path="fNacimiento"  placeholder="dd/mm/yyyy" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"/><form:errors path="fNacimiento"  /></td>
     </tr>
    <tr>
         <td><form:label path="direccion">Dirección</form:label></td>
@@ -51,7 +51,7 @@
    
     <tr>
         <td><form:label path="telefono">Teléfono</form:label></td>
-        <td><form:input path="telefono" /><form:errors path="telefono"  /></td>
+        <td><form:input path="telefono"   /><form:errors path="telefono"  /></td>
     </tr>
       <tr>
         <td><form:label path="nSS">Nº Seguridad Social</form:label></td>

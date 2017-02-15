@@ -2,6 +2,7 @@ package com.ipartek.formacion.dbms.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;
@@ -11,17 +12,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import com.ipartek.formacion.dbms.dao.interfaces.ClienteDAO;
 
 import com.ipartek.formacion.dbms.mappers.ClienteMapper;
-import com.ipartek.formacion.dbms.mappers.ProfesorMapper;
+
 import com.ipartek.formacion.dbms.persistence.Cliente;
 /*Poner el bean de root-contetx el bean id="clienteDaoImp"
 		class="com.ipartek.formacion.dbms.dao.ClienteDAOImp">
 		<property name="dataSource" ref="mysqlDataSource"/>
 	</bean>*/
+
 
 
 @Repository("clienteDaoImp")
@@ -32,6 +37,8 @@ public class ClienteDAOImp implements ClienteDAO {
 	@Inject 
 	private DataSource dataSource;
 	private JdbcTemplate template;
+	/*para pasar parametros al resto de metodos del mysql(al CAll no hace falta) */
+	private SimpleJdbcCall jdbcCall;
 	private static final Logger logger = LoggerFactory.getLogger(ClienteDAOImp.class);
 
 	/**
@@ -43,18 +50,39 @@ public class ClienteDAOImp implements ClienteDAO {
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 		this.template= new JdbcTemplate(dataSource);
-		
+		this.jdbcCall= new SimpleJdbcCall(dataSource);
 	}
 
 	@Override
 	public Cliente create(Cliente cliente) {
-		// TODO Auto-generated method stub
-		return null;
+		final String SQL = "clienteCreate";
+		
+		logger.info("Metodo:"+ SQL);
+		this.jdbcCall = new SimpleJdbcCall(dataSource);
+		
+		//llamamos al prodecimiento de create de la bbddd
+		jdbcCall.withProcedureName(SQL);
+		//crear un mapa con los prarametroos de procedimiento
+		SqlParameterSource in =new MapSqlParameterSource()
+				.addValue("pnombre",cliente.getNombre())
+				.addValue("pidentificador",cliente.getIdentificador())
+				.addValue("pemail", cliente.getEmail())
+				.addValue("ptelefono", cliente.getTelefono())
+				.addValue("pdireccion", cliente.getDireccion());
+		
+		logger.info(cliente.toString());
+		/*ejecutamos sentencia*/	
+		//en out se han recogido los parametros out de la consulta BBDD
+		Map<String, Object> out = jdbcCall.execute(in);
+		//hacemos un casting pq es un int
+		cliente.setCodigo((Integer)out.get("pcodigo"));
+		return cliente;
 	}
 
 	@Override
 	public List<Cliente> getAll() {
-		final String SQL="SELECT codigo as codigo, nombre as nombre, direccion as direccion, telefono as telefono, email as email, identificador as identificador FROM cliente";
+		final String SQL = "CALL clientegetAll();";
+		this.jdbcCall = new SimpleJdbcCall(dataSource);
 		logger.info(SQL);
 		List<Cliente> clientes =null;	
 		
@@ -73,14 +101,43 @@ public class ClienteDAOImp implements ClienteDAO {
 
 	@Override
 	public Cliente getById(int codigo) {
-		// TODO Auto-generated method stub
-		return null;
+		Cliente cliente = null;
+		final String SQL = "CALL clientegetById(?)";
+		this.jdbcCall = new SimpleJdbcCall(dataSource);
+		try{
+			/*queryforobject es cuando vamos a tener 1 objeto*/
+			cliente= template.queryForObject(SQL , new ClienteMapper(), new Object[]{codigo});
+			logger.info("select sql"+ SQL);
+			logger.info(cliente.toString());
+			logger.info("Codigo Cliente "+cliente.getCodigo());
+		}catch (EmptyResultDataAccessException e){
+			//instanciamos nuevo objeto de alumno para que no casque
+			cliente  = new Cliente();
+			logger.info("No encontrado el codigo de cliente" + codigo + " "+ e.getMessage());
+		}
+		return cliente;
 	}
 
 	@Override
 	public Cliente update(Cliente cliente) {
-		// TODO Auto-generated method stub
-		return null;
+		final String SQL = "clienteUpdate";
+		this.jdbcCall = new SimpleJdbcCall(dataSource);
+		//llamamos al prodecimiento de update de la bbddd
+		jdbcCall.withProcedureName(SQL);
+		//crear un mapa con los prarametroos de procedimiento
+		SqlParameterSource in =new MapSqlParameterSource()
+				.addValue("pnombre",cliente.getNombre())
+				
+				.addValue("pidentificador", cliente.getIdentificador())
+				.addValue("pemail", cliente.getEmail())
+				.addValue("ptelefono", cliente.getTelefono())
+				.addValue("pdireccion", cliente.getDireccion())
+				.addValue("pcodigo", cliente.getCodigo());
+		logger.info(cliente.toString());
+		/*ejecutamos sentencia*/	
+		jdbcCall.execute(in);
+		
+		return cliente;
 	}
 
 	@Override

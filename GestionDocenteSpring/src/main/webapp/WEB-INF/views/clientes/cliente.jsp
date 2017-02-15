@@ -35,7 +35,7 @@
     <tr>
         <td>
 	        <form:label path="telefono">Teléfono</form:label>
-	        <form:input path="telefono" />
+	        <form:input path="telefono"  pattern="[0-9]{9}" />
 	        <form:errors path="telefono"  />
         </td>
     </tr>

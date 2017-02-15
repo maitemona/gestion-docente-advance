@@ -34,7 +34,7 @@ public class ClienteController {
 	/*busca una clase q lo implemente(@Autowired)*/
 	@Inject
 	private ClienteService cS;
-	private static final Logger logger = LoggerFactory.getLogger(ProfesorController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ClienteController.class);
 	ModelAndView mav = null;
 	
 	@Resource(name="clienteValidator")

@@ -11,14 +11,33 @@ public class Cliente  implements Comparable<Curso>, Serializable{
 	private String telefono;
 	private String email;
 	private String identificador;
+	private boolean activo;
 
 	public Cliente() {
 		super();
+		this.codigo = CODIGO_NULO;
 		this.nombre="";
 		this.direccion="";
 		this.telefono="94....";
 		this.email="";
 		this.identificador="";
+		this.activo = true;
+	}
+
+
+
+
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+
+
+
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
 	}
 
 

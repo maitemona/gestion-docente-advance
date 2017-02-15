@@ -19,7 +19,7 @@ public class Profesor implements Comparable<Profesor>, Serializable{
 
 	private static final long serialVersionUID = -6698866485450376235L;
 	public static final int CODIGO_NULO = -1;
-	private long nSS;
+	private String nSS;
 	private int codigo;
 	/*validacion standar de java, las anotaciones son de java las implementacion es de hibernate*/
     @Pattern(regexp = "[0-9]{8}[a-z-A-Z]",  message = "Pattern.dni")
@@ -49,13 +49,13 @@ public class Profesor implements Comparable<Profesor>, Serializable{
 	@NotBlank(message = "NotBlank.telefono")
 	@Phone(message = "Phone.telefono")
 	private String telefono;
-
+	private boolean activo;
 	
 
 	public Profesor() {
 		super();
 		this.codigo = CODIGO_NULO;
-		this.nSS = 0;
+		this.nSS ="";
 		this.email = "";
 		this.direccion = "";
 		this.apellidos="";
@@ -65,7 +65,19 @@ public class Profesor implements Comparable<Profesor>, Serializable{
 		this.poblacion="";
 		this.codigopostal=48;
 		this.fNacimiento = new Date();
+		this.activo=true;
 	}
+
+	
+	public boolean isActivo() {
+		return activo;
+	}
+
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+
 
 	public String getDni() {
 		return dni;
@@ -115,11 +127,11 @@ public class Profesor implements Comparable<Profesor>, Serializable{
 		this.direccion = direccion;
 	}
 
-	public long getnSS() {
+	public String getnSS() {
 		return nSS;
 	}
 
-	public void setnSS(long nSS) {
+	public void setnSS(String nSS) {
 		this.nSS = nSS;
 	}
 
