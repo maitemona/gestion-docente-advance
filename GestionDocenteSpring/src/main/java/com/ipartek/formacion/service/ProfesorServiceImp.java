@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.ipartek.formacion.dbms.dao.interfaces.ProfesorDAO;
+import com.ipartek.formacion.dbms.persistence.Alumno;
 import com.ipartek.formacion.dbms.persistence.Profesor;
 import com.ipartek.formacion.service.interfaces.ProfesorService;
 
@@ -48,6 +49,11 @@ public class ProfesorServiceImp implements ProfesorService {
 	public void setProfesorDAO(ProfesorDAO profesorDao) {
 		this.profesorDao=profesorDao;
 		
+	}
+	
+	@Override
+	public Profesor getByDni(String dni) {
+		return null;
 	}
 
 }

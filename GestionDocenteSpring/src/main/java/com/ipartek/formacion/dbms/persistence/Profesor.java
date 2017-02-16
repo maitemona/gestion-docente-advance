@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.ipartek.formacion.dbms.persistence.validator.Dni;
 import com.ipartek.formacion.dbms.persistence.validator.Phone;
 
 public class Profesor implements Comparable<Profesor>, Serializable{
@@ -23,7 +24,10 @@ public class Profesor implements Comparable<Profesor>, Serializable{
 	private String nSS;
 	private int codigo;
 	/*validacion standar de java, las anotaciones son de java las implementacion es de hibernate*/
-    @Pattern(regexp = "[0-9]{8}[a-z-A-Z]",  message = "Pattern.dni")
+    @NotNull(message = "NotEmpty.dni")
+    @NotBlank(message = "NotBlank.dni")
+	@Pattern(regexp = "[0-9]{8}[a-z-A-Z]",  message = "Pattern.dni")
+	//@Dni(message = "Dni.unico")
     private String dni;
     @Size(min=3,max=50, message = "Size.nombre")
 	private String nombre;

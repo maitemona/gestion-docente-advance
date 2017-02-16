@@ -16,11 +16,11 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
-import com.ipartek.formacion.dbms.dao.AlumnoDAOImp;
+
 import com.ipartek.formacion.dbms.dao.interfaces.ProfesorDAO;
-import com.ipartek.formacion.dbms.mappers.AlumnoMapper;
+
 import com.ipartek.formacion.dbms.mappers.ProfesorMapper;
-import com.ipartek.formacion.dbms.persistence.Alumno;
+
 import com.ipartek.formacion.dbms.persistence.Profesor;
 
 @Repository("profesorDaoImp")
@@ -143,8 +143,33 @@ public class ProfesorDAOImp implements ProfesorDAO {
 
 	@Override
 	public void delete(int codigo) {
-		// TODO Auto-generated method stub
+		final String SQL= "profesorDelete";
+		this.jdbcCall = new SimpleJdbcCall(dataSource);
+		jdbcCall.withProcedureName(SQL);
+		SqlParameterSource in =new MapSqlParameterSource()
+				.addValue("pcodigo", codigo);
+		
+		logger.info(String.valueOf(codigo));
+		jdbcCall.execute(in);
 		
 	}
-
+	
+	@Override
+	public Profesor getByDni(String dni) {
+		Profesor profesor = null;
+		final String SQL = "CALL profesorgetByDni(?)";
+		this.jdbcCall = new SimpleJdbcCall(dataSource);
+		try{
+			/*queryforobject es cuando vamos a tener 1 objeto*/
+			profesor = template.queryForObject(SQL , new ProfesorMapper(), new Object[]{dni});
+			logger.info("select sql"+ SQL);
+			logger.info(profesor.toString());
+			logger.info("Dni profesor "+profesor.getDni());
+		}catch (EmptyResultDataAccessException e){
+			//instanciamos nuevo objeto de alumno para que no casque
+			profesor  = null;
+			logger.info("no se ha encontrado el profesor con " + dni + " "+ e.getMessage());
+		}
+		return profesor;
+	}
 }

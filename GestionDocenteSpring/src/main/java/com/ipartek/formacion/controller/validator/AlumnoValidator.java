@@ -81,9 +81,11 @@ public class AlumnoValidator implements Validator{
 			errors.rejectValue("telefono", "form.longitudTelefonoIncorrecta", new Object[] { "telefono" },
 					"Telefono no puede ser mas de 9 numeros");
 		}
-		if(aS.getByDni(alum.getDni())==null){
-			errors.rejectValue("dni","form.DniExiste", new Object[] { "dni" },
-					"DNI no valido, ya exite en BBDD");
+		if(alum.getCodigo() == Alumno.CODIGO_NULO){
+				if(aS.getByDni(alum.getDni())==null){
+				errors.rejectValue("dni","form.DniExiste", new Object[] { "dni" },
+						"DNI no valido, ya exite en BBDD");
+			}
 		}
 		
 	}
