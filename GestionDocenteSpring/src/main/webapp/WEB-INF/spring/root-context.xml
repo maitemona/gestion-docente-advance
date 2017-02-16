@@ -30,7 +30,17 @@
 		class="com.ipartek.formacion.dbms.dao.ClienteDAOImp">
 		<property name="dataSource" ref="mysqlDataSource"/>
 	</bean>
-
+	<!-- 
+		Esto es para cargar constantes.properties para todo el proyecto
+	<bean id="misCostantes"
+      class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+	  <property name="locations">
+	    <list>
+	      <value>classpath*:constantes/costantes.properties</value>
+	    </list>
+	  </property>
+	</bean>
+	 -->
 	 <bean id="messageSource"
       class="org.springframework.context.support.ResourceBundleMessageSource">
        <property name="basenames">

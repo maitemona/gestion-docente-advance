@@ -33,7 +33,8 @@
 			<beans:property name="paramName" value="locale" />
 		</beans:bean>
 	</interceptors>
-	
+	<!-- para cargar achivo constante.properties para  -->
+	<context:property-placeholder location="classpath*:/constantes/constantes.properties"/>
 	<context:component-scan base-package="com.ipartek.formacion" />
 	
 	<!--Solo para capa vista(.jsp) y controladores (por tener package web)  -->

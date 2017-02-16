@@ -2,6 +2,7 @@ package com.ipartek.formacion.controller.validator;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -10,7 +11,16 @@ import com.ipartek.formacion.dbms.persistence.Alumno;
 import com.ipartek.formacion.service.Util;
 import com.ipartek.formacion.service.interfaces.AlumnoService;
 
+//si estuvieran en root@PropertySource(value = "classpath:/constantes/costantes.properties")
+
 public class AlumnoValidator implements Validator{
+	 /**
+	  * Importamos el archivo de constantes.properties q esta enganchado en servlet-context
+	  */
+	@Value("${alumno.nombre.size.min}")
+	private int nombreTamMin;
+	@Value("${alumno.nombre.size.max}")
+	private int nombreTamMax;
 	/**
 	 * Iyectamos el AlumnoService, para poder usar las nuevas funcionalidades en el validator 
 	 */
@@ -53,10 +63,15 @@ public class AlumnoValidator implements Validator{
 			errors.rejectValue("dni","Pattern.dni",new Object[]{ "'dni'" },"no es valido el DNI");
 		}
 		
-		if (alum.getNombre().length() < 3 || alum.getNombre().length() > 50) {
+		if (alum.getNombre().length() < nombreTamMin || alum.getNombre().length() > nombreTamMax) {
+			errors.rejectValue("nombre", "form.longitudNombreIncorrecta", new Object[] { nombreTamMin, nombreTamMax },
+					" Nombre tiene que ocupar entre " + nombreTamMin + " y " + nombreTamMax + " caracteres.");
+		}
+		
+		/*if (alum.getNombre().length() < 3 || alum.getNombre().length() > 50) {
 			errors.rejectValue("nombre", "form.longitudNombreIncorrecta", new Object[] { 3, 50 },
 					"Nombre tiene que ocupar entre " + 3 + " y " + 50 + " caracteres.");
-		}
+		}*/
 		if (alum.getApellidos().length() < 3 || alum.getApellidos().length() >250 ) {
 			errors.rejectValue("apellidos", "form.longitudApellidosIncorrecta", new Object[] { "apellidos" },
 					"Apellidos tiene que ocupar entre " + 3 + " y " + 250 + " caracteres.");
