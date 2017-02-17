@@ -170,6 +170,7 @@ public class ProfesorDAOImp implements ProfesorDAO {
 			profesor  = null;
 			logger.info("no se ha encontrado el profesor con " + dni + " "+ e.getMessage());
 		}
+		logger.info("Devuelvo:"+profesor);
 		return profesor;
 	}
 }

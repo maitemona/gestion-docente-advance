@@ -55,7 +55,7 @@ public class ProfesorController {
 		logger.info("Estoy en metdodo Save");
 		/*si las cosas estan mal nos mande de vuelta*/
 		if(bindingResult.hasErrors()){
-			logger.info("profesor tiene errores");
+			logger.info("profesor tiene errores"+ bindingResult.hasErrors());
 			destino = "/profesores/profesor";
 		}else{ 
 			destino ="redirect:/profesores";

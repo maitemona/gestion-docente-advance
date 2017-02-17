@@ -34,7 +34,7 @@ public class Profesor implements Comparable<Profesor>, Serializable{
     private String dni;
     @Size(min=3,max=50, message = "Size.nombre")
 	private String nombre;
-    @Size(min=7,max=150,message = "Size.apellidos")
+    @Size(min=3,max=150,message = "Size.apellidos")
 	private String apellidos;
     
     /*le pasamos el pattern de fecha y le decimo q se*/

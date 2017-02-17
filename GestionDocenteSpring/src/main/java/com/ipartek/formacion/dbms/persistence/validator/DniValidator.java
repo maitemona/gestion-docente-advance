@@ -57,7 +57,7 @@ public class DniValidator implements ConstraintValidator<Dni, Object> {
 	        	valido = false;
 	        }
 	  
-	       
+	     logger.info("valido:"+ valido); 
 		return valido;
 	}
 
