@@ -20,4 +20,13 @@ public @interface Dni {
 	  String message() default "{Dni}";
 	  Class<?>[] groups() default {};
 	  Class<? extends Payload>[] payload() default {};
+	  String profesorcodigo();
+	  String profesorKey();
+	 
+	    @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+	    @Retention(RetentionPolicy.RUNTIME)
+	    @Documented
+	    @interface List {
+	    	Dni[] value();
+	    }
 }

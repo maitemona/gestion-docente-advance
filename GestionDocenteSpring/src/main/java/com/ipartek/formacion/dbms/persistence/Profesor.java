@@ -16,6 +16,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.ipartek.formacion.dbms.persistence.validator.Dni;
 import com.ipartek.formacion.dbms.persistence.validator.Phone;
 
+
+@Dni.List({ @Dni(profesorcodigo = "codigo", profesorKey = "dni", message = "El DNI ya existe en la base de datos")})
+
 public class Profesor implements Comparable<Profesor>, Serializable{
 	
 

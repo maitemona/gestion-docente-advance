@@ -53,7 +53,7 @@ public class ProfesorServiceImp implements ProfesorService {
 	
 	@Override
 	public Profesor getByDni(String dni) {
-		return null;
+		return profesorDao.getByDni(dni);
 	}
 
 }

@@ -10,6 +10,7 @@
 </head>
 <body>
 <form:form action="save" method="POST" commandName="profesor">
+	<form:errors path=""/>
 	<c:if test="${!empty profesor}">
 		<form:hidden path="codigo" />
 	</c:if>
