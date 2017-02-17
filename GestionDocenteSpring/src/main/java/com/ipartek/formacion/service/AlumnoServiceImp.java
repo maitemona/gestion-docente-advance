@@ -56,8 +56,7 @@ public class AlumnoServiceImp implements AlumnoService {
 
 	@Override
 	public Alumno getByDni(String dni) {
-		// TODO Auto-generated method stub
-		return null;
+		return alumnoDao.getByDni(dni);
 	}
 
 

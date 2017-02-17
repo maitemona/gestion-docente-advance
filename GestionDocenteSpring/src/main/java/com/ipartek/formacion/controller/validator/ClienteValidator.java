@@ -1,14 +1,22 @@
 package com.ipartek.formacion.controller.validator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-
+import com.ipartek.formacion.controller.ClienteController;
+import com.ipartek.formacion.dbms.persistence.Alumno;
 import com.ipartek.formacion.dbms.persistence.Cliente;
+import com.ipartek.formacion.service.interfaces.ClienteService;
 
 public class ClienteValidator implements Validator{
-
+	
+	private static final Logger logger = LoggerFactory.getLogger(ClienteValidator.class);
+	@Autowired 
+	ClienteService cS;
 	@Override
 	public boolean supports(Class<?> paramClass) {
 		return Cliente.class.equals(paramClass);
@@ -42,16 +50,22 @@ public class ClienteValidator implements Validator{
 			errors.rejectValue("telefono", "form.longitudTelefonoIncorrecta", new Object[] { "telefono" },
 					"Telefono no puede ser mas de 9 numeros");
 		}
-		if (clien.getEmail().length() >250) {
+		if (clien.getEmail().length() >150) {
 			errors.rejectValue("email", "form.longitudEmailIncorrecta", new Object[] { "email" },
-					"Identificador no puede ser mas de 250 caracteres");
+					"Identificador no puede ser mas de 150 caracteres");
 		}
 		if (clien.getIdentificador().length() >200) {
 			errors.rejectValue("Identificador", "form.longitudIdentificdorIncorrecta", new Object[] { "identificador" },
 					"Identificador no puede ser mas de 200 caracteres");
 		}
 		
-		
+		if(clien.getCodigo() == Cliente.CODIGO_NULO){
+			if(cS.getByDni(clien.getIdentificador())!=null){
+				logger.info("CODIGO"+clien.getCodigo());
+				errors.rejectValue("Identificador","form.identificadorExiste", new Object[] { "identificador" },
+					"DNI/Nº SS no valido, ya exite en BBDD");
+			}
+		}
 		
 	}
 

@@ -97,7 +97,7 @@ public class AlumnoValidator implements Validator{
 					"Telefono no puede ser mas de 9 numeros");
 		}
 		if(alum.getCodigo() == Alumno.CODIGO_NULO){
-				if(aS.getByDni(alum.getDni())==null){
+				if(aS.getByDni(alum.getDni())!=null){
 				errors.rejectValue("dni","form.DniExiste", new Object[] { "dni" },
 						"DNI no valido, ya exite en BBDD");
 			}

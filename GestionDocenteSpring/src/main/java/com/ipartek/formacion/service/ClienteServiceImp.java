@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.ipartek.formacion.dbms.dao.interfaces.ClienteDAO;
+
 import com.ipartek.formacion.dbms.persistence.Cliente;
 import com.ipartek.formacion.service.interfaces.ClienteService;
 
@@ -42,6 +43,11 @@ public class ClienteServiceImp implements ClienteService {
 	public void delete(int codigo) {
 		clienteDao.delete(codigo);
 		
+	}
+
+	@Override
+	public Cliente getByDni(String identificador) {
+		return clienteDao.getByDni(identificador);
 	}
 
 	@Override

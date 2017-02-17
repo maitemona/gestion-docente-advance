@@ -17,5 +17,7 @@ public interface ClienteService {
 
 	public void delete(int codigo);
 	
+	public Cliente getByDni(String identificador);
+	
 	public void setClienteDAO(ClienteDAO clienteDao);
 }

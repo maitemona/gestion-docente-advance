@@ -142,8 +142,35 @@ public class ClienteDAOImp implements ClienteDAO {
 
 	@Override
 	public void delete(int codigo) {
-		// TODO Auto-generated method stub
+		final String SQL= "clienteDelete";
+		this.jdbcCall = new SimpleJdbcCall(dataSource);
+		jdbcCall.withProcedureName(SQL);
+		SqlParameterSource in =new MapSqlParameterSource()
+				.addValue("pcodigo", codigo);
 		
+		logger.info(String.valueOf(codigo));
+		jdbcCall.execute(in);
+		
+	}
+	
+	@Override
+	public Cliente getByDni(String identificador) {
+		Cliente cliente = null;
+		final String SQL = "CALL clientegetByDni(?)";
+		this.jdbcCall = new SimpleJdbcCall(dataSource);
+		try{
+			/*queryforobject es cuando vamos a tener 1 objeto*/
+			cliente= template.queryForObject(SQL , new ClienteMapper(), new Object[]{identificador});
+			logger.info("select sql"+ SQL);
+			logger.info(cliente.toString());
+			logger.info("Dni cliente "+cliente.getIdentificador());
+		}catch (EmptyResultDataAccessException e){
+			//instanciamos nuevo objeto de alumno para que no casque
+			//cliente  = null;
+			logger.info("sin datos:" + e.getMessage() + " " + SQL);
+			logger.info("no se ha encontrado el cliente con identificador " + identificador + " "+ e.getMessage());
+		}
+		return cliente;
 	}
 
 }
