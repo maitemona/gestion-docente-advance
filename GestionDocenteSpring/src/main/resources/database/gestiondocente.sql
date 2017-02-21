@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-02-2017 a las 10:21:59
+-- Tiempo de generación: 21-02-2017 a las 09:58:03
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 5.6.30
 
@@ -107,6 +107,26 @@ FROM cliente as c WHERE c.codigo = pcodigo;
 
 END$$
 
+DROP PROCEDURE IF EXISTS `clienteInforme`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteInforme` (IN `pcodigo` INT)  NO SQL
+BEGIN
+    SELECT 						   c.codigo,c.nombre,c.email,c.poblacion,c.direccion,c.telefono,c.codigopostal,c.identificador,c.activo,
+    cu.fFin as fFincurso,
+    cu.fInicio as finiciocurso,
+    cu.nHoras as nhorascurso,
+    cu.codigo as codigocurso,
+    cu.nombre as nombrecurso,
+    cu.identificador as identificadorcurso,
+    SUM(i.precio) as preciocurso
+    
+ FROM cliente as c
+        LEFT JOIN curso as cu ON cu.cliente_codigo = c.codigo
+        INNER JOIN curso_modulo as cm ON cm.curso_codigo = cu.codigo
+        INNER JOIN imparticion as i ON i.curso_modulo_codigo = cm.codigo_curso_modulo
+    WHERE c.codigo = pcodigo;
+
+END$$
+
 DROP PROCEDURE IF EXISTS `clienteUpdate`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteUpdate` (IN `pnombre` VARCHAR(50), IN `pdireccion` VARCHAR(250), IN `ptelefono` INT(9), IN `pidentificador` VARCHAR(200), IN `pemail` VARCHAR(250), IN `pcodigo` INT)  NO SQL
 BEGIN
@@ -168,27 +188,46 @@ DELIMITER ;
 --
 
 DROP TABLE IF EXISTS `alumno`;
-CREATE TABLE `alumno` (
-  `codigo` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `alumno` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `apellidos` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
   `fNacimiento` date DEFAULT NULL,
   `direccion` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
   `poblacion` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `codigopostal` int(5) DEFAULT NULL,
+  `codigopostal` int(5) UNSIGNED ZEROFILL DEFAULT NULL,
   `telefono` int(9) NOT NULL,
   `email` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `dni` varchar(9) COLLATE utf8_unicode_ci NOT NULL COMMENT 'clave unica',
   `nHermanos` int(2) DEFAULT NULL,
-  `activo` tinyint(1) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `activo` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`codigo`),
+  UNIQUE KEY `dni_UNIQUE` (`dni`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 --
 -- Volcado de datos para la tabla `alumno`
 --
 
 INSERT INTO `alumno` (`codigo`, `nombre`, `apellidos`, `fNacimiento`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`, `dni`, `nHermanos`, `activo`) VALUES
+(0, 'alumno', 'oooooooooo', '2017-02-08', 'oooooooooo', 'ooooooo', 00000, 0, 'm@g.com', '000000000', 0, 1),
 (1, 'mwckhwqklcjñlwjq', 'monasterio herrero', '1979-08-12', 'kasune 12 c', 'getxo', 48891, 654789123, 'maitemonasterio2gmail.com', '16071559x', 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `asistente`
+--
+
+DROP TABLE IF EXISTS `asistente`;
+CREATE TABLE IF NOT EXISTS `asistente` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
+  `alumno_codigo` int(11) NOT NULL,
+  `imparticion_codigo` int(11) NOT NULL,
+  PRIMARY KEY (`codigo`),
+  KEY `fk_asistente_alumno_codigo` (`alumno_codigo`),
+  KEY `fk_asistente_imparticion_codigo` (`imparticion_codigo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -197,25 +236,29 @@ INSERT INTO `alumno` (`codigo`, `nombre`, `apellidos`, `fNacimiento`, `direccion
 --
 
 DROP TABLE IF EXISTS `cliente`;
-CREATE TABLE `cliente` (
-  `codigo` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `cliente` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `direccion` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
   `telefono` int(9) NOT NULL,
   `email` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `identificador` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `activo` tinyint(4) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `activo` tinyint(4) NOT NULL DEFAULT '1',
+  `poblacion` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `codigopostal` int(10) UNSIGNED ZEROFILL DEFAULT NULL,
+  PRIMARY KEY (`codigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `cliente`
 --
 
-INSERT INTO `cliente` (`codigo`, `nombre`, `direccion`, `telefono`, `email`, `identificador`, `activo`) VALUES
-(1, 'ipartek-css-ii', 'bilbao', 944661303, 'maitemonasterio@gmail.com', '16047889x', 1),
-(2, 'maria', 'bilbao', 944661303, 'm@gmail.com', '4852613', 1),
-(3, 'castaño', 'bilbao', 944641306, 'ccc@gmail.com', '123456', 1),
-(4, 'fffff', '', 944661303, 'ffff', 'fffffffffff', 1);
+INSERT INTO `cliente` (`codigo`, `nombre`, `direccion`, `telefono`, `email`, `identificador`, `activo`, `poblacion`, `codigopostal`) VALUES
+(0, 'oooooo', 'oooooo', 0, 'o@gmail.com', '00000000000', 1, 'ooooooooo', 0000000000),
+(1, 'ipartek-css-ii', 'bilbao', 944661303, 'maitemonasterio@gmail.com', '16047889x', 1, NULL, NULL),
+(2, 'maria', 'bilbao', 944661303, 'm@gmail.com', '4852613', 1, NULL, NULL),
+(3, 'castaño', 'bilbao', 944641306, 'ccc@gmail.com', '123456', 1, NULL, NULL),
+(4, 'fffff', '', 944661303, 'ffff', 'fffffffffff', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -224,27 +267,79 @@ INSERT INTO `cliente` (`codigo`, `nombre`, `direccion`, `telefono`, `email`, `id
 --
 
 DROP TABLE IF EXISTS `curso`;
-CREATE TABLE `curso` (
-  `codigo` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `curso` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `identificador` varchar(12) COLLATE utf8_unicode_ci NOT NULL,
   `fFin` date DEFAULT NULL,
   `fInicio` date DEFAULT NULL,
   `nHoras` int(4) NOT NULL,
-  `temario` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL
+  `temario` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `cliente_codigo` int(11) DEFAULT NULL,
+  `precio` double(8,2) DEFAULT '0.00',
+  PRIMARY KEY (`codigo`),
+  KEY `fk_curso_cliente_codigo` (`cliente_codigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `curso`
+--
+
+INSERT INTO `curso` (`codigo`, `nombre`, `identificador`, `fFin`, `fInicio`, `nHoras`, `temario`, `cliente_codigo`, `precio`) VALUES
+(1, NULL, 'dd', NULL, NULL, 0, NULL, NULL, 0.00);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `curso_detalle`
+--
+
+DROP TABLE IF EXISTS `curso_detalle`;
+CREATE TABLE IF NOT EXISTS `curso_detalle` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
+  `curso_codigo` int(11) DEFAULT NULL,
+  `modulo_codigo` int(11) DEFAULT NULL,
+  `fFin` date NOT NULL,
+  `fInicio` date NOT NULL,
+  `precio` double(7,2) NOT NULL,
+  PRIMARY KEY (`codigo`),
+  KEY `FK_curso_modulo_curso_codigo_idx` (`curso_codigo`),
+  KEY `FK_cursomodulo_modulo_codigo_idx` (`modulo_codigo`),
+  KEY `uq_curso_codigo_modulo_codigo` (`curso_codigo`,`modulo_codigo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `evaluacion`
+--
+
+DROP TABLE IF EXISTS `evaluacion`;
+CREATE TABLE IF NOT EXISTS `evaluacion` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
+  `imparticion_codigo` int(11) NOT NULL,
+  `alumno_codigo` int(11) NOT NULL,
+  `fExamen` date NOT NULL,
+  `nota` int(11) NOT NULL,
+  PRIMARY KEY (`codigo`),
+  KEY `fk_evaluacion_modulo_idx` (`imparticion_codigo`),
+  KEY `fk_evaluacion_alumno_idx` (`alumno_codigo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `curso_modulo`
+-- Estructura de tabla para la tabla `imparticion`
 --
 
-DROP TABLE IF EXISTS `curso_modulo`;
-CREATE TABLE `curso_modulo` (
-  `codigo_curso_modulo` int(11) NOT NULL,
-  `curso_codigo` int(11) NOT NULL,
-  `modulo_codigo` int(11) NOT NULL
+DROP TABLE IF EXISTS `imparticion`;
+CREATE TABLE IF NOT EXISTS `imparticion` (
+  `codigo` int(11) NOT NULL,
+  `curso_detalle_codigo` int(11) DEFAULT NULL,
+  `profesor_codigo` int(11) DEFAULT NULL,
+  PRIMARY KEY (`codigo`),
+  KEY `fk_imparticion_profesor_codigo_idx` (`profesor_codigo`),
+  KEY `fk_imparticion_curso_detalle_codigo` (`curso_detalle_codigo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -254,11 +349,13 @@ CREATE TABLE `curso_modulo` (
 --
 
 DROP TABLE IF EXISTS `modulo`;
-CREATE TABLE `modulo` (
-  `codigo` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `modulo` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `nHoras` int(3) NOT NULL,
-  `descripcion` text COLLATE utf8_unicode_ci
+  `descripcion` text COLLATE utf8_unicode_ci,
+  `precio` double(7,2) NOT NULL,
+  PRIMARY KEY (`codigo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -268,8 +365,8 @@ CREATE TABLE `modulo` (
 --
 
 DROP TABLE IF EXISTS `profesor`;
-CREATE TABLE `profesor` (
-  `codigo` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `profesor` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
   `nSS` bigint(12) NOT NULL,
   `nombre` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `apellidos` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
@@ -277,107 +374,60 @@ CREATE TABLE `profesor` (
   `dni` varchar(9) COLLATE utf8_unicode_ci NOT NULL,
   `direccion` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
   `poblacion` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `codigopostal` int(5) DEFAULT NULL,
+  `codigopostal` int(5) UNSIGNED ZEROFILL DEFAULT NULL,
   `telefono` int(9) NOT NULL,
   `email` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
-  `activo` tinyint(4) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `activo` tinyint(4) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`codigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `profesor`
 --
 
 INSERT INTO `profesor` (`codigo`, `nSS`, `nombre`, `apellidos`, `fNacimiento`, `dni`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`, `activo`) VALUES
-(1, 481245678, 'Urko', 'Villanueva Romero', '1975-05-10', '16047889X', 'Palado nº 12', 'Munguia', 48100, 94456213, 'urkovillanueva@ipartek.com', 1),
-(2, 48012547, 'rosa blab', 'perez lopez', '1978-12-20', '16071558z', 'gran via', 'bilbao', 48991, 94466130, 'rosa-lopez@gmail.com', 1);
+(0, 0, 'ooooooooo', 'oooooooo', '2017-02-20', '111111111', 'oooooooooo', 'oooooooo', 00000, 0, 'm@gmail.com', 1),
+(1, 481245678, 'Urko', 'Villanueva Romero', '1975-05-10', '16071559x', 'Palado nº 12', 'Munguia', 48100, 94456213, 'urkovillanueva@ipartek.com', 1),
+(2, 48012547, 'rosa blab', 'perez lopez', '1978-12-20', '16071558z', 'gran via', 'bilbao', 48991, 94466130, 'rosa-lopez@gmail.com', 1),
+(3, 48555, 'prueba', 'prueba y prueba', '1978-12-20', '16071558d', 'prueba', 'prueba', 48991, 94466130, 'm@gmail.com', 1);
 
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `alumno`
---
-ALTER TABLE `alumno`
-  ADD PRIMARY KEY (`codigo`),
-  ADD UNIQUE KEY `dni_UNIQUE` (`dni`);
-
---
--- Indices de la tabla `cliente`
---
-ALTER TABLE `cliente`
-  ADD PRIMARY KEY (`codigo`);
-
---
--- Indices de la tabla `curso`
---
-ALTER TABLE `curso`
-  ADD PRIMARY KEY (`codigo`);
-
---
--- Indices de la tabla `curso_modulo`
---
-ALTER TABLE `curso_modulo`
-  ADD PRIMARY KEY (`codigo_curso_modulo`),
-  ADD KEY `FK_curso_modulo_curso_codigo_idx` (`curso_codigo`),
-  ADD KEY `FK_cursomodulo_modulo_codigo_idx` (`modulo_codigo`);
-
---
--- Indices de la tabla `modulo`
---
-ALTER TABLE `modulo`
-  ADD PRIMARY KEY (`codigo`);
-
---
--- Indices de la tabla `profesor`
---
-ALTER TABLE `profesor`
-  ADD PRIMARY KEY (`codigo`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `alumno`
---
-ALTER TABLE `alumno`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `cliente`
---
-ALTER TABLE `cliente`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT de la tabla `curso`
---
-ALTER TABLE `curso`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `curso_modulo`
---
-ALTER TABLE `curso_modulo`
-  MODIFY `codigo_curso_modulo` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `modulo`
---
-ALTER TABLE `modulo`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `profesor`
---
-ALTER TABLE `profesor`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `curso_modulo`
+-- Filtros para la tabla `asistente`
 --
-ALTER TABLE `curso_modulo`
-  ADD CONSTRAINT `FK_cursomodulo_curso_codigo` FOREIGN KEY (`curso_codigo`) REFERENCES `curso` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_cursomodulo_modulo_codigo` FOREIGN KEY (`modulo_codigo`) REFERENCES `modulo` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `asistente`
+  ADD CONSTRAINT `fk_asistente_alumno_codigo` FOREIGN KEY (`alumno_codigo`) REFERENCES `alumno` (`codigo`),
+  ADD CONSTRAINT `fk_asistente_imparticion_codigo` FOREIGN KEY (`imparticion_codigo`) REFERENCES `imparticion` (`codigo`);
+
+--
+-- Filtros para la tabla `curso`
+--
+ALTER TABLE `curso`
+  ADD CONSTRAINT `fk_curso_cliente_codigo` FOREIGN KEY (`cliente_codigo`) REFERENCES `cliente` (`codigo`);
+
+--
+-- Filtros para la tabla `curso_detalle`
+--
+ALTER TABLE `curso_detalle`
+  ADD CONSTRAINT `fk_curso_detalle_curso_codigo` FOREIGN KEY (`curso_codigo`) REFERENCES `curso` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_curso_detalle_modulo_codigo` FOREIGN KEY (`modulo_codigo`) REFERENCES `modulo` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `evaluacion`
+--
+ALTER TABLE `evaluacion`
+  ADD CONSTRAINT `fk_evaluacion_alumno_codigo` FOREIGN KEY (`alumno_codigo`) REFERENCES `alumno` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_evaluacion_imparticion_codigo` FOREIGN KEY (`imparticion_codigo`) REFERENCES `imparticion` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `imparticion`
+--
+ALTER TABLE `imparticion`
+  ADD CONSTRAINT `fk_imparticion_curso_detalle_codigo` FOREIGN KEY (`curso_detalle_codigo`) REFERENCES `curso_detalle` (`codigo`),
+  ADD CONSTRAINT `fk_imparticion_profesor_codigo` FOREIGN KEY (`profesor_codigo`) REFERENCES `profesor` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
