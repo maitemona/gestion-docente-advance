@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jee="http://www.springframework.org/schema/jee"   
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://www.springframework.org/schema/jee
+     http://www.springframework.org/schema/jee/spring-jee.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
@@ -51,5 +55,7 @@
         </property>
         <property name="defaultEncoding" value="UTF-8" />
     </bean>
+	<!-- Recoger la coenxion que esta en el JBOS -->
+	<jee:jndi-lookup id="jpaDataSource"  jndi-name="java:/GestionDocenteDS" />
 	
  </beans>  
