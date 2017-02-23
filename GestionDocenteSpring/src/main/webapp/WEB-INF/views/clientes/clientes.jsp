@@ -29,6 +29,7 @@
 					<td>${cliente.email}</td>
 					<td><a href="clientes/${cliente.codigo}">Editar</a></td>
 					<td><a href="clientes/deleteCliente/${cliente.codigo}">Borrar</a></td>
+					<td><a href="clientes/verInforme/${cliente.codigo}">Ver Informe</a></td>
 				</tr>
 			</c:forEach>
 		</c:when>

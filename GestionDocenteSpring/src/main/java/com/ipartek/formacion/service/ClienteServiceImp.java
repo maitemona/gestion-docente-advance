@@ -57,9 +57,8 @@ public  class ClienteServiceImp implements ClienteService {
 	}
 
 	@Override
-	public Cliente getInfome(int codigo) {
-		
-		return null;
+	public Cliente getInforme(int codigo) {
+		return clienteDao.getInforme(codigo);
 	}
 
 }

@@ -102,7 +102,15 @@ public class ClienteController {
 		return mav;
 	}
 	
-	
+	@RequestMapping(value = "/verInforme/{id}")
+	public ModelAndView getInforme(@PathVariable("id") int id){
+		logger.info("informe");
+		mav = new ModelAndView("/clientes/informe");
+		Cliente cliente  = cS.getInforme(id);
+		mav.addObject("cliente", cliente);
+		return mav;
+		
+	}
 	
 	@RequestMapping(value = "/deleteCliente/{id}")
 	public String deleteCliente(@PathVariable("id") int id){

@@ -21,7 +21,7 @@ public interface ClienteDAO extends DAOSetter{
 	
 	public Cliente getByDni(String  identificador);
 	
-	public Cliente getInfome(int codigo);
+	public Cliente getInforme(int codigo);
 	
 	
 }

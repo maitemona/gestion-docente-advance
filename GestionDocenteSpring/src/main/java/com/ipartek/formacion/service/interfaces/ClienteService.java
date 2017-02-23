@@ -21,5 +21,5 @@ public interface ClienteService {
 	
 	public void setClienteDAO(ClienteDAO clienteDao);
 	
-	public Cliente getInfome(int codigo);
+	public Cliente getInforme(int codigo);
 }

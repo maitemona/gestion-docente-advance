@@ -127,7 +127,6 @@ public class ClienteDAOImp implements ClienteDAO {
 		//crear un mapa con los prarametroos de procedimiento
 		SqlParameterSource in =new MapSqlParameterSource()
 				.addValue("pnombre",cliente.getNombre())
-				
 				.addValue("pidentificador", cliente.getIdentificador())
 				.addValue("pemail", cliente.getEmail())
 				.addValue("ptelefono", cliente.getTelefono())
@@ -176,21 +175,23 @@ public class ClienteDAOImp implements ClienteDAO {
 	/*ES solo para los cursos de  un cliente*/
 	
 	@Override
-	public Cliente getInfome(int codigo) {
-		
-		Cliente cliente = null;
+	public Cliente getInforme(int codigo) {
 		//Estamos trabajando con JBOSS
 		final String SQL = "CALL clienteInforme(?);";
+		Cliente cliente = null;
 		try{
-			
+			logger.info("Codigo:"+ codigo);
+			logger.info("Datos "+ SQL);
+	
 			Map<Long, Cliente> clientes = template.query(SQL ,new ClienteExtractor() ,new Object[]{codigo});
 			//para coger el codigo de ese cliente
 			cliente = clientes.get(codigo);
+			//logger.info(arg0);
 		}catch(EmptyResultDataAccessException e){
 			cliente =null;
 			logger.info("Sin datos de cliente o de cursos asigandos"+ e.getMessage()+""+SQL);
 		}
-		return null;
+		return cliente;
 	}
 
 }
