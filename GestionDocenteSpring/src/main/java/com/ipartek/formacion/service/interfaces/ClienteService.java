@@ -20,4 +20,6 @@ public interface ClienteService {
 	public Cliente getByDni(String identificador);
 	
 	public void setClienteDAO(ClienteDAO clienteDao);
+	
+	public Cliente getInfome(int codigo);
 }

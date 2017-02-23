@@ -18,7 +18,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import com.ipartek.formacion.dbms.dao.interfaces.ClienteDAO;
-
+import com.ipartek.formacion.dbms.mappers.ClienteExtractor;
 import com.ipartek.formacion.dbms.mappers.ClienteMapper;
 
 import com.ipartek.formacion.dbms.persistence.Cliente;
@@ -156,7 +156,7 @@ public class ClienteDAOImp implements ClienteDAO {
 	@Override
 	public Cliente getByDni(String identificador) {
 		Cliente cliente = null;
-		final String SQL = "CALL clientegetByDni(?)";
+		final String SQL = "CALL clientegetByDni(?);";
 		this.jdbcCall = new SimpleJdbcCall(dataSource);
 		try{
 			/*queryforobject es cuando vamos a tener 1 objeto*/
@@ -171,6 +171,26 @@ public class ClienteDAOImp implements ClienteDAO {
 			logger.info("no se ha encontrado el cliente con identificador " + identificador + " "+ e.getMessage());
 		}
 		return cliente;
+	}
+
+	/*ES solo para los cursos de  un cliente*/
+	
+	@Override
+	public Cliente getInfome(int codigo) {
+		
+		Cliente cliente = null;
+		//Estamos trabajando con JBOSS
+		final String SQL = "CALL clienteInforme(?);";
+		try{
+			
+			Map<Long, Cliente> clientes = template.query(SQL ,new ClienteExtractor() ,new Object[]{codigo});
+			//para coger el codigo de ese cliente
+			cliente = clientes.get(codigo);
+		}catch(EmptyResultDataAccessException e){
+			cliente =null;
+			logger.info("Sin datos de cliente o de cursos asigandos"+ e.getMessage()+""+SQL);
+		}
+		return null;
 	}
 
 }

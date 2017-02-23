@@ -13,7 +13,7 @@ import com.ipartek.formacion.dbms.persistence.Cliente;
 import com.ipartek.formacion.service.interfaces.ClienteService;
 
 @Service
-public class ClienteServiceImp implements ClienteService {
+public  class ClienteServiceImp implements ClienteService {
 	
 	@Inject
 	private ClienteDAO clienteDao;
@@ -54,6 +54,12 @@ public class ClienteServiceImp implements ClienteService {
 	public void setClienteDAO(ClienteDAO clienteDao) {
 		this.clienteDao=clienteDao;
 		
+	}
+
+	@Override
+	public Cliente getInfome(int codigo) {
+		
+		return null;
 	}
 
 }

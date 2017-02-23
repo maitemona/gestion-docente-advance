@@ -37,10 +37,7 @@ public class Curso implements Serializable{
 	@Column( name = "precio")
 	private double precio;
 	
-	
-	
-	//@ManyToOne()
-	//Cliente cliente;
+
 	
 	public long getCodigo() {
 		return codigo;
