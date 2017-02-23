@@ -7,8 +7,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.ipartek.formacion.controller.ClienteController;
-import com.ipartek.formacion.dbms.persistence.Alumno;
+
 import com.ipartek.formacion.dbms.persistence.Cliente;
 import com.ipartek.formacion.service.interfaces.ClienteService;
 
