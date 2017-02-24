@@ -14,7 +14,7 @@
 <c:choose>
 		<c:when test="${not empty cliente}">
 		<div>
-			<p>${cliente.nombre}  ${cliente.email}  ${cliente.telefono}</p>
+			<p>${cliente.nombre}  ${cliente.email} ${cliente.telefono}</p>
 		</div>
 		<c:if test="${cliente.cursos.size() > 0}" >
 			<table>
@@ -39,7 +39,7 @@
 			</c:if>
 		</c:when>
 		<c:otherwise>
-		No se han encontrador datos del cliente
+		No se han encontrado datos del cliente
 		</c:otherwise>
 </c:choose>
 </body>
