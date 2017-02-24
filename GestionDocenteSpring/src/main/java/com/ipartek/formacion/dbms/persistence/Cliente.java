@@ -1,8 +1,9 @@
 package com.ipartek.formacion.dbms.persistence;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
-
+import com.ipartek.formacion.persistencia.Curso;
 public class Cliente  implements Comparable<Curso>, Serializable{
 	
 	private static final long serialVersionUID = -669884376235L;
@@ -17,8 +18,8 @@ public class Cliente  implements Comparable<Curso>, Serializable{
 	private String identificador;
 	private boolean activo;
 	//mapa de cursos 
-	private Map<Long, com.ipartek.formacion.persistencia.Curso> cursos;
-
+//	private Map<Long, com.ipartek.formacion.persistencia.Curso> cursos;
+	private Map<Long, Curso> cursos;
 	public Cliente() {
 		super();
 		this.codigo = CODIGO_NULO;
@@ -30,15 +31,16 @@ public class Cliente  implements Comparable<Curso>, Serializable{
 		this.email="";
 		this.identificador="";
 		this.activo = true;
-		cursos = null;
+		
+		cursos = new HashMap<Long, Curso>();
 	}
 
 	
-	public Map<Long, com.ipartek.formacion.persistencia.Curso> getCursos() {
+	public Map<Long, Curso> getCursos() {
 		return cursos;
 	}
 
-	public void setCursos(Map<Long, com.ipartek.formacion.persistencia.Curso> cursos) {
+	public void setCursos(Map<Long, Curso> cursos) {
 		this.cursos = cursos;
 	}
 

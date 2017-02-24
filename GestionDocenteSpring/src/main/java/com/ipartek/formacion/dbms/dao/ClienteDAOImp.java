@@ -22,10 +22,10 @@ import com.ipartek.formacion.dbms.mappers.ClienteExtractor;
 import com.ipartek.formacion.dbms.mappers.ClienteMapper;
 
 import com.ipartek.formacion.dbms.persistence.Cliente;
-/*Poner el bean de root-contetx el bean id="clienteDaoImp"
-		class="com.ipartek.formacion.dbms.dao.ClienteDAOImp">
-		<property name="dataSource" ref="mysqlDataSource"/>
-	</bean>*/
+
+
+
+
 
 
 
@@ -183,7 +183,7 @@ public class ClienteDAOImp implements ClienteDAO {
 			logger.info("Codigo:"+ codigo);
 			logger.info("Datos "+ SQL);
 	
-			Map<Long, Cliente> clientes = template.query(SQL ,new ClienteExtractor() ,new Object[]{codigo});
+			Map<Integer, Cliente> clientes = template.query(SQL ,new ClienteExtractor() ,new Object[]{codigo});
 			//para coger el codigo de ese cliente
 			cliente = clientes.get(codigo);
 			//logger.info(arg0);

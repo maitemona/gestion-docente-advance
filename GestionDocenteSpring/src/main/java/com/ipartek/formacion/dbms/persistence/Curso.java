@@ -3,7 +3,7 @@ package com.ipartek.formacion.dbms.persistence;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
+
 import java.util.List;
 
 
@@ -20,6 +20,8 @@ public class Curso implements Comparable<Curso>, Serializable{
 	public static final int CODIGO_NULO = -1;
 	private String nombre;
 	private int duracion;
+	private int nHoras;
+	private double precio;
 	private Date fInicio;
 	private Date fFin;
 	private List<Alumno> alumnos;
@@ -31,11 +33,33 @@ public class Curso implements Comparable<Curso>, Serializable{
 		this.codigo=CODIGO_NULO;
 		this.nombre="";
 		this.duracion= 0;
+		this.nHoras= 0;
 		this.fInicio =new Date();
 		this.fFin =new Date();
 		this.alumnos = new ArrayList<Alumno>();
 		this.profesor = new Profesor();
+		this.precio= 0;
 		
+	}
+
+
+	public double getPrecio() {
+		return precio;
+	}
+
+
+	public void setPrecio(double precio) {
+		this.precio = precio;
+	}
+
+
+	public int getnHoras() {
+		return nHoras;
+	}
+
+
+	public void setnHoras(int nHoras) {
+		this.nHoras = nHoras;
 	}
 
 
