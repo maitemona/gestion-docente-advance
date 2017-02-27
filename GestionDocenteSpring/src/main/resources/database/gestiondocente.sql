@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-02-2017 a las 09:58:03
+-- Tiempo de generación: 27-02-2017 a las 10:24:30
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 5.6.30
 
@@ -62,6 +62,23 @@ BEGIN
     FROM alumno as a WHERE codigo = pcodigo;
 END$$
 
+DROP PROCEDURE IF EXISTS `alumnoInforme`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alumnoInforme` (IN `pcodigo` INT)  NO SQL
+BEGIN
+SELECT 
+a.codigo, a.nombre, a.apellidos,a.fNacimiento,a.direccion,a.poblacion,a.poblacion,a.codigopostal,a.telefono,a.email,a.dni,a.nHermanos,a.activo,
+
+c.codigo as codigocurso,c.nombre as nombrecurso,
+c.identificador as idenficadorcurso,
+c.fInicio,c.fFin,c.nhoras,c.precio
+FROM alumno as a
+LEFT JOIN asistente as asi ON asi.alumno_codigo= a.codigo 
+LEFT Join imparticion as i ON i.codigo = asi.imparticion_codigo  
+LEFT JOIN curso_detalle as cd ON cd.codigo = i.curso_detalle_codigo
+LEFT join curso as c on c.codigo= cd.curso_codigo
+WHERE a.codigo=pcodigo;
+END$$
+
 DROP PROCEDURE IF EXISTS `alumnoUpdate`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `alumnoUpdate` (IN `papellidos` VARCHAR(250), IN `pcodigo` INT, IN `ppostal` INT(5), IN `pdireccion` VARCHAR(250), IN `pdni` VARCHAR(9), IN `pemail` VARCHAR(150), IN `pfnacimiento` DATE, IN `pnhermanos` INT(2), IN `pnombre` VARCHAR(50), IN `ppoblacion` VARCHAR(250), IN `ptelefono` INT(9))  NO SQL
 BEGIN
@@ -110,19 +127,14 @@ END$$
 DROP PROCEDURE IF EXISTS `clienteInforme`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteInforme` (IN `pcodigo` INT)  NO SQL
 BEGIN
-    SELECT 						   c.codigo,c.nombre,c.email,c.poblacion,c.direccion,c.telefono,c.codigopostal,c.identificador,c.activo,
-    cu.fFin as fFincurso,
-    cu.fInicio as finiciocurso,
-    cu.nHoras as nhorascurso,
-    cu.codigo as codigocurso,
-    cu.nombre as nombrecurso,
-    cu.identificador as identificadorcurso,
-    SUM(i.precio) as preciocurso
-    
- FROM cliente as c
+ SELECT c.codigo, c.nombre, c.email, c.telefono, c.direccion, 
+            c.poblacion, c.codigopostal, c.identificador,c.activo,
+            cu.codigo as codigocurso,cu.nombre as nombrecurso,cu.identificador as idenficadorcurso,
+            cu.fInicio,cu.fFin,cu.nhoras,cu.precio
+    FROM cliente as c
         LEFT JOIN curso as cu ON cu.cliente_codigo = c.codigo
-        INNER JOIN curso_modulo as cm ON cm.curso_codigo = cu.codigo
-        INNER JOIN imparticion as i ON i.curso_modulo_codigo = cm.codigo_curso_modulo
+        INNER JOIN curso_detalle as cd ON cd.curso_codigo = cu.codigo
+    
     WHERE c.codigo = pcodigo;
 
 END$$
@@ -203,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `alumno` (
   `activo` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`codigo`),
   UNIQUE KEY `dni_UNIQUE` (`dni`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 --
 -- Volcado de datos para la tabla `alumno`
@@ -211,7 +223,8 @@ CREATE TABLE IF NOT EXISTS `alumno` (
 
 INSERT INTO `alumno` (`codigo`, `nombre`, `apellidos`, `fNacimiento`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`, `dni`, `nHermanos`, `activo`) VALUES
 (0, 'alumno', 'oooooooooo', '2017-02-08', 'oooooooooo', 'ooooooo', 00000, 0, 'm@g.com', '000000000', 0, 1),
-(1, 'mwckhwqklcjñlwjq', 'monasterio herrero', '1979-08-12', 'kasune 12 c', 'getxo', 48891, 654789123, 'maitemonasterio2gmail.com', '16071559x', 2, 1);
+(1, 'Maite', 'monasterio herrero', '1979-08-12', 'kasune 12 c', 'getxo', 48891, 654789123, 'maitemonasterio@gmail.com', '16071559x', 2, 1),
+(2, 'Paco', 'Perez lopez', '1979-08-12', 'kasune 12 c', 'getxo', 48891, 654789123, 'pacoperez@gmail.com', '16071558d', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -227,7 +240,17 @@ CREATE TABLE IF NOT EXISTS `asistente` (
   PRIMARY KEY (`codigo`),
   KEY `fk_asistente_alumno_codigo` (`alumno_codigo`),
   KEY `fk_asistente_imparticion_codigo` (`imparticion_codigo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `asistente`
+--
+
+INSERT INTO `asistente` (`codigo`, `alumno_codigo`, `imparticion_codigo`) VALUES
+(4, 1, 2),
+(5, 2, 3),
+(6, 1, 1),
+(7, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -279,14 +302,15 @@ CREATE TABLE IF NOT EXISTS `curso` (
   `precio` double(8,2) DEFAULT '0.00',
   PRIMARY KEY (`codigo`),
   KEY `fk_curso_cliente_codigo` (`cliente_codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `curso`
 --
 
 INSERT INTO `curso` (`codigo`, `nombre`, `identificador`, `fFin`, `fInicio`, `nHoras`, `temario`, `cliente_codigo`, `precio`) VALUES
-(1, NULL, 'dd', NULL, NULL, 0, NULL, NULL, 0.00);
+(1, 'Cuso de java', '456123', '2017-02-15', '2017-02-05', 30, NULL, 1, 800.20),
+(2, 'Cuso de spring', '456123', '2017-02-15', '2017-02-05', 30, NULL, 1, 800.20);
 
 -- --------------------------------------------------------
 
@@ -306,7 +330,15 @@ CREATE TABLE IF NOT EXISTS `curso_detalle` (
   KEY `FK_curso_modulo_curso_codigo_idx` (`curso_codigo`),
   KEY `FK_cursomodulo_modulo_codigo_idx` (`modulo_codigo`),
   KEY `uq_curso_codigo_modulo_codigo` (`curso_codigo`,`modulo_codigo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+
+--
+-- Volcado de datos para la tabla `curso_detalle`
+--
+
+INSERT INTO `curso_detalle` (`codigo`, `curso_codigo`, `modulo_codigo`, `fFin`, `fInicio`, `precio`) VALUES
+(1, 1, 1, '2017-02-15', '2017-02-05', 800.20),
+(3, 2, 2, '2017-02-15', '2017-02-05', 800.20);
 
 -- --------------------------------------------------------
 
@@ -334,13 +366,23 @@ CREATE TABLE IF NOT EXISTS `evaluacion` (
 
 DROP TABLE IF EXISTS `imparticion`;
 CREATE TABLE IF NOT EXISTS `imparticion` (
-  `codigo` int(11) NOT NULL,
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
   `curso_detalle_codigo` int(11) DEFAULT NULL,
   `profesor_codigo` int(11) DEFAULT NULL,
   PRIMARY KEY (`codigo`),
   KEY `fk_imparticion_profesor_codigo_idx` (`profesor_codigo`),
   KEY `fk_imparticion_curso_detalle_codigo` (`curso_detalle_codigo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `imparticion`
+--
+
+INSERT INTO `imparticion` (`codigo`, `curso_detalle_codigo`, `profesor_codigo`) VALUES
+(1, 1, 1),
+(2, 3, 2),
+(3, 1, 1),
+(4, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -356,7 +398,15 @@ CREATE TABLE IF NOT EXISTS `modulo` (
   `descripcion` text COLLATE utf8_unicode_ci,
   `precio` double(7,2) NOT NULL,
   PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `modulo`
+--
+
+INSERT INTO `modulo` (`codigo`, `nombre`, `nHoras`, `descripcion`, `precio`) VALUES
+(1, 'JEE2', 30, 'desarrollo de aplicacion de web con java', 800.20),
+(2, 'Spring', 30, 'desarrollo de aplicacion de web con java', 800.20);
 
 -- --------------------------------------------------------
 
@@ -420,7 +470,7 @@ ALTER TABLE `curso_detalle`
 --
 ALTER TABLE `evaluacion`
   ADD CONSTRAINT `fk_evaluacion_alumno_codigo` FOREIGN KEY (`alumno_codigo`) REFERENCES `alumno` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_evaluacion_imparticion_codigo` FOREIGN KEY (`imparticion_codigo`) REFERENCES `imparticion` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_evaluacion_imparticion_codigo` FOREIGN KEY (`imparticion_codigo`) REFERENCES `imparticion` (`codigo`);
 
 --
 -- Filtros para la tabla `imparticion`

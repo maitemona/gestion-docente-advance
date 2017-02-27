@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import com.ipartek.formacion.dbms.persistence.Alumno;
+
 import com.ipartek.formacion.service.interfaces.AlumnoService;
 
 @Controller
@@ -115,7 +116,15 @@ public class AlumnoController {
 		return mav;
 	}
 	
-	
+	@RequestMapping(value = "/verInforme/{id}")
+	public ModelAndView getInforme(@PathVariable("id") int id){
+		logger.info("informe Alumno");
+		mav = new ModelAndView("/alumnos/informe");
+		Alumno alumno = aS.getInforme(id);
+		mav.addObject("alumno", alumno);
+		return mav;
+		
+	}
 	
 	@RequestMapping(value = "/deleteAlumno/{id}")
 	public String deleteAlumno(@PathVariable("id") int id){

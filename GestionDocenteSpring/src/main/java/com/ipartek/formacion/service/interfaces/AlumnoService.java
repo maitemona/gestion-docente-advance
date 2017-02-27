@@ -23,4 +23,5 @@ public interface AlumnoService {
 	public Alumno getByDni(String dni);
 	
 	public void setAlumnoDAO(AlumnoDAO alumnoDao);
+	public Alumno getInforme(int codigo);
 }

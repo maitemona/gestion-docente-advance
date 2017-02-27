@@ -29,6 +29,7 @@
 					<td>${alumno.nombre}</td>
 					<td>${alumno.apellidos}</td> 
 					<td><a href="alumnos/${alumno.codigo}">Editar</a></td>
+					<td><a href="alumnos/verInforme/${alumno.codigo}">Ver Informe</a></td>
 					<td><a href="alumnos/deleteAlumno/${alumno.codigo}">Borrar</a></td>
 				</tr>
 			</c:forEach>

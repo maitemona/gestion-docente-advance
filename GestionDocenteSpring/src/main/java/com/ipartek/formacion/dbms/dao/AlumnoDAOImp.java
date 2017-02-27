@@ -16,10 +16,13 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
-import com.ipartek.formacion.controller.AlumnoController;
+
 import com.ipartek.formacion.dbms.dao.interfaces.AlumnoDAO;
+import com.ipartek.formacion.dbms.mappers.AlumnoExtractor;
 import com.ipartek.formacion.dbms.mappers.AlumnoMapper;
+
 import com.ipartek.formacion.dbms.persistence.Alumno;
+
 
 
 @Repository("alumnoDaoImp")
@@ -170,6 +173,27 @@ public class AlumnoDAOImp  implements AlumnoDAO{
 			//instanciamos nuevo objeto de alumno para que no casque
 			alumno  = null;
 			logger.info("no se ha encontrado el el " + dni + " "+ e.getMessage());
+		}
+		return alumno;
+	}
+
+	@Override
+	public Alumno getInforme(int codigo) {
+		
+		//Estamos trabajando con JBOSS
+		final String SQL = "CALL alumnoInforme(?);";
+		Alumno alumno = null;
+		try{
+			logger.info("Codigo:"+ codigo);
+			logger.info("Datos "+ SQL);
+	
+			Map<Integer, Alumno> alumnos = template.query(SQL ,new AlumnoExtractor() ,new Object[]{codigo});
+			//para coger el codigo de ese cliente
+			alumno = alumnos.get(codigo);
+			//logger.info(arg0);
+		}catch(EmptyResultDataAccessException e){
+			alumno =null;
+			logger.info("Sin datos de alumnos o de cursos asigandos"+ e.getMessage()+""+SQL);
 		}
 		return alumno;
 	}

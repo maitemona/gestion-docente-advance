@@ -6,15 +6,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Informe Cliente</title>
+<title>Informe Alumno</title>
+</head>
 <body>
 <c:choose>
-	<c:when test="${not empty cliente}">
+	<c:when test="${not empty alumno}">
 		<div>
-			<p>${cliente.nombre} ${cliente.email}</p>
+			<p>${alumno.nombre} ${alumno.email}</p>
 		</div>
 		<c:choose>
-			<c:when test="${not empty cliente.cursos}" >
+		
+			<c:when test="${not empty alumno.cursos}" >
 				<table>
 					<thead>
 						<tr>
@@ -23,7 +25,7 @@
 							<th>Precio</th>		
 						</tr>
 					</thead>
-					<c:forEach var="curso" items="${cliente.cursos}">
+					<c:forEach var="curso" items="${alumno.cursos}">
 					<tbody>
 						<tr>
 							<td>${curso.value.nombre}</td>
@@ -36,12 +38,12 @@
 					</table>
 				</c:when>
 				<c:otherwise>
-				<p>El cliente no nos ha comprado ningun curso.</p>
+				<p>El alumno no ha asistido ningun curso.</p>
 				</c:otherwise>
 			</c:choose>
 		</c:when>
 		<c:otherwise>
-		No se han encontrado datos del cliente
+		No se han encontrado datos del alumno.
 		</c:otherwise>
 </c:choose>
 </body>
