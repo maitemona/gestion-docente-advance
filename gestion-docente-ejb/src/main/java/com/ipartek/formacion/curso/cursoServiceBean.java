@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import com.ipartek.formacion.persistencia.Curso;
 
@@ -37,8 +38,10 @@ public class CursoServiceBean implements CursoServiceRemote {
 	@Override
 	public List<Curso> getAll() {
 		
-		Query cursos = entityManager.createNamedQuery("curso.getAll");
+		TypedQuery<Curso> cursos = entityManager.createNamedQuery("curso.getAll", Curso.class);
 		return cursos.getResultList();
+		/*TypedQuery<Curso> pcursos = entityManager.createNamedQuery("curso.getAll");
+		return pcursos.getResultList();*/
 	}
 
 	@Override

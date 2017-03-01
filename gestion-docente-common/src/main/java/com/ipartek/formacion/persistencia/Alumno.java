@@ -46,8 +46,8 @@ public class Alumno implements Serializable{
 	
 	/*@Fetch(FetchMode.JOIN)//para datos suceptibles de repeticion, o usamos Set, q es una coleccion q NO permite repetidos*/
 	@ManyToMany(fetch = FetchType.LAZY)//carga del objeto
-	@JoinTable(name = "asistente", joinColumns = @JoinColumn(name ="codigo",referencedColumnName = "alumno_codigo"),
-	inverseJoinColumns = @JoinColumn(name = "codigo" , referencedColumnName = "imparticion_codigo"))
+	@JoinTable(name = "asistente", joinColumns = @JoinColumn(name ="alumno_codigo",referencedColumnName = "codigo"),
+	inverseJoinColumns = @JoinColumn(name = "imparticion_codigo" , referencedColumnName = "codigo"))
 	
 	private Set<Imparticion> imparticiones;
 	

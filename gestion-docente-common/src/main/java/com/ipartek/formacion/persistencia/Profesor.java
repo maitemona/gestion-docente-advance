@@ -40,8 +40,8 @@ public class Profesor implements Serializable {
 	
 	private String telefono;
 	private boolean activo;
-	@OneToMany( fetch = FetchType.LAZY)
-	@JoinColumn(name ="codigo", referencedColumnName= "profesor_codigo")
+	@OneToMany( fetch = FetchType.LAZY, mappedBy="profesor")
+	//@JoinColumn(name ="codigo", referencedColumnName= "profesor_codigo")
 	private Set<Imparticion> imparticiones;
 	
 	public Profesor() {
