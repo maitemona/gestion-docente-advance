@@ -1,13 +1,15 @@
 package com.ipartek.formacion.persistencia;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -31,11 +33,17 @@ public class Modulo implements Serializable{
 	
 	
 	/*relacion de un modulo con los cursos :q modulo se ha dado en que curso*/
-	//@ManyToMany
+	@OneToMany( fetch = FetchType.LAZY,mappedBy="modulo")
+	private Set<CursoDetalle> detalle;
 	
 	
 	
-	
+	public Set<CursoDetalle> getDetalle() {
+		return detalle;
+	}
+	public void setDetalle(Set<CursoDetalle> detalle) {
+		this.detalle = detalle;
+	}
 	public long getCodigo() {
 		return codigo;
 	}

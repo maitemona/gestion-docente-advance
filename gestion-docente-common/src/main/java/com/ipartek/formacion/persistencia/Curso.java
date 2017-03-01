@@ -2,14 +2,18 @@ package com.ipartek.formacion.persistencia;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -40,7 +44,9 @@ public class Curso implements Serializable{
 	@Column( name = "precio")
 	private double precio;
 	
-
+	@OneToMany( fetch = FetchType.LAZY,mappedBy="curso")
+//	@JoinColumn(name ="modulo_codigo", referencedColumnName= "codigo")
+	private Set<CursoDetalle> modulos;
 	
 	public long getCodigo() {
 		return codigo;
