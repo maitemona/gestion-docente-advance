@@ -40,6 +40,12 @@
             <version>1.0.0-SNAPSHOT</version>
              <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.ipartek.formacion</groupId>
+            <artifactId>gestion-docente-ejb</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+             <scope>compile</scope>
+        </dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>

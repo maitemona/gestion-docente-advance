@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -26,7 +27,7 @@ import com.ipartek.formacion.dbms.persistence.Profesor;
 @Repository("profesorDaoImp")
 public class ProfesorDAOImp implements ProfesorDAO {
 
-	@Inject 
+	@Autowired 
 	private DataSource dataSource;
 	private JdbcTemplate template;
 	/*para pasar parametros al resto de metodos del mysql(al CAll no hace falta) */
@@ -37,7 +38,7 @@ public class ProfesorDAOImp implements ProfesorDAO {
 	 *  iyeccion de depencias, se hace a traves del setter
 	 */
 	
-	@Inject //es lo mismo q Autowired
+	@Autowired//es lo mismo q Autowired
 	@Override
 	public void setDataSource(DataSource dataSource) {
 		

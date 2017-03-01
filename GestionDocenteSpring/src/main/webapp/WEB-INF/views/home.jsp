@@ -21,6 +21,7 @@
 	<li><a href="<c:url value='/alumnos'/>">Ir a alumnos</a></li>
 	<li><a href="<c:url value='/profesores'/>">Ir a Profesores</a></li>
 	<li><a href="<c:url value='/clientes'/>">Ir a Clientes</a></li>
+	<li><a href="<c:url value='/cursos'/>">Ir a Cursos</a></li>
 </ul>
 </body>
 </html>

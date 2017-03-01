@@ -34,7 +34,7 @@ public class ClienteDAOImp implements ClienteDAO {
 
 	
 	
-	@Inject 
+	@Autowired 
 	private DataSource dataSource;
 	private JdbcTemplate template;
 	/*para pasar parametros al resto de metodos del mysql(al CAll no hace falta) */

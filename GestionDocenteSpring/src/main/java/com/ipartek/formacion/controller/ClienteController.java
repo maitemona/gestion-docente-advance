@@ -1,7 +1,6 @@
 package com.ipartek.formacion.controller;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -9,7 +8,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ipartek.formacion.dbms.persistence.Alumno;
+
 import com.ipartek.formacion.dbms.persistence.Cliente;
 import com.ipartek.formacion.service.interfaces.ClienteService;
 
@@ -32,7 +31,7 @@ import com.ipartek.formacion.service.interfaces.ClienteService;
 public class ClienteController {
 
 	/*busca una clase q lo implemente(@Autowired)*/
-	@Inject
+	@Inject // @Autowired
 	private ClienteService cS;
 	private static final Logger logger = LoggerFactory.getLogger(ClienteController.class);
 	ModelAndView mav = null;

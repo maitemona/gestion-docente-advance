@@ -15,15 +15,10 @@ public interface CursoServiceRemote {
 	
 	public List<Curso> getAll();
 	
-	public Curso getById(int codigo);
+	public Curso getById(long codigo);
 	
 	public Curso update(Curso curso);
 
-	public void delete(int codigo);
+	public void delete(long codigo);
 	
-	/*public Curso getByDni(String dni);
-	
-	public void setAlumnoDAO(AlumnoDAO alumnoDao);
-	public Alumno getInforme(int codigo);
-*/
 }
