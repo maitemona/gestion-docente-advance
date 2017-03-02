@@ -2,7 +2,6 @@ package com.ipartek.formacion.persistencia;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -15,9 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "alumno")
@@ -45,10 +41,9 @@ public class Alumno implements Serializable{
 	private Integer codigopostal;
 	
 	/*@Fetch(FetchMode.JOIN)//para datos suceptibles de repeticion, o usamos Set, q es una coleccion q NO permite repetidos*/
-	@ManyToMany(fetch = FetchType.LAZY)//carga del objeto
+	@ManyToMany(fetch = FetchType.EAGER)//carga del objeto
 	@JoinTable(name = "asistente", joinColumns = @JoinColumn(name ="alumno_codigo",referencedColumnName = "codigo"),
 	inverseJoinColumns = @JoinColumn(name = "imparticion_codigo" , referencedColumnName = "codigo"))
-	
 	private Set<Imparticion> imparticiones;
 	
 	

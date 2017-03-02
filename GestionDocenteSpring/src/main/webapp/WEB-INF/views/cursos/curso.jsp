@@ -10,11 +10,17 @@
 </head>
 <body>
 <c:if test="${!empty curso}">
-<h2>Detalle del curso</h2>
-${curso.codigo}  ${curso.nombre}  ${curso.fInicio}  ${curso.fFin}
-
-<h2>Listado de alumnos asistentes a esta curso</h2>
-
+	<h2>Detalle del curso</h2>
+	${curso.codigo}  ${curso.nombre}  ${curso.fInicio}  ${curso.fFin}
+	
+	<h2>Listado de alumnos asistentes a esta curso</h2>
+	<c:if test="${!empty curso.modulos}">
+		<c:forEach var="modul" items="${curso.modulos}">
+			${modul.codigo}
+			
+	
+		</c:forEach>
+	</c:if>
 </c:if>
 </body>
 </html>

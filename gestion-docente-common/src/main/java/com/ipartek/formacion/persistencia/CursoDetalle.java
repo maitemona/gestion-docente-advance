@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,18 +23,48 @@ public class CursoDetalle implements Serializable{
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "curso_codigo")
 	private Curso curso;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "modulo_codigo")
 	private Modulo modulo;
+	
 	private Date fInicio;
 	private Date fFin;
 	
+
+	@OneToOne(fetch = FetchType.EAGER,mappedBy="cursodetalle")
+	private Imparticion imparticion;
 	
 	
 	
+	
+
+	public Imparticion getImparticion() {
+		return imparticion;
+	}
+
+
+
+
+
+
+	public void setImparticion(Imparticion imparticion) {
+		this.imparticion = imparticion;
+	}
+
+
+
+
+
+
 	public CursoDetalle() {
 		super();
 	}
+	
+	
+
+
+
 
 	public long getCodigo() {
 		return codigo;

@@ -21,15 +21,16 @@ public class Imparticion  implements Serializable {
 	@Id
 	@GeneratedValue
 	private long codigo;
+	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "curso_detalle_codigo",referencedColumnName = "codigo")
 	private CursoDetalle cursodetalle;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "profesor_codigo" , referencedColumnName = "codigo")
 	private Profesor profesor;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name = "alumno_codigo" , referencedColumnName = "codigo")
+	@ManyToMany(fetch = FetchType.EAGER,mappedBy="imparticiones")
 	private Set<Alumno> alumnos;
 	
 	

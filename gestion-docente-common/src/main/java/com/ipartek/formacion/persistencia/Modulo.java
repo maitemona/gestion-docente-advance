@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name = "modulo")//si llama igual no hace falta ponerlo
 public class Modulo implements Serializable{
 	
-	private static final long serialVErsionUID = 3L;
+	private static final long serialVersionUID = 3L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,7 +33,7 @@ public class Modulo implements Serializable{
 	
 	
 	/*relacion de un modulo con los cursos :q modulo se ha dado en que curso*/
-	@OneToMany( fetch = FetchType.LAZY,mappedBy="modulo")
+	@OneToMany( fetch = FetchType.EAGER,mappedBy="modulo")
 	private Set<CursoDetalle> detalle;
 	
 	

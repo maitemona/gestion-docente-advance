@@ -21,11 +21,14 @@ import javax.persistence.Table;
 @Table
 @Entity(name = "curso")
 @NamedQueries({
-	@NamedQuery(name="curso.getAll", query="SELECT 	c FROM curso c")
+	@NamedQuery(name="curso.getAll", query="SELECT c FROM curso c")
 })
 public class Curso implements Serializable{
 	
-	private static final long serialVErsionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column( name = "codigo")//no hace falta cuando se llaman igual , la variable y la columna
@@ -45,11 +48,13 @@ public class Curso implements Serializable{
 	@Column( name = "precio")
 	private double precio;
 	
-	@OneToMany( fetch = FetchType.LAZY,mappedBy="curso")
+	@OneToMany( fetch = FetchType.EAGER,mappedBy="curso")
 //	@JoinColumn(name ="modulo_codigo", referencedColumnName= "codigo")
 	private Set<CursoDetalle> modulos;
 	
-	@ManyToOne (fetch = FetchType.LAZY)
+	
+	
+	@ManyToOne (fetch = FetchType.EAGER)
 	@JoinColumn(name="cliente_codigo")
 	private Cliente cliente;
 	
