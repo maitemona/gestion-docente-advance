@@ -29,6 +29,12 @@ public class CursoDetalle implements Serializable{
 	private Date fFin;
 	
 	
+	
+	
+	public CursoDetalle() {
+		super();
+	}
+
 	public long getCodigo() {
 		return codigo;
 	}
@@ -67,6 +73,35 @@ public class CursoDetalle implements Serializable{
 
 	public void setfFin(Date fFin) {
 		this.fFin = fFin;
+	}
+
+	@Override
+	public String toString() {
+		return "CursoDetalle [codigo=" + codigo + ", curso=" + curso + ", modulo=" + modulo + ", fInicio=" + fInicio
+				+ ", fFin=" + fFin + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (codigo ^ (codigo >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		boolean iguales = false;
+		CursoDetalle other = (CursoDetalle) obj;
+		if (this == obj || obj == null ||getClass() != obj.getClass()||codigo != other.codigo)
+		{
+			iguales = false;
+		}
+		else{
+			
+			iguales = true;
+		}
+		return iguales;
 	}
 	
 	

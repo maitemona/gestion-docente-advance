@@ -64,6 +64,10 @@ public class Evaluacion implements Serializable{
 		}
 		return iguales;
 	}
+	@Override
+	public String toString() {
+		return "Evaluacion [codigo=" + codigo + ", fExamen=" + fExamen + ", nota=" + nota + "]";
+	}
 	
 	
 	

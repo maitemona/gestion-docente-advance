@@ -9,11 +9,10 @@
 <title>Listado de Cursos</title>
 </head>
 <body>
+<h2>Listado de cursos</h2>
 <c:forEach var="curso" items="${listadoCursos}">
 	<div>
 		<a href="<c:url value ='/cursos/${curso.codigo}'/>">${curso.nombre}</a>
-		${curso.fInicio}
-		${curso.fFin}
 	</div>
 
 </c:forEach>

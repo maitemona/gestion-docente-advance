@@ -9,6 +9,12 @@
 <title>Curso detalle</title>
 </head>
 <body>
+<c:if test="${!empty curso}">
+<h2>Detalle del curso</h2>
+${curso.codigo}  ${curso.nombre}  ${curso.fInicio}  ${curso.fFin}
 
+<h2>Listado de alumnos asistentes a esta curso</h2>
+
+</c:if>
 </body>
 </html>

@@ -122,7 +122,20 @@ public class Profesor implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+	@Override
+	public String toString() {
+		return "Profesor [codigo=" + codigo + ", dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos
+				+ ", nSS=" + nSS + ", fNacimiento=" + fNacimiento + ", email=" + email + ", direccion=" + direccion
+				+ ", poblacion=" + poblacion + ", codigopostal=" + codigopostal + ", telefono=" + telefono + ", activo="
+				+ activo + ", imparticiones=" + imparticiones + "]";
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (codigo ^ (codigo >>> 32));
+		return result;
+	}
 	@Override
 	public boolean equals(Object obj) {
 		boolean iguales = false;
@@ -137,6 +150,7 @@ public class Profesor implements Serializable {
 		}
 		return iguales;
 	}
+
 	
 
 }

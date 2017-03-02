@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -48,6 +49,36 @@ public class Curso implements Serializable{
 //	@JoinColumn(name ="modulo_codigo", referencedColumnName= "codigo")
 	private Set<CursoDetalle> modulos;
 	
+	@ManyToOne (fetch = FetchType.LAZY)
+	@JoinColumn(name="cliente_codigo")
+	private Cliente cliente;
+	
+	
+	public Curso() {
+		super();
+	}
+	
+	
+	public Set<CursoDetalle> getModulos() {
+		return modulos;
+	}
+
+
+	public void setModulos(Set<CursoDetalle> modulos) {
+		this.modulos = modulos;
+	}
+
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+
 	public long getCodigo() {
 		return codigo;
 	}

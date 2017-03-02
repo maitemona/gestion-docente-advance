@@ -38,6 +38,9 @@ public class Modulo implements Serializable{
 	
 	
 	
+	public Modulo() {
+		super();
+	}
 	public Set<CursoDetalle> getDetalle() {
 		return detalle;
 	}
@@ -84,16 +87,17 @@ public class Modulo implements Serializable{
 	}
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		boolean iguales = false;
 		Modulo other = (Modulo) obj;
-		if (codigo != other.codigo)
-			return false;
-		return true;
+		if (this == obj || obj == null ||getClass() != obj.getClass()||codigo != other.codigo)
+		{
+			iguales = false;
+		}
+		else{
+			
+			iguales = true;
+		}
+		return iguales;
 	}
 	@Override
 	public String toString() {
