@@ -12,13 +12,15 @@
 <c:if test="${!empty curso}">
 	<h2>Detalle del curso</h2>
 	${curso.codigo}  ${curso.nombre}  ${curso.fInicio}  ${curso.fFin}
-	
-	<h2>Listado de alumnos asistentes a esta curso</h2>
 	<c:if test="${!empty curso.modulos}">
 		<c:forEach var="modulo" items="${curso.modulos}">
-			${modulo.codigo}
+			<h2>Listado de Modulos  a esta curso</h2>
+				${modulo.codigo} 
+				
+				<h2>Listado de Alumnos  a esta curso</h2>
 			<c:forEach var="alumno" items="${modulo.imparticion.alumnos}">
-				${alumno.codigo} <a>ir a</a>	
+				${alumno.nombre} <a href="alumnos/${alumno.codigo}">ir a</a>
+				</br>	
 			</c:forEach>
 			
 		</c:forEach>
