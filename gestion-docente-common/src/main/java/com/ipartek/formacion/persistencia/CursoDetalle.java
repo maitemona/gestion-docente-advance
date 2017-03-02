@@ -37,7 +37,6 @@ public class CursoDetalle implements Serializable{
 	
 	
 	
-	
 
 	public Imparticion getImparticion() {
 		return imparticion;
@@ -45,15 +44,9 @@ public class CursoDetalle implements Serializable{
 
 
 
-
-
-
 	public void setImparticion(Imparticion imparticion) {
 		this.imparticion = imparticion;
 	}
-
-
-
 
 
 

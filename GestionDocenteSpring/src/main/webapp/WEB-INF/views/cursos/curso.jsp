@@ -15,11 +15,14 @@
 	
 	<h2>Listado de alumnos asistentes a esta curso</h2>
 	<c:if test="${!empty curso.modulos}">
-		<c:forEach var="modul" items="${curso.modulos}">
-			${modul.codigo}
+		<c:forEach var="modulo" items="${curso.modulos}">
+			${modulo.codigo}
+			<c:forEach var="alumno" items="${modulo.imparticion.alumnos}">
+				${alumno.codigo} <a>ir a</a>	
+			</c:forEach>
 			
-	
 		</c:forEach>
+		
 	</c:if>
 </c:if>
 </body>

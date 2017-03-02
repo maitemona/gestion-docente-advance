@@ -39,7 +39,7 @@ public class Profesor implements Serializable {
 	
 	private String telefono;
 	private boolean activo;
-	@OneToMany( fetch = FetchType.LAZY, mappedBy="profesor")
+	@OneToMany( fetch = FetchType.EAGER, mappedBy="profesor")
 	//@JoinColumn(name ="codigo", referencedColumnName= "profesor_codigo")
 	private Set<Imparticion> imparticiones;
 	

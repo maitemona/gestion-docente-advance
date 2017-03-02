@@ -24,10 +24,13 @@ public class CursoController {
 	@Autowired
 	private CursoService cS;
 	private static final Logger logger = LoggerFactory.getLogger(CursoController.class);
+
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAll(Model model){
 		model.addAttribute("listadoCursos",cS.getAll());
+	
 		return"cursos/cursos";
+		
 	}
 	
 	@RequestMapping(value = "/{codigo}")
