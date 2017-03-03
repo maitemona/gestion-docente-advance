@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-02-2017 a las 10:24:30
+-- Tiempo de generación: 03-03-2017 a las 11:21:04
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 5.6.30
 
@@ -48,6 +48,20 @@ BEGIN
     FROM alumno as a;
 END$$
 
+DROP PROCEDURE IF EXISTS `alumnogetByCurso`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alumnogetByCurso` (IN `pcursocodigo` INT)  NO SQL
+BEGIN
+    SELECT a.codigo as codigo, a.nombre, a.apellidos, a.fNacimiento, a.direccion, a.poblacion, a.codigopostal, a.telefono, a.email, a.dni, a.nHermanos, a.activo
+    FROM `alumno` as a 
+        inner join asistente as asi ON asi.alumno_codigo = a.codigo
+        inner join imparticion as i ON i.codigo = asi.imparticion_codigo
+        inner join curso_detalle as cd ON cd.codigo = i.curso_detalle_codigo
+        inner join curso as c ON c.codigo = cd.curso_codigo
+    WHERE c.codigo = pcursocodigo
+    group by a.codigo;
+          
+END$$
+
 DROP PROCEDURE IF EXISTS `alumnogetByDni`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `alumnogetByDni` (IN `pdni` VARCHAR(9))  NO SQL
 BEGIN 
@@ -70,7 +84,7 @@ a.codigo, a.nombre, a.apellidos,a.fNacimiento,a.direccion,a.poblacion,a.poblacio
 
 c.codigo as codigocurso,c.nombre as nombrecurso,
 c.identificador as idenficadorcurso,
-c.fInicio,c.fFin,c.nhoras,c.precio
+c.fInicio as finicio,c.fFin as ffin,c.nhoras as nhoras,c.precio as precio
 FROM alumno as a
 LEFT JOIN asistente as asi ON asi.alumno_codigo= a.codigo 
 LEFT Join imparticion as i ON i.codigo = asi.imparticion_codigo  
@@ -215,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `alumno` (
   `activo` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`codigo`),
   UNIQUE KEY `dni_UNIQUE` (`dni`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 --
 -- Volcado de datos para la tabla `alumno`
@@ -224,7 +238,8 @@ CREATE TABLE IF NOT EXISTS `alumno` (
 INSERT INTO `alumno` (`codigo`, `nombre`, `apellidos`, `fNacimiento`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`, `dni`, `nHermanos`, `activo`) VALUES
 (0, 'alumno', 'oooooooooo', '2017-02-08', 'oooooooooo', 'ooooooo', 00000, 0, 'm@g.com', '000000000', 0, 1),
 (1, 'Maite', 'monasterio herrero', '1979-08-12', 'kasune 12 c', 'getxo', 48891, 654789123, 'maitemonasterio@gmail.com', '16071559x', 2, 1),
-(2, 'Paco', 'Perez lopez', '1979-08-12', 'kasune 12 c', 'getxo', 48891, 654789123, 'pacoperez@gmail.com', '16071558d', 4, 1);
+(2, 'Paco', 'Perez lopez', '1979-08-12', 'kasune 12 c', 'getxo', 48891, 654789123, 'pacoperez@gmail.com', '16071558d', 4, 1),
+(3, 'maria ', 'lopez', '1979-08-12', 'palado estupendo', 'bilbao', 48991, 944661303, 'ma@g.com', '71655032g', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -248,9 +263,9 @@ CREATE TABLE IF NOT EXISTS `asistente` (
 
 INSERT INTO `asistente` (`codigo`, `alumno_codigo`, `imparticion_codigo`) VALUES
 (4, 1, 2),
-(5, 2, 3),
+(5, 2, 2),
 (6, 1, 1),
-(7, 2, 3);
+(7, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -330,7 +345,7 @@ CREATE TABLE IF NOT EXISTS `curso_detalle` (
   KEY `FK_curso_modulo_curso_codigo_idx` (`curso_codigo`),
   KEY `FK_cursomodulo_modulo_codigo_idx` (`modulo_codigo`),
   KEY `uq_curso_codigo_modulo_codigo` (`curso_codigo`,`modulo_codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 --
 -- Volcado de datos para la tabla `curso_detalle`
@@ -338,7 +353,8 @@ CREATE TABLE IF NOT EXISTS `curso_detalle` (
 
 INSERT INTO `curso_detalle` (`codigo`, `curso_codigo`, `modulo_codigo`, `fFin`, `fInicio`, `precio`) VALUES
 (1, 1, 1, '2017-02-15', '2017-02-05', 800.20),
-(3, 2, 2, '2017-02-15', '2017-02-05', 800.20);
+(3, 2, 2, '2017-02-15', '2017-02-05', 800.20),
+(4, 1, 3, '2017-03-21', '2017-03-31', 0.00);
 
 -- --------------------------------------------------------
 
@@ -372,7 +388,7 @@ CREATE TABLE IF NOT EXISTS `imparticion` (
   PRIMARY KEY (`codigo`),
   KEY `fk_imparticion_profesor_codigo_idx` (`profesor_codigo`),
   KEY `fk_imparticion_curso_detalle_codigo` (`curso_detalle_codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `imparticion`
@@ -380,9 +396,7 @@ CREATE TABLE IF NOT EXISTS `imparticion` (
 
 INSERT INTO `imparticion` (`codigo`, `curso_detalle_codigo`, `profesor_codigo`) VALUES
 (1, 1, 1),
-(2, 3, 2),
-(3, 1, 1),
-(4, 3, 2);
+(2, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -398,7 +412,7 @@ CREATE TABLE IF NOT EXISTS `modulo` (
   `descripcion` text COLLATE utf8_unicode_ci,
   `precio` double(7,2) NOT NULL,
   PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `modulo`
@@ -406,7 +420,8 @@ CREATE TABLE IF NOT EXISTS `modulo` (
 
 INSERT INTO `modulo` (`codigo`, `nombre`, `nHoras`, `descripcion`, `precio`) VALUES
 (1, 'JEE2', 30, 'desarrollo de aplicacion de web con java', 800.20),
-(2, 'Spring', 30, 'desarrollo de aplicacion de web con java', 800.20);
+(2, 'Spring', 30, 'desarrollo de aplicacion de web con java', 800.20),
+(3, 'html5', 60, 'como construir web con html5', 80.00);
 
 -- --------------------------------------------------------
 
@@ -477,7 +492,7 @@ ALTER TABLE `evaluacion`
 --
 ALTER TABLE `imparticion`
   ADD CONSTRAINT `fk_imparticion_curso_detalle_codigo` FOREIGN KEY (`curso_detalle_codigo`) REFERENCES `curso_detalle` (`codigo`),
-  ADD CONSTRAINT `fk_imparticion_profesor_codigo` FOREIGN KEY (`profesor_codigo`) REFERENCES `profesor` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_imparticion_profesor_codigo` FOREIGN KEY (`profesor_codigo`) REFERENCES `profesor` (`codigo`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
