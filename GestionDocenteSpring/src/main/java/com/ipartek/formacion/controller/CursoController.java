@@ -23,6 +23,7 @@ public class CursoController {
 	
 	@Autowired
 	private CursoService cS;
+	private ModelAndView mav=null;
 	private static final Logger logger = LoggerFactory.getLogger(CursoController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -38,5 +39,31 @@ public class CursoController {
 		model.addAttribute("curso", cS.getById(codigo));
 		return "cursos/curso";
 	}
+	 /**
+	  * Metodo que me saca los detalles del modulo asociado a ese curos
+	  * @param codigocurso
+	  * @param codigodetalle
+	  * @return
+	  */
+	@RequestMapping(value = "/{codigocurso}/detalles/{codigodetalle}")
+		public ModelAndView getDetallesByCurso(@PathVariable("codigocurso") long codigocurso,
+				@PathVariable("codigodetalle") long codigodetalle){
+		
+		return mav;
+		
+	}
 	
+	/**
+	 * Metodo para sacar los alumnos asociados a ese curso
+	 * @param codigocurso
+	 * @param codigoalumno
+	 * @return
+	 */
+	@RequestMapping(value = "/{codigocurso}/alumnos/{codigoalumno}")
+	public ModelAndView getAlumnoByCurso(@PathVariable("codigocurso") long codigocurso,
+			@PathVariable("codigoalumno") long codigoalumno){
+	
+	return mav;
+	
+}
 }

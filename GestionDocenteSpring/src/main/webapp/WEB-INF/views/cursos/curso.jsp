@@ -17,7 +17,7 @@
 		<c:forEach var="cmodulo" items="${curso.modulos}">
 		
 				${cmodulo.codigo} 
-				${cmodulo.modulo.nombre}
+			<a href='<c:url value="/cursos/${curso.codigo}/detalles/${cmodulo.codigo}"/>'>${cmodulo.modulo.nombre}</a>
 		</c:forEach>
 				<h2>Listado de Alumnos  a esta curso</h2>
 		<!-- 	<c:forEach var="alumno" items="${modulo.imparticion.alumnos}">
@@ -26,7 +26,7 @@
 			</c:forEach> -->
   	<c:forEach var="alumno" items="${curso.alumnos}">
 			<div>
-				${alumno.nombre} <a href="../alumnos/${alumno.codigo}">ir a</a>
+				${alumno.nombre} <a href='<c:url value="/cursos/${curso.codigo}/alumnos/${alumno.codigo}"/>'>ir a</a>
 			</div>
 		</c:forEach>
 		
