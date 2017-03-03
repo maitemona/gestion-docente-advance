@@ -2,8 +2,10 @@ package com.ipartek.formacion.persistencia;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
+import javax.enterprise.inject.Stereotype;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,14 +16,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Table
 @Entity(name = "curso")
 @NamedQueries({
 	@NamedQuery(name="curso.getAll", query="SELECT c FROM curso c")
+})
+@NamedStoredProcedureQueries({
+	@NamedStoredProcedureQuery(name = "curso.getAlumnos",procedureName="alumnogetByCurso", resultClasses = Alumno.class,
+			parameters={@StoredProcedureParameter(mode = ParameterMode.IN, type= Long.class)} )
 })
 public class Curso implements Serializable{
 	
@@ -58,12 +69,32 @@ public class Curso implements Serializable{
 	@JoinColumn(name="cliente_codigo")
 	private Cliente cliente;
 	
+	//**Para que me ignore este objeto y no me lo busque en la tabla (getALL)*/
+	@Transient
+	private List<Alumno> alumnos;
+	
 	
 	public Curso() {
 		super();
 	}
 	
 	
+	
+	
+	public List<Alumno> getAlumnos() {
+		return alumnos;
+	}
+
+
+
+
+	public void setAlumnos(List<Alumno> alumnos) {
+		this.alumnos = alumnos;
+	}
+
+
+
+
 	public Set<CursoDetalle> getModulos() {
 		return modulos;
 	}

@@ -7,8 +7,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.TypedQuery;
 
+import com.ipartek.formacion.persistencia.Alumno;
 import com.ipartek.formacion.persistencia.Curso;
 
 /**
@@ -43,10 +45,18 @@ public class CursoServiceBean implements CursoServiceRemote {
 		/*TypedQuery<Curso> pcursos = entityManager.createNamedQuery("curso.getAll");
 		return pcursos.getResultList();*/
 	}
-
+	/*
+	 * referenciamos un procedimiento almacenado con na anotacion
+	 * 7spq.setParameter(1,curso.getCodigo());le paso la posicion del parametro
+	 * @see com.ipartek.formacion.curso.CursoServiceRemote#getById(long)
+	 */
 	@Override
 	public Curso getById(long codigo) {
 		Curso curso = entityManager.find(Curso.class, codigo);
+		StoredProcedureQuery spq= entityManager.createNamedStoredProcedureQuery("curso.getAlumnos");
+		spq.setParameter(1,curso.getCodigo());
+		List<Alumno> alumnos = spq.getResultList();
+		curso.setAlumnos(alumnos);
 		return curso;
 	}
 
