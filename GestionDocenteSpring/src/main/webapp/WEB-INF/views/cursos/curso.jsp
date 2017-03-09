@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Curso detalle</title>
+<title>Curso detalle con su modulos</title>
 </head>
 <body>
 <c:if test="${!empty curso}">
