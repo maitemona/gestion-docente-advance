@@ -8,17 +8,42 @@
 <title>Meteorológia</title>
 </head>
 <body>
-
+<header>
+	<h1>
+		Ejemplo de Cliente con Servicio Metereologico
+	</h1>
+</header>
+<main>
+	<section>
+		<h2></h2>
+		<div>
+			<img src="" alt="" title="" >
+		</div>
+	</section>
+</main>
+<footer>
+	Ipartek S.Coop
+</footer>
 </body>
 <script>
+const url="http://api.wunderground.com/api/3578ac1f47456d92/geolookup/conditions/forecast/q/Spain/Bilbao.json";
 jQuery(document).ready(function($) {
   $.ajax({
-  url : "http://api.wunderground.com/api/3578ac1f47456d92/geolookup/conditions/q/SP/Cedar_Rapids.json",
+  url : url,
   dataType : "jsonp",
   success : function(parsed_json) {
-  var location = parsed_json['location']['city'];
-  var temp_f = parsed_json['current_observation']['temp_f'];
-  alert("Current temperature in " + location + " is: " + temp_f);
+	//  console.log(parsed_json.forecast.txt_forecast.forecastday);
+	  Forecastday = parsed_json.forecast.txt_forecast.forecastday;
+	  console.log(Forecastday);
+	  $("h2").text(Forecastday[0].title);
+	  $("img").attr("src",Forecastday[0].icon_url);
+	  $("img").attr("alt",Forecastday[0].icon);
+	  var txt =Forecastday[0].fcttext_metric;
+	  $("div").append("<p>"+txt+"</p>");
+	  //console.log( $("img").text(Forecastday[0].icon_url));
+  //var location = parsed_json['forecast']['txt_forecast'];
+  //var temp_f = parsed_json['current_observation']['temp_f'];
+ 	// alert("Current temperature in " + location + " is: " + temp_f);
   }
   });
 });
