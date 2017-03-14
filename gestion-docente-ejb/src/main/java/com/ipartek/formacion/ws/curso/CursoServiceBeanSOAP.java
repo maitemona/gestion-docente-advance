@@ -3,15 +3,17 @@ package com.ipartek.formacion.ws.curso;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
+
 import javax.ejb.Stateless;
+import javax.jws.WebService;
 
 import com.ipartek.formacion.curso.CursoServiceRemote;
 import com.ipartek.formacion.persistencia.Curso;
 
 /**
- * Session Bean implementation class CursoServiceBeanSAOP
+ * ession Bean implementation class CursoServiceBeanSAOP
  */
+@WebService(endpointInterface="com.ipartek.formacion.ws.curso.CursoServiceBeanSOAPRemote",serviceName="cursoService")
 @Stateless(name = "CursoServiceSOAP")
 public class CursoServiceBeanSOAP implements CursoServiceBeanSOAPRemote {
 

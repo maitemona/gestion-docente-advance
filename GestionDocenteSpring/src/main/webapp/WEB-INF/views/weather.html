@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+<title>Meteorológia</title>
+</head>
+<body>
+
+</body>
+<script>
+jQuery(document).ready(function($) {
+  $.ajax({
+  url : "http://api.wunderground.com/api/3578ac1f47456d92/geolookup/conditions/q/SP/Cedar_Rapids.json",
+  dataType : "jsonp",
+  success : function(parsed_json) {
+  var location = parsed_json['location']['city'];
+  var temp_f = parsed_json['current_observation']['temp_f'];
+  alert("Current temperature in " + location + " is: " + temp_f);
+  }
+  });
+});
+</script>
+</html>
