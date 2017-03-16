@@ -102,7 +102,7 @@ public class ProfesorRestControl implements Serializable {
 		}else{
 			profe = pS.update(profesor);
 			//paar devolver el obejto garbado en bbd
-			//response =  new ResponseEntity<Alumno>(alum , HttpStatus.ACCEPTED);
+			response =  new ResponseEntity<Profesor>(profe , HttpStatus.ACCEPTED);
 		}
 		
 		return response;

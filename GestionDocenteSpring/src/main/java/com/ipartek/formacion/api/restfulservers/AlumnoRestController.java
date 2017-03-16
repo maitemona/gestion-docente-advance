@@ -3,10 +3,17 @@ package com.ipartek.formacion.api.restfulservers;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.validation.Valid;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.ipartek.formacion.controller.validator.AlumnoValidator;
 import com.ipartek.formacion.dbms.persistence.Alumno;
 import com.ipartek.formacion.service.interfaces.AlumnoService;
 /*
@@ -33,6 +41,28 @@ public class AlumnoRestController implements Serializable {
 	private static final long serialVersionUID = -6698866485450376235L;
 	@Autowired
 	AlumnoService aS;
+	//inyectar dependencia
+	 
+
+	 
+	 @Resource(name="alumnoValidator")
+	 Validator validator;
+	
+	/*
+	 * otra forma d ehacerlo 
+	@Autowired
+	AlumnoValidator validator;
+	//Using spring’s validator interface
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+	    binder.setValidator(new AlumnoValidator());
+	}
+	
+	*/
+	 @InitBinder
+		protected void initBinder(WebDataBinder binder) {
+		    binder.setValidator(validator);
+		}
 	
 	@RequestMapping(value = "/{codigo}", method = RequestMethod.GET)
 	public ResponseEntity<Alumno> getById(@PathVariable("codigo") int id){
@@ -71,7 +101,7 @@ public class AlumnoRestController implements Serializable {
 	 * metodo : post
 	 * */
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> create(@RequestBody Alumno alumno, UriComponentsBuilder ucBuilder){
+	public ResponseEntity<Void> create(@Valid @RequestBody Alumno alumno, UriComponentsBuilder ucBuilder){
 		
 		
 		//validamos que ese alumno esixta o no con el metos getByDni
@@ -100,7 +130,7 @@ public class AlumnoRestController implements Serializable {
 	 * metodo : put
 	 * */
 	@RequestMapping(value = "/{codigo}", method = RequestMethod.PUT)
-	public ResponseEntity<Alumno> update(@PathVariable("codigo") int id,@RequestBody Alumno alumno){
+	public ResponseEntity<Alumno> update(@PathVariable("codigo") int id,@Valid @RequestBody Alumno alumno){
 		Alumno alum = aS.getById(id);
 		//recogemos un objeto ResponseEntity
 		ResponseEntity<Alumno> response = null;			
@@ -109,7 +139,7 @@ public class AlumnoRestController implements Serializable {
 		}else{
 			alum = aS.update(alumno);
 			//paar devolver el obejto garbado en bbd
-			//response =  new ResponseEntity<Alumno>(alum , HttpStatus.ACCEPTED);
+			response =  new ResponseEntity<Alumno>(alum , HttpStatus.ACCEPTED);
 		}
 		
 		return response;
