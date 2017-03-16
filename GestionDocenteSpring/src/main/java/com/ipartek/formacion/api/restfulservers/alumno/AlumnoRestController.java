@@ -1,4 +1,4 @@
-package com.ipartek.formacion.api.restfulservers;
+package com.ipartek.formacion.api.restfulservers.alumno;
 
 import java.io.Serializable;
 import java.util.List;
