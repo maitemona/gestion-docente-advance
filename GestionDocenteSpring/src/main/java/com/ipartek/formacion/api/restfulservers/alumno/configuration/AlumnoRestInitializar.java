@@ -8,26 +8,25 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import com.ipartek.formacion.api.restfulservers.CORSFilter;
 
-public class AlumnoRestInitializar extends AbstractAnnotationConfigDispatcherServletInitializer{
+public class AlumnoRestInitializar{
 
-	@Override
 	protected Class<?>[] getRootConfigClasses() {
 		
 		return new Class[]{AlumnoRestControllerConfiguration.class};
 	}
 
-	@Override
+
 	protected Class<?>[] getServletConfigClasses() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+
 	protected String[] getServletMappings() {
 		return new String[]{"/"};
 	}
 
-	@Override
+
 	protected Filter[] getServletFilters() {
 		Filter[] filter = {new CORSFilter() };
 		return filter;
