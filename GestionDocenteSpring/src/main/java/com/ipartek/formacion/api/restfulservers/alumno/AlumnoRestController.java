@@ -10,9 +10,11 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +32,11 @@ import com.ipartek.formacion.service.interfaces.AlumnoService;
  * respuesta codigo HTTP(el protocolo de estado de http siempre se devuelve)
  * 			alumno serializado en json, xml, html...
  * y la clase de spring que me gestiona esto es ResponseEntity
+ * 
+ * CrossFilter choca con jboss pq ya tenemos una inyection que es @crossorigin, dejo el crossfilter pero no vale,
+ * lo puedo poner a nivel de clase, metodo y a nivel de proyecto mirar el servlet - contetx
  */
+@CrossOrigin(origins="*" ,maxAge = 3600 , methods = {RequestMethod.GET ,RequestMethod.POST , RequestMethod.PUT, RequestMethod.DELETE})
 @RestController
 @RequestMapping(value = "/api/alumnos" )
 public class AlumnoRestController implements Serializable {
@@ -64,7 +70,7 @@ public class AlumnoRestController implements Serializable {
 		    binder.setValidator(validator);
 		}
 	
-	@RequestMapping(value = "/{codigo}", method = RequestMethod.GET)
+	 @RequestMapping(value = "/{codigo}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Alumno> getById(@PathVariable("codigo") int id){
 		//recogemos un obejto alumno
 		Alumno alumno = aS.getById(id);
@@ -83,7 +89,7 @@ public class AlumnoRestController implements Serializable {
 	 * http://gestionformacion/api/alumns/1
 	 * metodo : get
 	 * */
-	@RequestMapping(method = RequestMethod.GET)
+		@RequestMapping(method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<Alumno>> getAll(){
 		
 		List<Alumno> alumnos = aS.getAll(); 
@@ -100,7 +106,7 @@ public class AlumnoRestController implements Serializable {
 	 * http://gestionformacion/api/alumnos
 	 * metodo : post
 	 * */
-	@RequestMapping(method = RequestMethod.POST)
+		@RequestMapping(method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Void> create(@Valid @RequestBody Alumno alumno, UriComponentsBuilder ucBuilder){
 		
 		
@@ -129,7 +135,8 @@ public class AlumnoRestController implements Serializable {
 	 * http://gestionformacion/api/alumnos/1
 	 * metodo : put
 	 * */
-	@RequestMapping(value = "/{codigo}", method = RequestMethod.PUT)
+		@RequestMapping(value = "/{codigo}", consumes = { MediaType.APPLICATION_JSON_VALUE }, method = RequestMethod.PUT, produces = {
+						MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Alumno> update(@PathVariable("codigo") int id,@Valid @RequestBody Alumno alumno){
 		Alumno alum = aS.getById(id);
 		//recogemos un objeto ResponseEntity
@@ -150,7 +157,7 @@ public class AlumnoRestController implements Serializable {
 	 * metodo : delete
 	 * 
 	 */
-	@RequestMapping(value = "/{codigo}", method = RequestMethod.DELETE)
+		@RequestMapping(value = "/{codigo}", method = RequestMethod.DELETE, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Alumno> deleteById(@PathVariable("codigo") int id){
 		Alumno alum = aS.getById(id);
 		ResponseEntity<Alumno> response = null;		

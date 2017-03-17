@@ -55,7 +55,7 @@
         </property>
         <property name="defaultEncoding" value="UTF-8" />
     </bean>
-    <!-- Para meter un objeto del EJB -->
+    <!-- Para meter un objeto del EJB , pq que coge la bean de ese jbe-->
    <jee:jndi-lookup id="cursoServiceRemote" jndi-name="java:app/gestion-docente-ejb/CursoServiceBean" />
 
 	<bean id="cursoServiceImp" class="com.ipartek.formacion.service.CursoServiceImp">
