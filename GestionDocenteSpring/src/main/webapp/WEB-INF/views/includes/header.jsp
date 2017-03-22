@@ -20,9 +20,9 @@
 <![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
-<header>
-	<h1>${nombreApp} - ${seccion}</h1>
+<body class="container-fluid">
+<header class="row">
+	<h1 class="col-xs-12">${nombreApp} - ${seccion}</h1>
 	<nav>
 		<ul>
 			<li>
@@ -46,13 +46,23 @@
 			</li>
 		</ul>
 	</nav>
-	<a href="?locale=es">				
-		<spring:message code="idioma.castellano" text="castellano"/>
-	</a>
-	<a href="?locale=en">
-		<spring:message code="idioma.ingles" text="ingles"/>
-	</a>
-	<a href="?locale=eu">
-		<spring:message code="idioma.euskera" text="euskera"/>
-	</a>
+	<div class="btn-group">
+		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Idiomas<span class="caret"></span></button>
+		<ul class="dropdown-menu" role="menu">
+			 <li><a  href="?locale=es">				
+				<spring:message code="idioma.castellano" text="castellano"/>
+				</a>
+			</li>
+			<li>
+				<a href="?locale=en">
+					<spring:message code="idioma.ingles" text="ingles"/>
+				</a>
+			</li>
+			<li>
+				<a href="?locale=eu">
+					<spring:message code="idioma.euskera" text="euskera"/>
+				</a>
+			</li>
+		</ul>
+	</div>
 </header>

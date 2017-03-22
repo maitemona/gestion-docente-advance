@@ -9,6 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Alumno Nuevo</title>
 </head>
+<jsp:include page="../includes/header.jsp" />
 <body>
 <form:form action="save" method="POST" commandName="alumno">
 	<c:if test="${!empty alumno}">
@@ -17,9 +18,9 @@
    
      <table>
     <tr>
-        <td><form:label path="nombre">Nombre</form:label></td>
-        <td><form:input path="nombre" />
-        	<form:errors path="nombre"  /></td> 
+        <td><form:label path="nombre" cssClass="sr-only">Nombre</form:label></td>
+        <td><form:input path="nombre" palceholder="Introduzca su nombre"/>
+        	<form:errors path="nombre" cssClass="text-danger" /></td> 
     </tr>
     <tr>
         <td><form:label path="apellidos">Apellidos</form:label></td>

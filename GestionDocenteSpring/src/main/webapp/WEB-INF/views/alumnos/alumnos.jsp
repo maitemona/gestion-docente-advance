@@ -13,7 +13,7 @@
 	<h1>Gestion Docente - Listado Alumnos</h1>
 </header>
 <jsp:include page="../includes/header.jsp" />
-<main class="container-fluid">
+<main class="row">
 	<section class= "row">
 		<header class="col-xs-12"><h2>Listas de alumnos</h2></header>
 		<a class="btn btn-info" href="alumnos/addAlumno">Crear Alumno</a>
