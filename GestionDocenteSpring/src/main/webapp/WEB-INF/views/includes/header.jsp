@@ -9,7 +9,8 @@
 
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
+<spring:url var="myestilo" value="/resources/css/style.css"></spring:url>
+<link rel="stylesheet" href="${myestilo}" >
 <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -20,9 +21,9 @@
 <![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body class="container-fluid">
-<header class="row">
-	<h1 class="col-xs-12">${nombreApp} - ${seccion}</h1>
+<body>
+<header class="container-fluid">
+	<h1 class="col-xs-12">${nombreApp}  ${seccion}</h1>
 	<nav>
 		<ul>
 			<li>

@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity
+@Entity(name = "modulo")
 @Table(name = "modulo")//si llama igual no hace falta ponerlo
 public class Modulo implements Serializable{
 	
