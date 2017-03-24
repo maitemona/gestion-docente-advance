@@ -20,6 +20,7 @@
 		<commons.beanutils.version>1.9.2</commons.beanutils.version>	
 		<jackson.library>2.7.5</jackson.library> 
 		<springfox-swagger>2.4.0</springfox-swagger>
+		<org.springsecurity-version>4.2.2.RELEASE</org.springsecurity-version>
 	</properties>
 	<dependencies>
 	
@@ -187,6 +188,23 @@
 		    <artifactId>springfox-swagger-ui</artifactId>
 		    <version>${springfox-swagger}</version>
 		</dependency>
+		 <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${org.springsecurity-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${org.springsecurity-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${org.springsecurity-version}</version>
+        </dependency>
+		
 	</dependencies>
     <build>
         <plugins>
