@@ -59,9 +59,9 @@ public class Curso implements Serializable{
 	@Column( name = "precio")
 	private double precio;
 	
-	@OneToMany( fetch = FetchType.EAGER,mappedBy="curso")
+//	@OneToMany( fetch = FetchType.EAGER,mappedBy="curso")
 //	@JoinColumn(name ="modulo_codigo", referencedColumnName= "codigo")
-	private Set<CursoDetalle> modulos;
+//	private Set<CursoDetalle> modulos;
 	
 	
 	
@@ -95,14 +95,7 @@ public class Curso implements Serializable{
 
 
 
-	public Set<CursoDetalle> getModulos() {
-		return modulos;
-	}
-
-
-	public void setModulos(Set<CursoDetalle> modulos) {
-		this.modulos = modulos;
-	}
+	
 
 
 	public Cliente getCliente() {

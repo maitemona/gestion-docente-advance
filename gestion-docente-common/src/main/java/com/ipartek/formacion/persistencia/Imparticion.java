@@ -22,9 +22,7 @@ public class Imparticion  implements Serializable {
 	@GeneratedValue
 	private long codigo;
 	
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "curso_detalle_codigo",referencedColumnName = "codigo")
-	private CursoDetalle cursodetalle;
+	
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "profesor_codigo" , referencedColumnName = "codigo")
@@ -57,12 +55,7 @@ public class Imparticion  implements Serializable {
 	public void setCodigo(long codigo) {
 		this.codigo = codigo;
 	}
-	public CursoDetalle getCursodetalle() {
-		return cursodetalle;
-	}
-	public void setCursodetalle(CursoDetalle cursodetalle) {
-		this.cursodetalle = cursodetalle;
-	}
+
 	public Profesor getProfesor() {
 		return profesor;
 	}
@@ -71,7 +64,7 @@ public class Imparticion  implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Imparticion [codigo=" + codigo + ", cursodetalle=" + cursodetalle + ", profesor=" + profesor + "]";
+		return "Imparticion [codigo=" + codigo + ",profesor=" + profesor + "]";
 	}
 	@Override
 	public int hashCode() {
