@@ -1,7 +1,9 @@
 package com.ipartek.formacion.persistencia;
 
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -13,10 +15,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-@Entity
+@Entity(name = "alumno")
 @Table(name = "alumno")
+@NamedQueries({
+	@NamedQuery(name="alumno.getAll", query="SELECT a FROM alumno as a")
+})
+
 public class Alumno implements Serializable{
 	
 	private static final long serialVersionUID = -6698866485450376235L;
@@ -40,18 +49,30 @@ public class Alumno implements Serializable{
 	private String poblacion;
 	private Integer codigopostal;
 	
-	/*@Fetch(FetchMode.JOIN)//para datos suceptibles de repeticion, o usamos Set, q es una coleccion q NO permite repetidos*/
-	@ManyToMany(fetch = FetchType.EAGER)//carga del objeto
-	@JoinTable(name = "asistente", joinColumns = @JoinColumn(name ="alumno_codigo",referencedColumnName = "codigo"),
-	inverseJoinColumns = @JoinColumn(name = "imparticion_codigo" , referencedColumnName = "codigo"))
-	private Set<Imparticion> imparticiones;
-	
+	@Transient
+	private List<Curso> cursos;
+ 	
 	
 	public Alumno(){
 		super();
 	}
 	
 	
+	public List<Curso> getCursos() {
+		return cursos;
+	}
+
+
+	public void setCursos(List<Curso> cursos) {
+		this.cursos = cursos;
+	}
+
+
+	public void setCodigopostal(Integer codigopostal) {
+		this.codigopostal = codigopostal;
+	}
+
+
 	public long getCodigo() {
 		return codigo;
 	}

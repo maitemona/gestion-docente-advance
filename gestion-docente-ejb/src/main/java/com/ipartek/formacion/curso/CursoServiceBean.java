@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
@@ -33,8 +34,17 @@ public class CursoServiceBean implements CursoServiceRemote {
 
 	@Override
 	public Curso create(Curso curso) {
-		// TODO Auto-generated method stub
-		return null;
+		EntityTransaction txt = entityManager.getTransaction();
+		txt.begin();
+		try{
+			entityManager.persist(curso);
+			txt.commit();
+			entityManager.flush();
+		}catch(Exception e){
+			txt.rollback();
+		}
+		//entityManager.persist(curso);
+		return curso;
 	}
 
 	@Override
@@ -62,13 +72,30 @@ public class CursoServiceBean implements CursoServiceRemote {
 
 	@Override
 	public Curso update(Curso curso) {
-		entityManager.persist(curso);
+		EntityTransaction txt = entityManager.getTransaction();
+		txt.begin();
+		try{
+			entityManager.persist(curso);
+			txt.commit();
+		}catch(Exception e){
+			txt.rollback();
+		}
+		//entityManager.persist(curso);
 		return curso;
 	}
 
 	@Override
 	public void delete(long codigo) {
-		// TODO Auto-generated method stub
+		EntityTransaction txt = entityManager.getTransaction();
+		txt.begin();
+		try{
+			entityManager.remove(entityManager.find(Curso.class, codigo));
+			txt.commit();
+		}catch(Exception e){
+			txt.rollback();
+		}
+		//entityManager.persist(curso);
+	//	return null;
 		
 	}
  

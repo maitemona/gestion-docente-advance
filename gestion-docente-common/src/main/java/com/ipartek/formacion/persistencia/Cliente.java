@@ -7,11 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity
-@Table
+@Entity(name ="cliente")
+@Table(name ="cliente")
+@NamedQueries({
+	@NamedQuery(name="cliente.getAll", query="SELECT cli FROM cliente as cli")
+})
 public class Cliente  implements Serializable{
 	
 	/**

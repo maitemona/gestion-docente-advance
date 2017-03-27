@@ -2,6 +2,7 @@ package com.ipartek.formacion.persistencia;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -9,12 +10,17 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity(name = "profesor")
 @Table(name = "profesor")
+@NamedQueries({
+	@NamedQuery(name="profesor.getAll", query="SELECT p FROM profesor as p")
+})
 public class Profesor implements Serializable {
 	
 	private static final long serialVersionUID = -6698866485450376235L;
@@ -36,16 +42,32 @@ public class Profesor implements Serializable {
 	private String direccion;
 	private String poblacion;
 	private Integer codigopostal;
-	
 	private String telefono;
 	private boolean activo;
-	@OneToMany( fetch = FetchType.EAGER, mappedBy="profesor")
-	//@JoinColumn(name ="codigo", referencedColumnName= "profesor_codigo")
-	private Set<Imparticion> imparticiones;
+	
+	@Transient 
+	private List<Curso> cursos;
 	
 	public Profesor() {
 		super();
 	}
+	
+	
+	public List<Curso> getCursos() {
+		return cursos;
+	}
+
+
+	public void setCursos(List<Curso> cursos) {
+		this.cursos = cursos;
+	}
+
+
+	public void setCodigopostal(Integer codigopostal) {
+		this.codigopostal = codigopostal;
+	}
+
+
 	public long getCodigo() {
 		return codigo;
 	}
@@ -126,7 +148,7 @@ public class Profesor implements Serializable {
 		return "Profesor [codigo=" + codigo + ", dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos
 				+ ", nSS=" + nSS + ", fNacimiento=" + fNacimiento + ", email=" + email + ", direccion=" + direccion
 				+ ", poblacion=" + poblacion + ", codigopostal=" + codigopostal + ", telefono=" + telefono + ", activo="
-				+ activo + ", imparticiones=" + imparticiones + "]";
+				+ activo + "]";
 	}
 	@Override
 	public int hashCode() {

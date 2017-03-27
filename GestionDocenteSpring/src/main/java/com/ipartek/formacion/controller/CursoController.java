@@ -65,5 +65,6 @@ public class CursoController {
 	
 	return mav;
 	
-}
+	}
+	
 }

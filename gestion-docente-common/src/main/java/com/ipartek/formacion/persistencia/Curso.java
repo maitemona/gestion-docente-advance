@@ -28,7 +28,7 @@ import javax.persistence.Transient;
 @Table
 @Entity(name = "curso")
 @NamedQueries({
-	@NamedQuery(name="curso.getAll", query="SELECT c FROM curso c")
+	@NamedQuery(name="curso.getAll", query="SELECT c FROM curso as c")
 })
 @NamedStoredProcedureQueries({
 	@NamedStoredProcedureQuery(name = "curso.getAlumnos",procedureName="alumnogetByCurso", resultClasses = Alumno.class,
@@ -59,16 +59,18 @@ public class Curso implements Serializable{
 	@Column( name = "precio")
 	private double precio;
 	
-//	@OneToMany( fetch = FetchType.EAGER,mappedBy="curso")
-//	@JoinColumn(name ="modulo_codigo", referencedColumnName= "codigo")
-//	private Set<CursoDetalle> modulos;
+
 	
-	
+	@Transient
+	private List<Curso> cursos;
 	
 	@ManyToOne (fetch = FetchType.EAGER)
 	@JoinColumn(name="cliente_codigo")
 	private Cliente cliente;
 	
+	@ManyToOne (fetch = FetchType.EAGER)
+	@JoinColumn(name="profesor_codigo")
+	private Profesor profesor;
 	//**Para que me ignore este objeto y no me lo busque en la tabla (getALL)*/
 	@Transient
 	private List<Alumno> alumnos;
@@ -79,8 +81,19 @@ public class Curso implements Serializable{
 	}
 	
 	
-	
-	
+
+	public List<Curso> getCursos() {
+		return cursos;
+	}
+
+
+	public void setCursos(List<Curso> cursos) {
+		this.cursos = cursos;
+	}
+
+
+
+
 	public List<Alumno> getAlumnos() {
 		return alumnos;
 	}
