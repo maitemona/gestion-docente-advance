@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+
+import com.ipartek.formacion.persistencia.Curso;
 import com.ipartek.formacion.service.interfaces.CursoService;
 
 /**
@@ -65,6 +67,15 @@ public class CursoController {
 	
 	return mav;
 	
+	}
+	/**
+	 * Metodo para add un alumno
+	 * la url es unica.
+	 */
+	@RequestMapping(value = "/addCurso")
+	public String addAlumno(Model model){
+		model.addAttribute("curso",new Curso());
+		return "/cursos/cursoform";
 	}
 	
 }

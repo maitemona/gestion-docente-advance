@@ -13,8 +13,11 @@
 <c:forEach var="curso" items="${listadoCursos}">
 	<div>
 		<a href="<c:url value ='/cursos/${curso.codigo}'/>">${curso.nombre}</a>
+		<a href="cursos/${curso.codigo}">Editar</a>
+		<a href="cursos/deleteCurso/${curso.codigo}">Borrar</a>
 	</div>
 
 </c:forEach>
+<a href="cursos/addCursor">Crear Curso</a>
 </body>
 </html>
