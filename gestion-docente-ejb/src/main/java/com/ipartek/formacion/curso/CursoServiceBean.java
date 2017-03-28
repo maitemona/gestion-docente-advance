@@ -75,7 +75,8 @@ public class CursoServiceBean implements CursoServiceRemote {
 		//EntityTransaction txt = entityManager.getTransaction();
 		//txt.begin();
 		try{
-			entityManager.persist(curso);
+		//	entityManager.persist(curso);
+			entityManager.merge(curso);
 			//txt.commit();
 		}catch(Exception e){
 			//txt.rollback();
