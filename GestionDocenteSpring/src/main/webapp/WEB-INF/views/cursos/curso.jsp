@@ -17,7 +17,6 @@
 	            value="${curso.fInicio}" /></p>
 			<p>F.Fin: <fmt:formatDate pattern="dd/MM/yyyy" 
 	            value="${curso.fFin}" /></p>
-	
 				<h2>Listado de Alumnos  a esta curso</h2>
 		<!-- 	<c:forEach var="alumno" items="${modulo.imparticion.alumnos}">
 				${alumno.nombre} <a href="../alumnos/${alumno.codigo}">ir a</a>
@@ -26,8 +25,6 @@
   	<c:forEach var="alumno" items="${curso.alumnos}">
 			<div>
 				${alumno.nombre}
-				
-				
 				 <a href="<c:url value='/cursos/${curso.codigo}/alumnos/${alumno.codigo}'/>">ir a</a>
 			</div>
 		</c:forEach>

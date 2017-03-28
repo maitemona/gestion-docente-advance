@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,7 +42,7 @@ public class CursoController {
 	@RequestMapping(value = "/{codigo}")
 	public String getByid(@PathVariable("codigo") long codigo,Model model){
 		model.addAttribute("curso", cS.getById(codigo));
-		return "cursos/curso";
+		return "cursos/cursoform";
 	}
 	 /**
 	  * Metodo que me saca los detalles del modulo asociado a ese curos
@@ -69,7 +72,7 @@ public class CursoController {
 	
 	}
 	/**
-	 * Metodo para add un alumno
+	 * Metodo para add un curso
 	 * la url es unica.
 	 */
 	@RequestMapping(value = "/addCurso")
@@ -77,5 +80,41 @@ public class CursoController {
 		model.addAttribute("curso",new Curso());
 		return "/cursos/cursoform";
 	}
+	
+	@RequestMapping(value="/save",method =  RequestMethod.POST)
+	public String saveContacto (Model model , @ModelAttribute("curso") @Validated Curso curso, BindingResult bindingResult ){
+		String destino ="";
+		/*si las cosas estan mal nos mande de vuelta*/
+		if(bindingResult.hasErrors()){
+			logger.info("curso tiene errores");
+			destino = "cursos/cursoform";
+		}else{ 
+			destino = "redirect:/cursos";
+			if(curso.getCodigo() > Curso.CODIGO_NULO){
+				logger.info("AQUI"+curso.toString());
+				cS.update(curso);
+			}else{
+				logger.info("Objeto update:"+curso.toString());
+				cS.create(curso);
+			}
+		}
+		return destino;
+	}
+	
+	@RequestMapping(value = "/deleteCurso/{codigo}")
+	public String delete(@PathVariable("codigo") int codigo) {
+		cS.delete(codigo);
+		return "redirect:/cursos";
+	}
+	
+	
+	@RequestMapping(value = "/informe/{codigo}")
+	public String verInforme(@PathVariable("codigo") int codigo,Model model) {
+		logger.info("informe Curso");
+		model.addAttribute("curso", cS.getById(codigo));
+		return "cursos/curso";
+		
+	}
+
 	
 }

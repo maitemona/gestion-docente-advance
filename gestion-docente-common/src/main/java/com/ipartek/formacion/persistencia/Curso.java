@@ -36,9 +36,7 @@ import javax.persistence.Transient;
 })
 public class Curso implements Serializable{
 	
-	/**
-	 * 
-	 */
+	public static final int CODIGO_NULO = 0;
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

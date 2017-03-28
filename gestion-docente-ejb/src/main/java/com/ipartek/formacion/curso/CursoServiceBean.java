@@ -34,14 +34,14 @@ public class CursoServiceBean implements CursoServiceRemote {
 
 	@Override
 	public Curso create(Curso curso) {
-		EntityTransaction txt = entityManager.getTransaction();
-		txt.begin();
+		//EntityTransaction txt = entityManager.getTransaction();
+		//txt.begin();
 		try{
 			entityManager.persist(curso);
-			txt.commit();
+			//txt.commit();
 			entityManager.flush();
 		}catch(Exception e){
-			txt.rollback();
+			//txt.rollback();
 		}
 		//entityManager.persist(curso);
 		return curso;
@@ -72,13 +72,13 @@ public class CursoServiceBean implements CursoServiceRemote {
 
 	@Override
 	public Curso update(Curso curso) {
-		EntityTransaction txt = entityManager.getTransaction();
-		txt.begin();
+		//EntityTransaction txt = entityManager.getTransaction();
+		//txt.begin();
 		try{
 			entityManager.persist(curso);
-			txt.commit();
+			//txt.commit();
 		}catch(Exception e){
-			txt.rollback();
+			//txt.rollback();
 		}
 		//entityManager.persist(curso);
 		return curso;
@@ -86,17 +86,23 @@ public class CursoServiceBean implements CursoServiceRemote {
 
 	@Override
 	public void delete(long codigo) {
-		EntityTransaction txt = entityManager.getTransaction();
-		txt.begin();
+		//EntityTransaction txt = entityManager.getTransaction();
+		//txt.begin();
 		try{
 			entityManager.remove(entityManager.find(Curso.class, codigo));
-			txt.commit();
+			//txt.commit();
 		}catch(Exception e){
-			txt.rollback();
+			//txt.rollback();
 		}
 		//entityManager.persist(curso);
 	//	return null;
 		
+	}
+
+	@Override
+	public Curso verInforme(int codigo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
  
 

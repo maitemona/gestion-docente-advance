@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
+
 import com.ipartek.formacion.persistencia.Curso;
 
 
@@ -20,5 +21,7 @@ public interface CursoServiceRemote {
 	public Curso update(Curso curso);
 
 	public void delete(long codigo);
+
+	public Curso verInforme(int codigo);
 	
 }
