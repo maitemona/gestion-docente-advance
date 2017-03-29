@@ -1,79 +1,83 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>  
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%> 
+  
 <spring:message var="men" code="form.crear" text="nombre" />
 <c:if test="${curso.codigo > 0}" >
 	<spring:message var="men"  code="form.editar" text="nombre" />
-</c:if>  
-<spring:message var="seccion" code="curso.titulo" text="curso" />
+</c:if> 
+<c:set scope="request" var="seccion" value="Curso"/>
 <c:set scope="request" var="seccion" value="${men} ${seccion}"/>
 <jsp:include page="../includes/header.jsp" />
-<main>
-<form:form action="save" method="post" modelAttribute="curso" cssClass="form-horizontal">
-		<c:if test="${!empty curso}">
-			<form:hidden path="codigo"/>
-		</c:if>
-		<div class="form-group">
-			<form:label cssClass="control-label hidden-xs col-sm-2" path="nombre">
-				<spring:message code="curso.nombre" />:
-			</form:label>
-			<div class="col-sm-7">
-				<form:input placeholder="Introduzca su nombre" path="nombre" cssErrorClass="text-danger" cssClass="form-control"/>
-			</div>
-			<div class="col-sm-3">
-				<form:errors path="nombre" cssClass="text-danger" />
-			</div>
-		</div>
-	<div class="form-group">
-			<form:label cssClass="control-label hidden-xs col-sm-2" path="temario">
-				<spring:message code="curso.temario" />:
-			</form:label>
-			<div class="col-sm-7">
-				<form:input placeholder="Introduzca su temario" path="nombre" cssErrorClass="text-danger" cssClass="form-control"/>
-			</div>
-			<div class="col-sm-3">
-				<form:errors path="temario" cssClass="text-danger" />
-			</div>
-		</div>
-			<div class="form-group">
-			<form:label cssClass="control-label hidden-xs col-sm-2" path="nHoras">
-				<spring:message code="curso.nHoras" />:
-			</form:label>
-			<div class="col-sm-7">
-				<form:input placeholder="Introduzca su nº horas" path="nHoras" cssErrorClass="text-danger" cssClass="form-control"/>
-			</div>
-			<div class="col-sm-3">
-				<form:errors path="nHoras" cssClass="text-danger" />
-			</div>
-		</div>
-		<div class="form-group">
-			<form:label cssClass="control-label hidden-xs col-sm-2" path="fInicio">
-				<spring:message code="curso.fInicio" />:
-			</form:label>
-			<div class="col-sm-7">
-				<form:input  placeholder="dd/MM/yyyy" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" path="fInicio" cssErrorClass="text-danger" cssClass="form-control"/>
-			</div>
-			<div class="col-sm-3">
-				<form:errors path="fInicio" cssClass="text-danger" />
-			</div>
-		</div>
-		<div class="form-group">
-			<form:label cssClass="control-label hidden-xs col-sm-2" path="fFin">
-				<spring:message code="curso.fFin" />:
-			</form:label>
-			<div class="col-sm-7">
-				<form:input  placeholder="dd/MM/yyyy" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" path="fFin" cssErrorClass="text-danger" cssClass="form-control"/>
-			</div>
-			<div class="col-sm-3">
-				<form:errors path="fFin" cssClass="text-danger" />
-			</div>
-		</div>
+<main class="container-fluid">
+
+	<section class="row">
+		<c:url var="sendUrl" value="/cursos/save"/>
+		<c:url var="cancelUrl" value="/cursos"/>
+	 
+		<header class="col-xs-12 col-md-10 col-md-offset-2"><h2>${seccion}</h2></header>
+		<div class="container-fluid">
+			<form:form action="${sendUrl}" method="post" modelAttribute="curso" cssClass="form-horizontal">
+				<c:if test="${!empty curso}">
+					<form:hidden path="codigo"/>
+					<form:hidden path="activo" value ="true"/>
+				</c:if>
+				<div class="form-group">
+					<form:label path="nombre" cssClass="control-label  col-xs-2"><spring:message code="curso.nombre" text="Nombre"/></form:label>
+					<div class="col-xs-4">
+						<form:input type="text" path="nombre" cssClass="form-control" cssErrorClass="form-control text-danger"/>
+					</div>
+					<form:errors path="nombre" cssClass="text-danger col-xs-6"></form:errors>
+				</div>
+				<div class="form-group">
+						<form:label path="identificador" cssClass="control-label  col-xs-2">Idenficador</form:label>
+						<div class="col-xs-4">
+							<form:input type="text" path="identificador" cssClass="form-control" cssErrorClass="form-control text-danger"/>
+						</div>
+					<form:errors path="identificador" cssClass="text-danger col-xs-6"></form:errors>
+				</div>
+				<div class="form-group">
+					<form:label path="fInicio" cssClass="control-label col-xs-2"><spring:message code="curso.fInicio" text="F.Inicio"/></form:label>
+					<div class="col-xs-4">
+						<form:input type="text" path="fInicio" cssClass="form-control" cssErrorClass="text-danger"/>
+					</div>
+					<form:errors path="fInicio" cssClass="text-danger col-xs-6"></form:errors>
+				</div>
+				<div class="form-group">
+						<form:label path="fFin" cssClass="control-label  col-xs-2"><spring:message code="curso.fFin" text="F.Fin"/></form:label>
+						<div class="col-xs-4">
+							<form:input type="text" path="fFin" cssClass="form-control" cssErrorClass="text-danger"/>
+						</div>
+						<form:errors path="fFin" cssClass="text-danger col-xs-6"></form:errors>
+				</div>
+				<div class="form-group">
+						<form:label path="nHoras" cssClass="control-label  col-xs-2"><spring:message code="curso.nHoras" text="Núm.Horas"/></form:label>
+						<div class="col-xs-4">
+							<form:input path="nHoras" cssClass="form-control" cssErrorClass="text-danger"/>
+						</div>
+						<form:errors path="nHoras" cssClass="text-danger col-xs-6"></form:errors>
+				</div>
+				<div class="form-group">
+						<form:label path="precio" cssClass="control-label  col-xs-2"><spring:message code="curso.precio" text="Precio"/></form:label>
+						<div class="col-xs-4">
+							<form:input path="precio" cssClass="form-control" cssErrorClass="text-danger"/>
+						</div>
+						<form:errors path="precio" cssClass="text-danger col-xs-6"></form:errors>
+				</div>			
+				
+				<div class="form-group">
+					<div class="col-md-offset-3">
+						<button type="submit" class="btn btn-success">${men}</button>
+						<a class="btn btn-warning" href="${cancelUrl}">Cancelar</a>
+					</div>
+				</div>
 		
-		<div class="form-group">
-		<input type="submit" value="${men}">
+			</form:form>
+		
 		</div>
-	</form:form>
-	
+	</section>
 </main>
 <%@include file="../includes/footer.html" %>

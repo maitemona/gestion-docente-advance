@@ -56,8 +56,8 @@ public class Curso implements Serializable{
 	private String temario;
 	@Column( name = "precio")
 	private double precio;
-	
-
+	@Column( name = "activo")
+	private boolean activo;
 	
 	@Transient
 	private List<Curso> cursos;
@@ -83,6 +83,29 @@ public class Curso implements Serializable{
 	public List<Curso> getCursos() {
 		return cursos;
 	}
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+
+
+
+	public Profesor getProfesor() {
+		return profesor;
+	}
+
+
+
+	public void setProfesor(Profesor profesor) {
+		this.profesor = profesor;
+	}
+
 
 
 	public void setCursos(List<Curso> cursos) {

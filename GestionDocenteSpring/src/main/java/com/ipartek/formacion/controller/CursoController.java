@@ -77,7 +77,10 @@ public class CursoController {
 	 */
 	@RequestMapping(value = "/addCurso")
 	public String addAlumno(Model model){
-		model.addAttribute("curso",new Curso());
+	//*para poner  a true el activo en bbdd, por defecto jpa todos los boleanos lo ponen a false*/
+		Curso curso = new Curso();
+		curso.setActivo(true);
+		model.addAttribute("curso",curso);
 		return "/cursos/cursoform";
 	}
 	
@@ -91,10 +94,10 @@ public class CursoController {
 		}else{ 
 			destino = "redirect:/cursos";
 			if(curso.getCodigo() > Curso.CODIGO_NULO){
-				logger.info("AQUI"+curso.toString());
+				logger.info("AQUI update:"+curso.toString());
 				cS.update(curso);
 			}else{
-				logger.info("Objeto update:"+curso.toString());
+				logger.info("Objeto create:"+curso.toString());
 				cS.create(curso);
 			}
 		}
@@ -107,7 +110,17 @@ public class CursoController {
 		return "redirect:/cursos";
 	}
 	
-	
+	@RequestMapping(value = "/editCurso/{codigocurso}")
+	public ModelAndView editCurso(@PathVariable("codigocurso") long codigocurso) {
+		mav = new ModelAndView("/cursos/cursoform");
+		Curso curso = cS.getById(codigocurso);
+		logger.info(curso.toString());
+		mav.addObject("curso", curso);
+		//List<Profesor> profesores = pS.getAll();
+	//	mav.addObject("listadoProfesores", profesores);
+		return mav;
+	}
+	/*
 	@RequestMapping(value = "/informe/{codigo}")
 	public String verInforme(@PathVariable("codigo") int codigo,Model model) {
 		logger.info("informe Curso");
@@ -115,6 +128,6 @@ public class CursoController {
 		return "cursos/curso";
 		
 	}
-
+*/
 	
 }

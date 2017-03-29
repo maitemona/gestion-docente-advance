@@ -1,35 +1,35 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Datos del curso</title>
-</head>
-<body>
-<c:if test="${!empty curso}">
-	<h2>Detalle del curso</h2>
-		<p>Nombre: ${curso.nombre}</p>
-			<p>F.Inicio: <fmt:formatDate pattern="dd/MM/yyyy" 
-	            value="${curso.fInicio}" /></p>
-			<p>F.Fin: <fmt:formatDate pattern="dd/MM/yyyy" 
-	            value="${curso.fFin}" /></p>
-				<h2>Listado de Alumnos  a esta curso</h2>
-		<!-- 	<c:forEach var="alumno" items="${modulo.imparticion.alumnos}">
-				${alumno.nombre} <a href="../alumnos/${alumno.codigo}">ir a</a>
-				</br>	
-			</c:forEach> -->
-  	<c:forEach var="alumno" items="${curso.alumnos}">
-			<div>
-				${alumno.nombre}
-				 <a href="<c:url value='/cursos/${curso.codigo}/alumnos/${alumno.codigo}'/>">ir a</a>
-			</div>
-		</c:forEach>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>    
+<c:set scope="request" var="seccion" value="Curso ${curso.nombre}"/>
+<jsp:include page="../includes/header.jsp" />
+<main class="container-fluid">
+	<section class="row">
+		<header class="col-xs-12"><h2>Datos del curso</h2></header>
 		
-
-</c:if>
-</body>
-</html>
+			<div class="col-xs-12">
+				<p>Nombre: ${curso.nombre}</p>
+				<p>
+					F.Inicio: <fmt:formatDate pattern="dd/MM/yyyy" value="${curso.fInicio}" /></p>
+				<p>
+					F.Fin: <fmt:formatDate pattern="dd/MM/yyyy" value="${curso.fFin}" />
+				 </p>
+				<p>Horas: ${curso.nHoras}</p>
+				<p>Temario: ${curso.temario}</p>
+				<p>Precio: ${curso.precio}</p>
+				<p>Cliente: ${curso.cliente.nombre}</p>
+			</div>
+			<section class="col-xs-12">
+				<header><h3>Listado de alumnos</h3></header>
+					<c:forEach var="alumno" items="${curso.alumnos}">
+						<div>
+							<a href="<c:url value='/cursos/${curso.codigo}/alumnos/${alumno.codigo}'/>">${alumno.nombre} ${alumno.apellidos} ${alumno.email}</a>
+						</div>
+					</c:forEach>
+		</section>
+			
+	</section>
+</main>
+<%@include file="../includes/footer.html" %>
