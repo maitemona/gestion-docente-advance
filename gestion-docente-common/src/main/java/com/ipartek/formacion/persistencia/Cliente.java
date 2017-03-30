@@ -30,7 +30,7 @@ public class Cliente  implements Serializable{
 	@GeneratedValue
 	private long codigo;
 	private String nombre;
-	
+	private boolean activo;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy="cliente")
 	private Set<Curso> cursos;
@@ -55,6 +55,12 @@ public class Cliente  implements Serializable{
 		this.nombre = nombre;
 	}
 	
+	public boolean isActivo() {
+		return activo;
+	}
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

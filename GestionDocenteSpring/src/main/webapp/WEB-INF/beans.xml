@@ -68,5 +68,9 @@
 	<bean id="profesorServiceEJB" class="com.ipartek.formacion.service.ProfesorServiceEJBImp">
 		<property name="profesorServiceRemote" ref="profesorServiceRemote" />
 	</bean>
-	
+	 <!-- Para meter un objeto del EJB , pq que coge la bean de ese jbe-->
+   <jee:jndi-lookup id="clienteServiceRemote" jndi-name="java:app/gestion-docente-ejb/clienteServiceBean" />
+	<bean id="clienteServiceEJB" class="com.ipartek.formacion.service.ClienteServiceEJBImp">
+		<property name="clienteServiceRemote" ref="clienteServiceRemote" />
+	</bean>
  </beans>  

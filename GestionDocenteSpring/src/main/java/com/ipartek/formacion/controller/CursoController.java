@@ -23,9 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import com.ipartek.formacion.persistencia.Cliente;
 import com.ipartek.formacion.persistencia.Curso;
 import com.ipartek.formacion.persistencia.Profesor;
+import com.ipartek.formacion.service.interfaces.ClienteServiceEJB;
 import com.ipartek.formacion.service.interfaces.CursoService;
 import com.ipartek.formacion.service.interfaces.ProfesorServiceEJB;
 
@@ -42,6 +43,8 @@ public class CursoController {
 	private CursoService cS;
 	@Autowired
 	private ProfesorServiceEJB pS;
+	@Autowired
+	private ClienteServiceEJB cliS;
 //	@Autowired
 	//CursoValidator validator;
 	private ModelAndView mav=null;
@@ -103,9 +106,8 @@ public class CursoController {
 	@RequestMapping(value = "/addCurso")
 	public String addCurso(Model model) {
 		model.addAttribute("curso", new Curso());
-	
 		model.addAttribute("listadoProfesores", pS.getAll());
-//		model.addAttribute("listadoClientes", cl.getAll());
+		model.addAttribute("listadoClientes", cliS.getAll());
 		return "cursos/cursoform";
 	}
 	/*@RequestMapping(value = "/addCurso")
@@ -125,6 +127,7 @@ public class CursoController {
 		if(bindingResult.hasErrors()){
 			logger.info("curso tiene errores");
 			model.addAttribute("listadoProfesores", pS.getAll());
+			model.addAttribute("listadoClientes",cliS.getAll());
 			//List<Profesor> profesores = pS.getAll();
 			//logger.info("tamaño de profesores:" + profesores.size());
 		//	System.out.println("profesor"+pS.getAll());
@@ -154,11 +157,11 @@ public class CursoController {
 	public String editCurso(@PathVariable("codigo") long codigo, Model model) {
 		Curso cur = cS.getById(codigo);
 		List<Profesor> profesores = pS.getAll();
-		//List<Cliente> clientes = cl.getAll();
+		List<Cliente> clientes = cliS.getAll();
 		logger.info(codigo + " " + cur.toString());
 		model.addAttribute("curso", cur);
 		model.addAttribute("listadoProfesores", profesores);
-		//model.addAttribute("listadoClientes", clientes);
+		model.addAttribute("listadoClientes", clientes);
 
 		return "cursos/cursoform";
 
