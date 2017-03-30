@@ -67,7 +67,15 @@
 						</div>
 						<form:errors path="precio" cssClass="text-danger col-xs-6"></form:errors>
 				</div>			
-				
+				<div class="form-group">
+					<form:label cssClass="control-label col-xs-2" path="profesor">Profesor:</form:label>
+					<div class="col-xs-4">
+						<form:select cssClass="form-control" path="profesor">
+			               <form:option value="0" label="Elija un profesor"/>
+							<form:options items="${listadoProfesores}" itemValue="codigo" itemLabel="nombre" />
+			            </form:select> 
+		            </div>
+		          </div>
 				<div class="form-group">
 					<div class="col-md-offset-3">
 						<button type="submit" class="btn btn-success">${men}</button>

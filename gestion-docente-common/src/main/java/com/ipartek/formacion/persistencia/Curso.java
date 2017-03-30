@@ -3,9 +3,9 @@ package com.ipartek.formacion.persistencia;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
-import javax.enterprise.inject.Stereotype;
+
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,14 +18,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
-import javax.persistence.OneToMany;
+
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 
-@Table
+@Table(name = "curso")
 @Entity(name = "curso")
 @NamedQueries({
 	@NamedQuery(name="curso.getAll", query="SELECT c FROM curso as c")

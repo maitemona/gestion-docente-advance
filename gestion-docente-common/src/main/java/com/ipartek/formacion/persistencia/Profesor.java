@@ -3,16 +3,16 @@ package com.ipartek.formacion.persistencia;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -150,6 +150,8 @@ public class Profesor implements Serializable {
 				+ ", poblacion=" + poblacion + ", codigopostal=" + codigopostal + ", telefono=" + telefono + ", activo="
 				+ activo + "]";
 	}
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -157,21 +159,21 @@ public class Profesor implements Serializable {
 		result = prime * result + (int) (codigo ^ (codigo >>> 32));
 		return result;
 	}
+
+
 	@Override
 	public boolean equals(Object obj) {
-		boolean iguales = false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		Profesor other = (Profesor) obj;
-		if (this == obj || obj == null ||getClass() != obj.getClass()||codigo != other.codigo)
-		{
-			iguales = false;
-		}
-		else{
-			
-			iguales = true;
-		}
-		return iguales;
+		if (codigo != other.codigo)
+			return false;
+		return true;
 	}
 
-	
 
 }
