@@ -8,10 +8,10 @@ import javax.persistence.EntityManager;
 
 import javax.persistence.PersistenceContext;
 
-import javax.persistence.StoredProcedureQuery;
+
 import javax.persistence.TypedQuery;
 
-import com.ipartek.formacion.persistencia.Alumno;
+
 import com.ipartek.formacion.persistencia.Curso;
 
 /**
