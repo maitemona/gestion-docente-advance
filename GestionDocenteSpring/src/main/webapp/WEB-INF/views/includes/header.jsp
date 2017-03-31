@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %> 
 <%@ page session="false" %>
 <html>
 <head>
@@ -45,6 +46,7 @@
 				 G.Cursos
 				</a>
 			</li>
+			
 		</ul>
 	</nav>
 	<div class="btn-group">
@@ -65,5 +67,20 @@
 				</a>
 			</li>
 		</ul>
+	</div>
+	<div>
+	   <sec:authorize access="isAnonymous()">
+                <form method="POST" action="<c:url value='/login'/>">
+                    Username: <input name="userId" type="text" value="${SPRING_SECURITY_LAST_USERNAME}" /> 
+                    Password: <input name="password" type="password" />
+                    <!-- 
+                    <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
+                     --> 
+                    <input type="submit" value="Login" />
+                </form>
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
+                <a class="btn btn-default" href="<c:url value="/logout" />">Logout</a>
+            </sec:authorize>
 	</div>
 </header>
