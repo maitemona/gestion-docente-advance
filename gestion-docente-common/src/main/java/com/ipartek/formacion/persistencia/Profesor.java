@@ -48,11 +48,24 @@ public class Profesor implements Serializable {
 	@Transient 
 	private List<Curso> cursos;
 	
+	@Transient
+	private String fullName;
+	
 	public Profesor() {
 		super();
 	}
 	
 	
+	public String getFullName() {
+		return fullName;
+	}
+
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+
 	public List<Curso> getCursos() {
 		return cursos;
 	}

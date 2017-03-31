@@ -149,6 +149,8 @@ public class Alumno implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -156,21 +158,23 @@ public class Alumno implements Serializable{
 		result = prime * result + (int) (codigo ^ (codigo >>> 32));
 		return result;
 	}
+
+
 	@Override
 	public boolean equals(Object obj) {
-		boolean iguales = false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		Alumno other = (Alumno) obj;
-		if (this == obj || obj == null ||getClass() != obj.getClass()||codigo != other.codigo)
-		{
-			iguales = false;
-		}
-		else{
-			
-			iguales = true;
-		}
-		return iguales;
+		if (codigo != other.codigo)
+			return false;
+		return true;
 	}
-	
+
+
 	@Override
 	public String toString() {
 		return "Alumno [codigo=" + codigo + ", activo=" + activo + ", nHermanos=" + nHermanos + ", dni=" + dni
