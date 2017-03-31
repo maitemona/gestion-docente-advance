@@ -65,8 +65,10 @@ public class CursoServiceBean implements CursoServiceRemote {
 		Curso curso = entityManager.find(Curso.class, codigo);
 		StoredProcedureQuery spq= entityManager.createNamedStoredProcedureQuery("curso.getAlumnos");
 		spq.setParameter(1,curso.getCodigo());
-		List<Alumno> alumnos = spq.getResultList();
+		//List<Alumno> alumnos = spq.getResultList();
+		List<Alumno> alumnos = (List<Alumno>)spq.getResultList();
 		curso.setAlumnos(alumnos);
+		
 		return curso;
 	}
 

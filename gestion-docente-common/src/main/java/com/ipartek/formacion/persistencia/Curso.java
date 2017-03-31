@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -62,16 +63,26 @@ public class Curso implements Serializable{
 	@Transient
 	private List<Curso> cursos;
 	
-	@ManyToOne (fetch = FetchType.EAGER)
+	@ManyToOne (fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
 	@JoinColumn(name="cliente_codigo")
 	private Cliente cliente;
 	
-	@ManyToOne (fetch = FetchType.EAGER)
+	@ManyToOne (fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
 	@JoinColumn(name="profesor_codigo")
 	private Profesor profesor;
 	//**Para que me ignore este objeto y no me lo busque en la tabla (getALL)*/
-	@Transient
-	private List<Alumno> alumnos;
+	//@Transient
+	
+	@ManyToMany (fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+	@JoinTable(name="imparticion", joinColumns={@JoinColumn(name="curso_codigo")},
+	 			inverseJoinColumns = {@JoinColumn(name="alumno_codigo")})
+	  	private List<Alumno> alumnos;
+	
+	//@Transient //si solo hacemos operación de lectura, pero si quiero añadir alumno aun curso:
+	 /*	@ManyToMany
+	 	@JoinTable(name="imparticion",joinColumns={
+	 			@JoinColumn(name="alumno_codigo")
+	 	})private List<Alumno> alumnos;*/
 	
 	
 	public Curso() {

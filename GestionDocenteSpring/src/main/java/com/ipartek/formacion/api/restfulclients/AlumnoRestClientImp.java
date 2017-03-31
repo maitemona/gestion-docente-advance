@@ -46,6 +46,7 @@ public class AlumnoRestClientImp implements AlumnoRestClient{
 		RestTemplate template = new RestTemplate();
 		template.put(AlumnoRestClient.URL + "/" + alumno.getCodigo() ,alumno);
 		return alumno;
+	
 	}
 
 	@Override
@@ -63,5 +64,5 @@ public class AlumnoRestClientImp implements AlumnoRestClient{
 		template.delete(AlumnoRestClient.URL + "/" + codigo);
 		
 	}
-	
+	//template.delete(AlumnoRestClient.URL + "/" + codigo);
 }
