@@ -148,6 +148,8 @@ public class CursoController {
 				logger.info(curso.getProfesor().toString());
 			}else{
 				logger.info("Objeto create:"+curso.toString());
+				
+				logger.info(curso.getAlumnos().toString());
 				cS.create(curso);
 			}
 		}

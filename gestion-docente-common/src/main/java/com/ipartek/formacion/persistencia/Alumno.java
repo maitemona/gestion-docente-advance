@@ -33,7 +33,7 @@ public class Alumno implements Serializable{
 	
 	public static final int CODIGO_NULO = -1;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "codigo")
 	private long codigo;
 	private boolean activo;
