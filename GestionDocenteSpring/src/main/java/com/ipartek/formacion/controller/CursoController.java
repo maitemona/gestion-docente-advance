@@ -131,7 +131,9 @@ public class CursoController {
 		/*si las cosas estan mal nos mande de vuelta*/
 		if(bindingResult.hasErrors()){
 			logger.info("curso tiene errores");
-			
+			model.addAttribute("listadoProfesores", pS.getAll());
+			model.addAttribute("listadoClientes",cliS.getAll());
+			model.addAttribute("listadoAlumnos", aS.getAll());
 			//List<Profesor> profesores = pS.getAll();
 			//logger.info("tamaño de profesores:" + profesores.size());
 		//	System.out.println("profesor"+pS.getAll());
@@ -139,9 +141,7 @@ public class CursoController {
 			destino = "cursos/cursoform";
 		}else{ 
 			destino = "redirect:/cursos";
-			model.addAttribute("listadoProfesores", pS.getAll());
-			model.addAttribute("listadoClientes",cliS.getAll());
-			model.addAttribute("listadoAlumnos", aS.getAll());
+			
 			if(curso.getCodigo() > Curso.CODIGO_NULO){
 				logger.info("AQUI update:"+curso.toString());
 				cS.update(curso);
