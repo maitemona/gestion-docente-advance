@@ -72,7 +72,7 @@
 					<div class="col-xs-4">
 						<form:select cssClass="form-control" path="profesor">
 			               <form:option value="0" label="Elija un profesor"/>
-							<form:options items="${listadoProfesores}" itemValue="codigo" itemLabel="nombre" />
+							<form:options items="${listadoProfesores}" itemValue="codigo" itemLabel="fullName" />
 			            </form:select> 
 		            </div>
 		          </div>
@@ -85,7 +85,15 @@
 			            </form:select> 
 		            </div>
 		          </div>
-		        
+		        <div class="form-group">
+					<form:label cssClass="control-label col-xs-2" path="alumnos">Alumnos:</form:label>
+					<div class="col-xs-4">
+						<form:select multiple="true" cssClass="form-control" path="alumnos">
+			               <form:option value="0" label="Elija alumnos"/>
+							<form:options items="${listadoAlumnos}" itemValue="codigo" itemLabel="nombre" />
+			            </form:select> 
+		            </div>
+		          </div>
 				<div class="form-group">
 					<div class="col-md-offset-3">
 						<button type="submit" class="btn btn-success">${men}</button>

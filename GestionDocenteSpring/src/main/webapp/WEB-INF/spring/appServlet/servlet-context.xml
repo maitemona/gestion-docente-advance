@@ -17,6 +17,7 @@
 	        <beans:set>
 	            <beans:bean class="com.ipartek.formacion.controller.formater.ProfesorConverter"/>
 	            <beans:bean class="com.ipartek.formacion.controller.formater.ClienteConverter"/>
+	              <beans:bean class="com.ipartek.formacion.controller.formater.AlumnoConverter"/>
 	        </beans:set>
 	    </beans:property>
 	    

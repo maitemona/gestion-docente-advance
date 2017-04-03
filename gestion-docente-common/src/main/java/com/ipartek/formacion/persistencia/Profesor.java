@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
@@ -16,11 +16,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.ipartek.formacion.listeners.ProfesorListener;
+
 @Entity(name = "profesor")
 @Table(name = "profesor")
 @NamedQueries({
 	@NamedQuery(name="profesor.getAll", query="SELECT p FROM profesor as p")
 })
+@EntityListeners(ProfesorListener.class)
 public class Profesor implements Serializable {
 	
 	private static final long serialVersionUID = -6698866485450376235L;

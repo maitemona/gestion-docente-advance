@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
+
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ipartek.formacion.persistencia.Alumno;
 import com.ipartek.formacion.persistencia.Cliente;
 import com.ipartek.formacion.persistencia.Curso;
 import com.ipartek.formacion.persistencia.Profesor;
+import com.ipartek.formacion.service.interfaces.AlumnoServiceEJB;
 import com.ipartek.formacion.service.interfaces.ClienteServiceEJB;
 import com.ipartek.formacion.service.interfaces.CursoService;
 import com.ipartek.formacion.service.interfaces.ProfesorServiceEJB;
@@ -45,6 +47,8 @@ public class CursoController {
 	private ProfesorServiceEJB pS;
 	@Autowired
 	private ClienteServiceEJB cliS;
+	@Autowired 
+	private AlumnoServiceEJB aS;
 //	@Autowired
 	//CursoValidator validator;
 	private ModelAndView mav=null;
@@ -108,6 +112,7 @@ public class CursoController {
 		model.addAttribute("curso", new Curso());
 		model.addAttribute("listadoProfesores", pS.getAll());
 		model.addAttribute("listadoClientes", cliS.getAll());
+		model.addAttribute("listadoAlumnos", aS.getAll());
 		return "cursos/cursoform";
 	}
 	/*@RequestMapping(value = "/addCurso")
@@ -126,8 +131,7 @@ public class CursoController {
 		/*si las cosas estan mal nos mande de vuelta*/
 		if(bindingResult.hasErrors()){
 			logger.info("curso tiene errores");
-			model.addAttribute("listadoProfesores", pS.getAll());
-			model.addAttribute("listadoClientes",cliS.getAll());
+			
 			//List<Profesor> profesores = pS.getAll();
 			//logger.info("tamaño de profesores:" + profesores.size());
 		//	System.out.println("profesor"+pS.getAll());
@@ -135,6 +139,9 @@ public class CursoController {
 			destino = "cursos/cursoform";
 		}else{ 
 			destino = "redirect:/cursos";
+			model.addAttribute("listadoProfesores", pS.getAll());
+			model.addAttribute("listadoClientes",cliS.getAll());
+			model.addAttribute("listadoAlumnos", aS.getAll());
 			if(curso.getCodigo() > Curso.CODIGO_NULO){
 				logger.info("AQUI update:"+curso.toString());
 				cS.update(curso);
@@ -158,11 +165,12 @@ public class CursoController {
 		Curso cur = cS.getById(codigo);
 		List<Profesor> profesores = pS.getAll();
 		List<Cliente> clientes = cliS.getAll();
+		List<Alumno> alumnos = aS.getAll();
 		logger.info(codigo + " " + cur.toString());
 		model.addAttribute("curso", cur);
 		model.addAttribute("listadoProfesores", profesores);
 		model.addAttribute("listadoClientes", clientes);
-
+		model.addAttribute("listadoAlumnos", alumnos);
 		return "cursos/cursoform";
 
 	}
@@ -185,6 +193,6 @@ public class CursoController {
 		return "cursos/curso";
 		
 	}
-*/
+	*/
 	
 }
