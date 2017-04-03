@@ -19,7 +19,7 @@ public class AlumnoConverter implements Converter<String,Alumno>{
 	@Override
 	public Alumno convert(String arg0) {
 		LOGGER.info(arg0.toString());
-		return null;
+		return aS.getById(Long.parseLong((String) arg0));
 	}
 
 }
