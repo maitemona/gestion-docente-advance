@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 
 import javax.persistence.TypedQuery;
 
+import org.apache.log4j.Logger;
 
 import com.ipartek.formacion.persistencia.Curso;
 
@@ -19,7 +20,7 @@ import com.ipartek.formacion.persistencia.Curso;
  */
 @Stateless(name = "CursoServiceBean")
 public class CursoServiceBean implements CursoServiceRemote {
-
+	private static final Logger LOGGER = Logger.getLogger(CursoServiceBean.class);
     @PersistenceContext(unitName="gestiondocente")//nonbre definido en el perstince.xml del JPA
     private EntityManager entityManager;
   //va a hacer la factoria de objetos, me va gestionar todo

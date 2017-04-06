@@ -9,6 +9,7 @@
   <packaging>ejb</packaging>
    <properties>
         <!-- plugin versions -->
+        <log4j.version>1.2.15</log4j.version>
         <version.compiler.plugin>2.5.1</version.compiler.plugin>
         <version.ejb.plugin>2.3</version.ejb.plugin>
         <!-- maven-compiler-plugin -->
@@ -73,6 +74,30 @@
             <version>${cxf.version}</version>
             <scope>provided</scope>
         </dependency>
+         <dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.mail</groupId>
+					<artifactId>mail</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+			</exclusions>
+			<scope>provided</scope>
+		</dependency>
     </dependencies>
       <build>
         <!-- Set the name of the deployment -->
