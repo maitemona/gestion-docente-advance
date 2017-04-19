@@ -20,7 +20,7 @@
 	 
 		<header class="col-xs-12 col-md-10 col-md-offset-2"><h2>${seccion}</h2></header>
 		<div class="container-fluid">
-			<form:form action="${sendUrl}" method="post" modelAttribute="curso" cssClass="form-horizontal">
+			<form:form action="${sendUrl}" method="post" modelAttribute="curso" cssClass="form-horizontal" enctype="multipart/form-data">
 				<c:if test="${!empty curso}">
 					<form:hidden path="codigo"/>
 					<form:hidden path="activo" value ="true"/>
@@ -94,13 +94,29 @@
 			            </form:select> 
 		            </div>
 		          </div>
+		          
+		          <div class="form-group">
+            		<form:label path="temario" cssClass="control-label  col-xs-2">Temario:</form:label>
+            		<div class="col-xs-4">
+						<form:input path="temario" disabled="disabled" cssClass="form-control" cssErrorClass="text-danger"/>
+					</div>
+					<form:errors path="temario" cssClass="text-danger col-xs-6"></form:errors>
+					 
+					 <label class="btn btn-primary">
+                		Examinar&hellip; <input type="file" id="fichero" name="fichero" style="display: none;">
+            		</label>
+            		 <!--
+            		<input type="file" id="fichero" name="fichero">
+            		-->
+            	</div>			
+		          
 				<div class="form-group">
 					<div class="col-md-offset-3">
 						<button type="submit" class="btn btn-success">${men}</button>
 						<a class="btn btn-warning" href="${cancelUrl}">Cancelar</a>
 					</div>
 				</div>
-		
+	
 			</form:form>
 		
 		</div>

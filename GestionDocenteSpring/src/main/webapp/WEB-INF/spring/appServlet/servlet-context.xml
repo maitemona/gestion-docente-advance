@@ -67,10 +67,18 @@
 		<mapping path="/resources/**"
 				allowed-origins="http://formacion.ipartek.com" />
 	</cors>
-	
-	
-	
-	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <beans:property name="maxUploadSizePerFile" value="80000"/>
+        <beans:property name="defaultEncoding" value="UTF-8"/>
+        <beans:property name="resolveLazily" value="true"/>
+    </beans:bean>
+	<!-- 
+	 <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <beans:property name="maxUploadSizePerFile" value="80000"/>
+        <beans:property name="defaultEncoding" value="UTF-8"/>
+        <beans:property name="resolveLazily" value="true"/>
+    </beans:bean>
+	 -->
 	<!--Solo para capa vista(.jsp) y controladores (por tener package web)  -->
 	<beans:bean class="com.ipartek.formacion.controller.validator.AlumnoValidator" id="alumnoValidator">
 	</beans:bean>

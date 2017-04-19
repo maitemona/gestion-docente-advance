@@ -1,11 +1,16 @@
 package com.ipartek.formacion.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +19,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ipartek.formacion.controller.validator.FileValidator;
 import com.ipartek.formacion.persistencia.Alumno;
 import com.ipartek.formacion.persistencia.Cliente;
 import com.ipartek.formacion.persistencia.Curso;
@@ -52,21 +60,33 @@ public class CursoController {
 //	@Autowired
 	//CursoValidator validator;
 	private ModelAndView mav=null;
+	
+	/////Queremos que nos metan el contexto de los servlet, queiro el context path , de (resources/docs)
+	@Autowired
+	private ServletContext servletContext;
+	
 	private static final Logger logger = LoggerFactory.getLogger(CursoController.class);
 
 	
 	
-	@InitBinder
+	@InitBinder("curso")
 	public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		dateFormat.setLenient(false);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
 		//binder.setValidator(validator);
 	}
+	
+	
+	@InitBinder("fichero")
+	public void initBinderfichero(WebDataBinder binder) {
+		
+		binder.addValidators(new FileValidator());
+	}
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAll(Model model){
 		model.addAttribute("listadoCursos",cS.getAll());
-	
 		return"cursos/cursos";
 		
 	}
@@ -124,9 +144,12 @@ public class CursoController {
 		return "/cursos/cursoform";
 	}
 	*/
+	
+	//(@Valid @RequestParam("fichero") MultipartFile  file .Es el archivo logico q envio
 	@RequestMapping(value="/save",method =  RequestMethod.POST)
-	public String saveCurso(@ModelAttribute(name = "curso") @Valid Curso curso, BindingResult bindingResult,
-			ModelMap model){
+	public String saveCurso(@Validated @RequestParam("fichero") MultipartFile  file,@ModelAttribute(name = "curso") @Valid Curso curso, 
+			BindingResult bindingResult,
+			ModelMap model) throws IOException{
 		String destino ="";
 		/*si las cosas estan mal nos mande de vuelta*/
 		if(bindingResult.hasErrors()){
@@ -141,7 +164,18 @@ public class CursoController {
 			destino = "cursos/cursoform";
 		}else{ 
 			destino = "redirect:/cursos";
+			//obtengo el archivo
+			InputStream in= file.getInputStream();
+			String root = File.separator + "resources" + File.separator + "docs" + File.separator;
 			
+			
+			String ruta=servletContext.getRealPath(root);
+			File destination = new File(ruta + file.getOriginalFilename());
+			FileUtils.copyInputStreamToFile(in, destination);
+			
+			logger.info(ruta);
+			//guardo dentro de curso ----  temario
+			curso.setTemario(file.getOriginalFilename());
 			if(curso.getCodigo() > Curso.CODIGO_NULO){
 				logger.info("AQUI update:"+curso.toString());
 				cS.update(curso);
