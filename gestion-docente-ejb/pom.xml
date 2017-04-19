@@ -113,7 +113,9 @@
           <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
           <scope>test</scope>
         </dependency>
+        <!--Es va relacionado con la version de wildfly 10 , y es remote  -->
         <dependency>
+        
             <groupId>org.wildfly.arquillian</groupId>
             <artifactId>wildfly-arquillian-container-remote</artifactId>
             <version>2.0.0.Final</version>
