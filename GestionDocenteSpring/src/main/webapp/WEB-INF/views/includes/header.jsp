@@ -83,4 +83,12 @@
                 <a class="btn btn-default" href="<c:url value="/logout" />">Logout</a>
             </sec:authorize>
 	</div>
+	<div class="conatiner">
+		<c:if test="${not empty mensaje}">
+			<div class="${mensaje.type.styles}">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+				<strong>${mensaje.msg}</strong>
+			</div>
+		</c:if>
+	</div>
 </header>

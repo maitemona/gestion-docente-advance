@@ -35,9 +35,13 @@ public class CursoServiceBean implements CursoServiceRemote {
 
 	@Override
 	public Curso create(Curso curso) {
+		curso = entityManager.merge(curso);
+	
+	//entityManager.persist(curso);
+		return curso;
 		//EntityTransaction txt = entityManager.getTransaction();
 		//txt.begin();
-		try{
+		/*try{
 			curso = entityManager.merge(curso);
 			//txt.commit();
 			
@@ -45,7 +49,7 @@ public class CursoServiceBean implements CursoServiceRemote {
 			//txt.rollback();
 		}
 		//entityManager.persist(curso);
-		return curso;
+		return curso;*/
 	}
 
 	@Override
@@ -82,15 +86,16 @@ public class CursoServiceBean implements CursoServiceRemote {
 
 	@Override
 	public Curso update(Curso curso) {
+		entityManager.merge(curso);
 		//EntityTransaction txt = entityManager.getTransaction();
 		//txt.begin();
-		try{
+	/*	try{
 		//	entityManager.persist(curso);
 			entityManager.merge(curso);
 			//txt.commit();
 		}catch(Exception e){
 			//txt.rollback();
-		}
+		}*/
 		//entityManager.persist(curso);
 		return curso;
 	}

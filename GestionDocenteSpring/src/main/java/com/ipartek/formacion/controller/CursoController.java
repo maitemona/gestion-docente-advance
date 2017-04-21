@@ -29,7 +29,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ipartek.formacion.controller.pojo.Mensaje;
+import com.ipartek.formacion.controller.pojo.MensajeType;
 import com.ipartek.formacion.controller.validator.FileValidator;
 import com.ipartek.formacion.persistencia.Alumno;
 import com.ipartek.formacion.persistencia.Cliente;
@@ -145,12 +148,22 @@ public class CursoController {
 	}
 	*/
 	
+	/*
+	 * 
+	 * Model 
+	 * ModelMap
+	 * REdirectAttributes
+	 */
+	//RedirectAttributes redirectMap, tiene la capacidad de mantenar los model pq al hacer redirect todo se pierde
 	//(@Valid @RequestParam("fichero") MultipartFile  file .Es el archivo logico q envio
 	@RequestMapping(value="/save",method =  RequestMethod.POST)
-	public String saveCurso(@Validated @RequestParam("fichero") MultipartFile  file,@ModelAttribute(name = "curso") @Valid Curso curso, 
+	public String saveCurso(@Valid @RequestParam("fichero") MultipartFile  file,@ModelAttribute(name = "curso") @Valid Curso curso, 
 			BindingResult bindingResult,
-			ModelMap model) throws IOException{
+			ModelMap model, RedirectAttributes redirectMap) throws IOException{
 		String destino ="";
+		
+		Mensaje mensaje=null;
+		String txt="";
 		/*si las cosas estan mal nos mande de vuelta*/
 		if(bindingResult.hasErrors()){
 			logger.info("curso tiene errores");
@@ -161,31 +174,56 @@ public class CursoController {
 			//logger.info("tamaño de profesores:" + profesores.size());
 		//	System.out.println("profesor"+pS.getAll());
 			//logger.info(listadoProfesores.size());
-			destino = "cursos/cursoform";
+			mensaje = new Mensaje(MensajeType.MSG_TYPE_DANGER);
+			txt="Errores en los datos del formulario";
+			model.addAttribute("mensaje",mensaje);
+			destino = "cursos/cursoform";	
 		}else{ 
 			destino = "redirect:/cursos";
 			//obtengo el archivo
 			InputStream in= file.getInputStream();
-			String root = File.separator + "resources" + File.separator + "docs" + File.separator;
-			
-			
+			String root = File.separator + "resources" + File.separator + "docs" ;
 			String ruta=servletContext.getRealPath(root);
-			File destination = new File(ruta + file.getOriginalFilename());
-			FileUtils.copyInputStreamToFile(in, destination);
-			
+			File destination = new File(ruta +File.separator+file.getOriginalFilename());
+			if (!destination.isDirectory()) {
+				FileUtils.copyInputStreamToFile(in, destination);
+				logger.info(destination.getAbsolutePath());
+			}
 			logger.info(ruta);
+		//	logger.info("Destino"+destination);
 			//guardo dentro de curso ----  temario
 			curso.setTemario(file.getOriginalFilename());
 			if(curso.getCodigo() > Curso.CODIGO_NULO){
 				logger.info("AQUI update:"+curso.toString());
-				cS.update(curso);
-				logger.info(curso.getProfesor().toString());
+				try{
+					cS.update(curso);
+					logger.info(curso.getProfesor().toString());
+					txt ="El curso se ha actualizado correctamente";
+					mensaje =new Mensaje(MensajeType.MSG_TYPE_SUCCESS);
+				}catch(Exception e){
+					logger.error("Se ha lanzado una excepcion en update");
+					mensaje = new Mensaje(MensajeType.MSG_TYPE_DANGER);
+					txt = "Ha habido problemas en la update";
+				}
+				
 			}else{
 				logger.info("Objeto create:"+curso.toString());
 				
 				logger.info(curso.getAlumnos().toString());
-				cS.create(curso);
+				try{
+					cS.create(curso);
+					txt ="El curso se ha creado correctamente";
+					mensaje =new Mensaje(MensajeType.MSG_TYPE_SUCCESS);
+					logger.info("mensaje"+mensaje);
+				}catch (Exception e){
+					
+					logger.error("Se ha lanzado una excepcion en create");
+					mensaje = new Mensaje(MensajeType.MSG_TYPE_DANGER);
+					txt = "Ha habido problemas en la creación";
+				}
 			}
+			mensaje.setMsg(txt);
+			redirectMap.addFlashAttribute("mensaje",mensaje);
 		}
 		return destino;
 	}

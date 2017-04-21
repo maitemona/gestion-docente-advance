@@ -137,12 +137,6 @@ public class Curso implements Serializable{
 		this.alumnos = alumnos;
 	}
 
-
-
-
-	
-
-
 	public Cliente getCliente() {
 		return cliente;
 	}

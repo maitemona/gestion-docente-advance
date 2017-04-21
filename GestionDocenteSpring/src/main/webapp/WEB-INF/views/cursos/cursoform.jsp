@@ -103,7 +103,7 @@
 					<form:errors path="temario" cssClass="text-danger col-xs-6"></form:errors>
 					 
 					 <label class="btn btn-primary">
-                		Examinar&hellip; <input type="file" id="fichero" name="fichero" style="display: none;">
+                		<input type="file" id="fichero" name="fichero">
             		</label>
             		 <!--
             		<input type="file" id="fichero" name="fichero">
