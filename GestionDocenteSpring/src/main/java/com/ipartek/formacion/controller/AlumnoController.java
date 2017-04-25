@@ -59,7 +59,7 @@ public class AlumnoController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getAll() {
 
-		mav = new ModelAndView("/alumnos/alumnos");
+		mav = new ModelAndView("alumnos");
 		//Cargar a cargar lista de alumnos
 		List<Alumno> alumnos = aS.getAll();
 		//Engancharla  al modelandview
@@ -74,7 +74,7 @@ public class AlumnoController {
 	@RequestMapping(value = "/addAlumno")
 	public String addAlumno(Model model){
 		model.addAttribute("alumno",new Alumno());
-		return "/alumnos/alumno";
+		return "alumno";
 	}
 	/**
 	 * metodo para salvar el alumno, sabremos si es update o create.
@@ -93,7 +93,7 @@ public class AlumnoController {
 		/*si las cosas estan mal nos mande de vuelta*/
 		if(bindingResult.hasErrors()){
 			logger.info("alumno tiene errores");
-			destino = "/alumnos/alumno";
+			destino = "alumno";
 		}else{ 
 			destino = "redirect:/alumnos";
 			if(alumno.getCodigo() > Alumno.CODIGO_NULO){
@@ -111,7 +111,7 @@ public class AlumnoController {
 	@RequestMapping(value = "/{id}")
 	public ModelAndView getByid(@PathVariable("id") int id){
 		
-		mav = new ModelAndView("/alumnos/alumno");
+		mav = new ModelAndView("alumno");
 		mav.addObject("alumno", aS.getById(id));
 		return mav;
 	}
@@ -119,7 +119,7 @@ public class AlumnoController {
 	@RequestMapping(value = "/verInforme/{id}")
 	public ModelAndView getInforme(@PathVariable("id") int id){
 		logger.info("informe Alumno");
-		mav = new ModelAndView("/alumnos/informe");
+		mav = new ModelAndView("informe");
 		Alumno alumno = aS.getInforme(id);
 		mav.addObject("alumno", alumno);
 		return mav;

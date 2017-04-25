@@ -35,7 +35,7 @@ public class ProfesorController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getAll() {
 
-		mav = new ModelAndView("/profesores/profesores");
+		mav = new ModelAndView("profesores");
 		//Cargar a cargar lista de profesores
 		List<Profesor> profesores = pS.getAll();
 		//Engancharla  al modelandview
@@ -56,7 +56,7 @@ public class ProfesorController {
 		/*si las cosas estan mal nos mande de vuelta*/
 		if(bindingResult.hasErrors()){
 			logger.info("profesor tiene errores"+ bindingResult.hasErrors());
-			destino = "/profesores/profesor";
+			destino = "profesor";
 		}else{ 
 			destino ="redirect:/profesores";
 			if(profesor.getCodigo() > Profesor.CODIGO_NULO){
@@ -77,13 +77,13 @@ public class ProfesorController {
 	public String addProfesor(Model model){
 		model.addAttribute("profesor",new Profesor());
 		logger.trace("pasa por addProfesor()");
-		return "/profesores/profesor";
+		return "profesor";
 	}
 	/*getbyid*/
 	@RequestMapping(value = "/{id}")
 	public ModelAndView getByid(@PathVariable("id") int id){
 		
-		mav = new ModelAndView("/profesores/profesor");
+		mav = new ModelAndView("profesor");
 		mav.addObject("profesor", pS.getById(id));
 		return mav;
 	}

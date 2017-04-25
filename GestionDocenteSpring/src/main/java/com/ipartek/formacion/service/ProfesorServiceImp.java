@@ -43,6 +43,7 @@ public class ProfesorServiceImp implements ProfesorService {
 	public void delete(int codigo) {
 		profesorDao.delete(codigo);
 		
+		
 	}
 
 	@Override

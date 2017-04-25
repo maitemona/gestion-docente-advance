@@ -2,17 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Listado Profesores</title>
-</head>
-<body>
-<header>
-	<h1>Gestion Docente - Listado Profesores</h1>
-</header>
-<main>
+<section class="row">
 <a href="profesores/addProfesor">Crear Profesor</a>
 	<table>
 		<thead>
@@ -43,10 +33,4 @@
 	</c:choose>
 		</tbody>
 	</table>
-</main>
-<footer>
-	Ipartek S. Coop.
-</footer>
-</body>
-
-</html>
+</section>

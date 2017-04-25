@@ -49,7 +49,7 @@ public class Alumno  implements Comparable<Alumno>, Serializable {
 		this.dni="";
 		this.telefono="94";
 		this.poblacion="";
-		this.codigopostal=48;
+		this.codigopostal=48991;
 		this.fNacimiento = new Date();
 		cursos = new HashMap<Long, Curso>();
 

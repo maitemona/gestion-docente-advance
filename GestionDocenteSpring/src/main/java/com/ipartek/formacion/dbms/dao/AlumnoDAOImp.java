@@ -130,7 +130,7 @@ public class AlumnoDAOImp  implements AlumnoDAO{
 		SqlParameterSource in =new MapSqlParameterSource()
 				.addValue("pnombre",alumno.getNombre())
 				.addValue("papellidos",alumno.getApellidos())
-				.addValue("ppostal", alumno.getCodigopostal())
+				.addValue("pcodigopostal", alumno.getCodigopostal())
 				.addValue("pdni", alumno.getDni())
 				.addValue("pemail", alumno.getEmail())
 				.addValue("pfnacimiento", alumno.getfNacimiento())

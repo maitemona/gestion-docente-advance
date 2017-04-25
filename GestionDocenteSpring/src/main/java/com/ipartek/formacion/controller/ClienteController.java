@@ -53,7 +53,7 @@ public class ClienteController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getAll() {
 		logger.info("Controller lista size:");
-		mav = new ModelAndView("/clientes/clientes");
+		mav = new ModelAndView("clientes");
 		//Cargar a cargar lista de clientes
 		List<Cliente> clientes = cS.getAll();
 		//Engancharla  al modelandview
@@ -70,7 +70,7 @@ public class ClienteController {
 	@RequestMapping(value = "/addCliente")
 	public String addCliente(Model model){
 		model.addAttribute("cliente",new Cliente());
-		return "/clientes/cliente";
+		return "cliente";
 	}
 	
 	@RequestMapping(value="/save",method =  RequestMethod.POST)
@@ -79,7 +79,7 @@ public class ClienteController {
 		/*si las cosas estan mal nos mande de vuelta*/
 		if(bindingResult.hasErrors()){
 			logger.info("Cliente tiene errores");
-			destino = "/clientes/cliente";
+			destino = "cliente";
 		}else{ 
 			destino ="redirect:/clientes";
 			if(cliente.getCodigo() > Cliente.CODIGO_NULO){
@@ -96,7 +96,7 @@ public class ClienteController {
 	@RequestMapping(value = "/{id}")
 	public ModelAndView getByid(@PathVariable("id") int id){
 		
-		mav = new ModelAndView("/clientes/cliente");
+		mav = new ModelAndView("cliente");
 		mav.addObject("cliente", cS.getById(id));
 		return mav;
 	}
@@ -104,7 +104,7 @@ public class ClienteController {
 	@RequestMapping(value = "/verInforme/{id}")
 	public ModelAndView getInforme(@PathVariable("id") int id){
 		logger.info("informe");
-		mav = new ModelAndView("/clientes/informe");
+		mav = new ModelAndView("informe");
 		Cliente cliente  = cS.getInforme(id);
 		mav.addObject("cliente", cliente);
 		return mav;

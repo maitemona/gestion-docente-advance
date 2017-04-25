@@ -58,13 +58,13 @@ public class ClienteValidator implements Validator{
 					"Identificador no puede ser mas de 200 caracteres");
 		}
 		
-		if(clien.getCodigo() == Cliente.CODIGO_NULO){
+		/*if(clien.getCodigo() == Cliente.CODIGO_NULO){
 			if(cS.getByDni(clien.getIdentificador())!=null){
 				logger.info("CODIGO"+clien.getCodigo());
 				errors.rejectValue("Identificador","form.identificadorExiste", new Object[] { "identificador" },
 					"DNI/Nº SS no valido, ya exite en BBDD");
 			}
-		}
+		}*/
 		
 	}
 

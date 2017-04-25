@@ -90,14 +90,14 @@ public class CursoController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAll(Model model){
 		model.addAttribute("listadoCursos",cS.getAll());
-		return"cursos/cursos";
+		return"cursos";
 		
 	}
 	
 	@RequestMapping(value = "/{codigo}")
 	public String getByid(@PathVariable("codigo") long codigo,Model model){
 		model.addAttribute("curso", cS.getById(codigo));
-		return "cursos/cursoform";
+		return "cursoform";
 	}
 	 /**
 	  * Metodo que me saca los detalles del modulo asociado a ese curos
@@ -136,7 +136,7 @@ public class CursoController {
 		model.addAttribute("listadoProfesores", pS.getAll());
 		model.addAttribute("listadoClientes", cliS.getAll());
 		model.addAttribute("listadoAlumnos", aS.getAll());
-		return "cursos/cursoform";
+		return "cursoform";
 	}
 	/*@RequestMapping(value = "/addCurso")
 	public String addAlumno(Model model){
@@ -177,7 +177,7 @@ public class CursoController {
 			mensaje = new Mensaje(MensajeType.MSG_TYPE_DANGER);
 			txt="Errores en los datos del formulario";
 			model.addAttribute("mensaje",mensaje);
-			destino = "cursos/cursoform";	
+			destino = "cursoform";	
 		}else{ 
 			destino = "redirect:/cursos";
 			//obtengo el archivo
@@ -245,7 +245,7 @@ public class CursoController {
 		model.addAttribute("listadoProfesores", profesores);
 		model.addAttribute("listadoClientes", clientes);
 		model.addAttribute("listadoAlumnos", alumnos);
-		return "cursos/cursoform";
+		return "cursoform";
 
 	}
 	
