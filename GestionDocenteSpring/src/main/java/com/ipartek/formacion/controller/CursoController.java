@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -67,6 +69,9 @@ public class CursoController {
 	/////Queremos que nos metan el contexto de los servlet, queiro el context path , de (resources/docs)
 	@Autowired
 	private ServletContext servletContext;
+	//
+	@Autowired
+	private MessageSource msgSrc;
 	
 	private static final Logger logger = LoggerFactory.getLogger(CursoController.class);
 

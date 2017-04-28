@@ -28,7 +28,8 @@
 <body>
 
 	<header class="container-fluid">
-		<h1><tiles:insertAttribute name="header"> </tiles:insertAttribute></h1>
+	<h1><spring:message text="Titulo" scope="page" code="${titulo}" /></h1>
+		<tiles:insertAttribute name="header"> </tiles:insertAttribute>
 		
 	</header>
 	<main  class="container-fluid">

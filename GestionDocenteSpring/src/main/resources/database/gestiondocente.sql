@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-03-2017 a las 13:37:06
+-- Tiempo de generación: 28-04-2017 a las 10:10:05
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 5.6.30
 
@@ -27,40 +27,25 @@ DELIMITER $$
 -- Procedimientos
 --
 DROP PROCEDURE IF EXISTS `alumnoCreate`$$
-CREATE DEFINER=`admin`@`%` PROCEDURE `alumnoCreate` (IN `papellidos` VARCHAR(250), IN `pcodigopostal` INT(5), IN `pdireccion` VARCHAR(250), IN `pdni` VARCHAR(9), IN `pemail` VARCHAR(150), IN `pfNacimiento` DATE, IN `pnHermanos` INT(2), IN `pnombre` VARCHAR(50), IN `ppoblacion` VARCHAR(150), IN `ptelefono` INT(9), OUT `pcodigo` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alumnoCreate` (IN `papellidos` VARCHAR(250), IN `pcodigopostal` INT(5), IN `pdireccion` VARCHAR(250), IN `pdni` VARCHAR(9), IN `pemail` VARCHAR(150), IN `pfNacimiento` DATE, IN `pnHermanos` INT(2), IN `pnombre` VARCHAR(50), IN `ppoblacion` VARCHAR(150), IN `ptelefono` INT(9), OUT `pcodigo` INT)  BEGIN
 
-
-
-INSERT	INTO alumno(nombre,apellidos,dni,email,direccion,codigopostal,poblacion,fNacimiento,telefono,nHermanos)
-
-VALUES(LOWER(pnombre),LOWER(papellidos),LOWER(pdni),LOWER(pemail),LOWER(pdireccion),pcodigopostal,LOWER(ppoblacion),pfNacimiento,ptelefono,pnHermanos);
-
-SET pcodigo = LAST_INSERT_ID();
-
-
+	INSERT	INTO alumno(nombre,apellidos,dni,email,direccion,codigopostal,poblacion,fNacimiento,telefono,nHermanos)
+	VALUES(LOWER(pnombre),LOWER(papellidos),LOWER(pdni),LOWER(pemail),LOWER(pdireccion),pcodigopostal,LOWER(ppoblacion),pfNacimiento,ptelefono,pnHermanos);
+	SET pcodigo = LAST_INSERT_ID();
 
 END$$
 
 DROP PROCEDURE IF EXISTS `alumnoDelete`$$
-CREATE DEFINER=`admin`@`%` PROCEDURE `alumnoDelete` (IN `pcodigo` INT)  NO SQL
-BEGIN
-
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alumnoDelete` (IN `pcodigo` INT)  BEGIN
 
 DELETE FROM alumno WHERE codigo = pcodigo;
-
-
 
 END$$
 
 DROP PROCEDURE IF EXISTS `alumnogetAll`$$
-CREATE DEFINER=`admin`@`%` PROCEDURE `alumnogetAll` ()  NO SQL
-BEGIN
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alumnogetAll` ()  BEGIN
 	SELECT `codigo`, `nombre`, `apellidos`, `fNacimiento`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`, `dni`, `nHermanos`, `activo` 
-
 	FROM `alumno`;
-
 END$$
 
 DROP PROCEDURE IF EXISTS `alumnogetByCurso`$$
@@ -83,18 +68,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `alumnogetByDni` (IN `pdni` VARCHAR(
 END$$
 
 DROP PROCEDURE IF EXISTS `alumnogetById`$$
-CREATE DEFINER=`admin`@`%` PROCEDURE `alumnogetById` (IN `pcodigo` INT)  NO SQL
-BEGIN
-
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alumnogetById` (IN `pcodigo` INT)  BEGIN
 
     SELECT `codigo` as codigo, `nombre`, `apellidos`, `fNacimiento`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`, `dni`, `nHermanos`, `activo` 
-
     FROM `alumno`
-
 	WHERE codigo = pcodigo;
-
-
 
 END$$
 
@@ -107,33 +85,25 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `alumnoInforme` (IN `pcodigo` INT)  
             cu.fInicio,cu.fFin,cu.nhoras,cu.precio
             
     FROM alumno as a
-        LEFT JOIN asistente as asi ON asi.alumno_codigo = a.codigo
-        LEFT JOIN imparticion as i ON i.codigo = asi.imparticion_codigo
-        LEFT JOIN curso_detalle as cd ON cd.codigo = i.curso_detalle_codigo
-        LEFT JOIN curso as cu ON cu.codigo = cd.curso_codigo
+      
+        LEFT JOIN imparticion as i ON i.codigo =  a.codigo
+      
+        LEFT JOIN curso as cu ON cu.codigo = i.curso_codigo
     WHERE a.codigo = pcodigo;
 END$$
 
 DROP PROCEDURE IF EXISTS `alumnoUpdate`$$
-CREATE DEFINER=`admin`@`%` PROCEDURE `alumnoUpdate` (IN `papellidos` VARCHAR(250), IN `pcodigo` INT, IN `pcodigopostal` INT(5), IN `pdireccion` VARCHAR(250), IN `pdni` VARCHAR(9), IN `pemail` VARCHAR(150), IN `pfNacimiento` DATE, IN `pnHermanos` INT(2), IN `pnombre` VARCHAR(150), IN `ppoblacion` VARCHAR(150), IN `ptelefono` INT(9))  NO SQL
-BEGIN
-
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alumnoUpdate` (IN `papellidos` VARCHAR(250), IN `pcodigo` INT, IN `pcodigopostal` INT(5), IN `pdireccion` VARCHAR(250), IN `pdni` VARCHAR(9), IN `pemail` VARCHAR(150), IN `pfNacimiento` DATE, IN `pnHermanos` INT(2), IN `pnombre` VARCHAR(150), IN `ppoblacion` VARCHAR(150), IN `ptelefono` INT(9))  BEGIN
 
 UPDATE alumno 
-
 SET nombre = LOWER(pnombre),apellidos = LOWER(papellidos), dni = LOWER(pdni),email = LOWER(pemail),direccion=LOWER(pdireccion),codigopostal=pcodigopostal,poblacion=LOWER(ppoblacion),fNacimiento=pfNacimiento,telefono=ptelefono,nHermanos=pnHermanos
-
 WHERE codigo = pcodigo;
-
-
-
 
 
 END$$
 
 DROP PROCEDURE IF EXISTS `clienteCreate`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteCreate` (IN `pnombre` TEXT, IN `pemail` VARCHAR(150), IN `ptelefono` INT, IN `pdireccion` VARCHAR(150), IN `ppoblacion` VARCHAR(150), IN `pcodigopostal` INT(5), IN `pidentificador` INT, OUT `pcodigo` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteCreate` (IN `pnombre` TEXT, IN `pemail` VARCHAR(150), IN `ptelefono` INT, IN `pdireccion` VARCHAR(150), IN `ppoblacion` VARCHAR(150), IN `pcodigopostal` INT(5), IN `pidentificador` VARCHAR(250), OUT `pcodigo` INT)  BEGIN
 INSERT INTO cliente(`nombre`, `email`, `telefono`, `direccion`, `poblacion`, `codigopostal`, `identificador`) 
 VALUES(LOWER(pnombre),
        LOWER(pemail),
@@ -145,14 +115,19 @@ VALUES(LOWER(pnombre),
 	SET pcodigo = LAST_INSERT_ID();
 END$$
 
-DROP PROCEDURE IF EXISTS `clientegetAll`$$
-CREATE DEFINER=`admin`@`%` PROCEDURE `clientegetAll` ()  NO SQL
+DROP PROCEDURE IF EXISTS `clientedelete`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clientedelete` (IN `pcodigo` INT)  NO SQL
 BEGIN
 
+DELETE FROM cliente WHERE codigo = pcodigo;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `clientegetAll`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clientegetAll` ()  NO SQL
+BEGIN
 	SELECT`codigo`, `nombre`, `email`, `telefono`, `direccion`, `poblacion`, `codigopostal`,`identificador`,activo
-
 	FROM `cliente`;
-
 END$$
 
 DROP PROCEDURE IF EXISTS `clientegetById`$$
@@ -182,16 +157,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteInforme` (IN `pcodigo` INT) 
 END$$
 
 DROP PROCEDURE IF EXISTS `clienteUpdate`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteUpdate` (IN `pcodigo` INT, IN `pnombre` VARCHAR(150), IN `pemail` VARCHAR(150), IN `ptelefono` INT(9), IN `pdirecion` VARCHAR(250), IN `ppoblacion` VARCHAR(150), IN `pcodigopostal` INT(5), IN `pidentificador` VARCHAR(15))  BEGIN
-UPDATE `cliente` 
-SET `codigo`=pcodigo,
-	`nombre`=pnombre,
-    `email`=pemail,
-    `telefono`=ptelefono,
-    `direccion`=pdirecion,
-    `poblacion`=ppoblacion,
-    `codigopostal`=pcodigopostal,
-    `identificador`=pidentificador;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteUpdate` (IN `pcodigo` INT, IN `pnombre` VARCHAR(150), IN `pemail` VARCHAR(150), IN `ptelefono` INT(9), IN `pdireccion` VARCHAR(250), IN `ppoblacion` VARCHAR(150), IN `pcodigopostal` INT(5), IN `pidentificador` VARCHAR(15))  BEGIN
+UPDATE cliente
+SET nombre=pnombre,
+    email=pemail,
+    telefono=ptelefono,
+    direccion=pdireccion,
+    poblacion=ppoblacion,
+    codigopostal=pcodigopostal,
+    identificador=pidentificador
+ WHERE codigo = pcodigo;
 END$$
 
 DROP PROCEDURE IF EXISTS `profesorByDni`$$
@@ -230,17 +205,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorCreate` (IN `pnss` VARCHAR(
         END IF;
 END$$
 
-DROP PROCEDURE IF EXISTS `profesorgetAll`$$
-CREATE DEFINER=`admin`@`%` PROCEDURE `profesorgetAll` ()  NO SQL
+DROP PROCEDURE IF EXISTS `profesordelete`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profesordelete` (IN `pcodigo` INT)  NO SQL
 BEGIN
 
+DELETE FROM profesor WHERE codigo = pcodigo;
 
+END$$
+
+DROP PROCEDURE IF EXISTS `profesorgetAll`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorgetAll` ()  BEGIN
 
 	SELECT `codigo`, `NSS`, `nombre`, `apellidos`, `fNacimiento`, `DNI`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`,activo
-
 	FROM `profesor`;
-
-
 
 END$$
 
@@ -266,7 +243,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorgetByNss` (IN `pnss` VARCHA
 END$$
 
 DROP PROCEDURE IF EXISTS `profesorUpdate`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorUpdate` (IN `pnss` VARCHAR(12), IN `pnombre` VARCHAR(150), IN `papellidos` VARCHAR(250), IN `pfnacimiento` DATE, IN `pdni` VARCHAR(9), IN `pdireccion` VARCHAR(250), IN `ppoblacion` VARCHAR(150), IN `pcodigopostal` INT(5), IN `ptelefono` INT(9), IN `pemail` VARCHAR(150))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorUpdate` (IN `pnss` VARCHAR(12), IN `pnombre` VARCHAR(150), IN `papellidos` VARCHAR(250), IN `pfnacimiento` DATE, IN `pdni` VARCHAR(9), IN `pdireccion` VARCHAR(250), IN `ppoblacion` VARCHAR(150), IN `pcodigopostal` INT(5), IN `ptelefono` INT(9), IN `pemail` VARCHAR(150), IN `pcodigo` INT)  BEGIN
 
 UPDATE `profesor` 
 SET `NSS`=pnss,
@@ -346,7 +323,7 @@ CREATE TABLE IF NOT EXISTS `cliente` (
 
 INSERT INTO `cliente` (`codigo`, `nombre`, `email`, `telefono`, `direccion`, `poblacion`, `codigopostal`, `identificador`, `activo`) VALUES
 (1, 'SERIKAT CONSULTORÍA E INFORMÁTICA, S.A.', 'info@serikat.es', 944250100, 'c/ Ercilla 19', 'Bilbao', 48009, 'A-48476006', 1),
-(2, 'lanbide - servicio vasco de empleo', 'info@lanbide.net', 945160601, 'Jose Atxotegi 1', 'Vitoria-Gazteiz', 01009, 'Q0100571l', 1);
+(2, 'LANBIDE - servicio vasco de empleo', 'info@lanbide.net', 945160601, 'Jose Atxotegi 1', '', 00048, 'Q0100571l', 1);
 
 -- --------------------------------------------------------
 
@@ -370,15 +347,25 @@ CREATE TABLE IF NOT EXISTS `curso` (
   PRIMARY KEY (`codigo`),
   KEY `fk_curso_cliente_codigo_idx` (`cliente_codigo`),
   KEY `fk_curso_profesor_codigo_idx` (`profesor_codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Volcado de datos para la tabla `curso`
 --
 
 INSERT INTO `curso` (`codigo`, `nombre`, `identificador`, `fInicio`, `fFin`, `nHoras`, `temario`, `activo`, `cliente_codigo`, `precio`, `profesor_codigo`) VALUES
-(1, 'Desarrrollo de Aplicaciones con Tecnologias Web', '18482673', '2017-01-09', '2017-06-13', 510, NULL, 1, 1, 300000.00, NULL),
-(2, 'Desarrollo de Bases de Datos y Programacion orientada a Objetos', '18488229', '2017-02-20', '2017-09-29', 630, NULL, 1, 1, 400000.00, NULL);
+(1, 'Desarrrollo ', '18482673', '2017-01-09', '2017-06-13', 510, '', 1, 1, 300000.00, 1),
+(2, 'Desarrollo de Bases de Datos y Programacion orientada a Objetos', '18488229', '2017-02-20', '2017-09-29', 630, NULL, 1, 1, 400000.00, 1),
+(12, 'css- crear hojas de estilo', '1234567', '2017-04-20', '2017-05-20', 30, NULL, 1, 1, 0.00, 1),
+(13, 'sssssssss', '123456', '2017-04-20', '2017-04-22', 20, 'Project-1-soapui-project.xml', 1, 1, 10.00, 1),
+(14, 'nuevo curso', '1234567', '2017-04-22', '2017-04-25', 50, 'Project-1-soapui-project.xml', 1, 1, 20.00, 1),
+(15, 'xxxxx', '121231', '2017-04-22', '2017-04-24', 20, 'pp-soapui-project.xml', 1, 1, 2.00, 1),
+(16, 'ddddd', '12121', '2017-04-22', '0217-04-23', 20, 'Project-1-soapui-project.xml', 1, 1, 2.00, 1),
+(17, 'Nuevo curso', '123456', '2017-04-22', '2017-04-24', 50, 'biblia-soapui-project.xml', 1, 1, 100.00, 1),
+(18, '', '', NULL, NULL, 0, '', 1, NULL, 0.00, NULL),
+(19, '', '', NULL, NULL, 0, '', 1, NULL, 0.00, NULL),
+(20, '', '', NULL, NULL, 0, '', 1, NULL, 0.00, NULL),
+(21, 'll', 'll', '2017-04-25', '2017-04-25', 2, 'cc-soapui-project.xml', 1, 1, 2.00, 1);
 
 -- --------------------------------------------------------
 
@@ -394,15 +381,22 @@ CREATE TABLE IF NOT EXISTS `imparticion` (
   PRIMARY KEY (`codigo`),
   KEY `fk_imparticion_alumno_codigo_idx` (`alumno_codigo`),
   KEY `fk_imparticion_curso_codigo_idx` (`curso_codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Volcado de datos para la tabla `imparticion`
 --
 
 INSERT INTO `imparticion` (`codigo`, `curso_codigo`, `alumno_codigo`) VALUES
-(1, 1, 1),
-(2, 1, 2);
+(9, 2, 1),
+(10, 12, 2),
+(11, 13, 1),
+(13, 14, 2),
+(14, 15, 1),
+(15, 16, 1),
+(17, 17, 1),
+(18, 1, 1),
+(19, 21, 1);
 
 -- --------------------------------------------------------
 
@@ -432,8 +426,7 @@ CREATE TABLE IF NOT EXISTS `profesor` (
 --
 
 INSERT INTO `profesor` (`codigo`, `NSS`, `nombre`, `apellidos`, `fNacimiento`, `DNI`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`, `activo`) VALUES
-(0, 0, 'profesor', 'sin asignar', NULL, '00000000z', NULL, NULL, NULL, 0, 'aaaaaaaa@aaaaa.aaa', 1),
-(1, 481234567840, 'Urko', 'Villanueva Alvarez', '1976-11-24', '30693142x', 'Av. Mazustegi 9', 'Bilbao', 48009, 944110293, 'uvillanueva@ipartek.com', 1);
+(1, 481234567840, 'Urkorrrr', 'Villanueva Alvarez', '1975-12-11', '30693142x', 'Av. Mazustegi 9', 'Bilbao', 48009, 94411029, 'uvillanueva@ipartek.com', 1);
 
 --
 -- Restricciones para tablas volcadas
