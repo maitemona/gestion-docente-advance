@@ -6,9 +6,10 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.io.FileUtils;
@@ -17,12 +18,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
+
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ipartek.formacion.controller.exception.CursoNoEncontradoException;
 import com.ipartek.formacion.controller.pojo.Mensaje;
 import com.ipartek.formacion.controller.pojo.MensajeType;
 import com.ipartek.formacion.controller.validator.FileValidator;
@@ -98,9 +102,13 @@ public class CursoController {
 		return"cursos";
 		
 	}
-	
+	/**Excepcion propia de este contriolador*/
 	@RequestMapping(value = "/{codigo}")
-	public String getByid(@PathVariable("codigo") long codigo,Model model){
+	public String getByid(@PathVariable("codigo") long codigo,Model model)throws CursoNoEncontradoException{
+		Curso curso = cS.getById(codigo);
+		if(curso== null){
+			throw new  CursoNoEncontradoException(codigo);
+		}
 		model.addAttribute("curso", cS.getById(codigo));
 		return "cursoform";
 	}
@@ -113,6 +121,7 @@ public class CursoController {
 	@RequestMapping(value = "/{codigocurso}/detalles/{codigodetalle}")
 		public ModelAndView getDetallesByCurso(@PathVariable("codigocurso") long codigocurso,
 				@PathVariable("codigodetalle") long codigodetalle){
+		
 		
 		return mav;
 		
@@ -273,5 +282,23 @@ public class CursoController {
 		
 	}
 	*/
+	
+	/*handler-> para capturar la excepcion, pero para todos los metodos del controller*/
+	@ExceptionHandler(CursoNoEncontradoException.class)
+	public ModelAndView handleCursoNoEncontradoException(HttpServletRequest request, Exception ex){
+		ModelAndView mav = null;
+		
+		logger.error("URL pedida"+request.getRequestURL());
+		logger.error("Esception lanzada :" +ex);
+		mav = new ModelAndView();
+		mav.addObject("excepction", ex);
+		mav.addObject("url",request.getRequestURL());
+		///cargamos la vista error
+		
+		mav.setViewName("error");
+		
+		return mav;
+		
+	}
 	
 }
